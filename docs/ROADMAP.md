@@ -1,6 +1,6 @@
 # Roadmap and Gate Status
 
-Last reviewed: 2026-11-23 (P03.03 OCI account evidence checklist v1.0)
+Last reviewed: 2026-11-23 (P03.03 IPv6 egress feasibility)
 
 ## Mission control
 
@@ -24,66 +24,60 @@ Last reviewed: 2026-11-23 (P03.03 OCI account evidence checklist v1.0)
 | P03 | P03.02 and P03.04 COMPLETE; P03.01, P03.03, P03.05 retain partial evidence but are not COMPLETE |
 | P04–P23 | PLANNED |
 
-## P03.03 secret-safe runtime decision
+## P03.03 runtime and network decision
 
-Latest candidate review: [P03.03 Secret-Safe Runtime Assurance v1.2](P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.2.md).  
-Latest account evidence procedure: [OCI Tenancy Read-Only Evidence Checklist v1.0](P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.0.md).
+Latest report: [P03.03 Secret-Safe Runtime Assurance v1.3](P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.3.md).  
+Latest account evidence procedure: [OCI Tenancy Read-Only Evidence Checklist v1.1](P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.1.md).
 
-OCI Vault HSM-backed asymmetric RSA + Instance Principals remains a **conditional** key-protection candidate. The next gate is now an account-specific read-only evidence request; do not provision anything before it passes.
+### Preferred hypotheses
 
-### Exact account evidence still missing
+- **Key protection:** OCI Vault HSM-protected RSA + Instance Principals remains the strongest conditional signing candidate. Private key non-exportability and KMS SHA-256 RSA PKCS#1 v1.5 are documented; live signature proof/account eligibility remain open.
+- **Network:** OCI public GUA IPv6 + Internet Gateway is the preferred path to test before IPv4 NAT/public IPv4. It could avoid NAT/public IPv4, but is not approved/proven.
+- **Neon:** AWS PostgreSQL endpoints support IPv6. Data API is a separate branch-specific HTTPS URL returned by its configuration API; official documentation reviewed does not establish that this hostname has AAAA/IPv6 HTTPS.
+- **Security:** Remove IPv6 SSH TCP/22 from `::/0`; deny all inbound management. Restrict egress to the exact Neon Data API IPv6 destination set. Dynamic/unbounded AAAA or unrestrictable egress means NO-GO.
+- **Billing:** APAC first 10 TB/month outbound transfer is listed free; overage can be billed. Account-specific GUA/IGW charges and no-overage controls are UNKNOWN. Do not infer zero-cost from missing pricing rows.
 
-- Existing tenancy confirmation and immutable Home Region.
-- Subscription/payment posture: Free-Trial, Always-Free-only, or Pay-As-You-Go.
-- Home-Region A1 OCPU/memory limit, usage and available balance.
-- HSM-protected key-version limit, usage and available balance.
-- Existing VCN and existing Internet Gateway/NAT Gateway/Service Gateway inventory.
-- Proof that external Neon egress will not need an unverified or billable component and that overage cannot silently occur.
+### Read-only account evidence required
 
-The Console path is **Profile → Tenancy** for Home Region, and **Governance & Administration → Tenancy Management → Limits, Quotas and Usage** for service limit/usage/available values. The Console may omit some resource limits; absence of a row must remain UNKNOWN, not be treated as zero.
+- Existing tenancy, subscription category and Home Region.
+- A1 and HSM quota limit/usage/available.
+- Existing VCN IPv6 prefix type: Oracle GUA /56, BYOIPv6, ULA or none.
+- Existing subnet public/private state, IPv6 /64 and route `::/0` to IGW.
+- Existing Internet/NAT/Service Gateways.
+- Existing IPv6 ingress/egress rules, especially SSH from `::/0` and unrestricted egress.
+- Exact billing/no-overage treatment for GUA/IGW configuration.
 
-### Network and pricing guardrails
-
-- The Always Free Compute allowance applies in the tenancy Home Region; A1 allowance is published as 1,500 OCPU-hours and 9,000 GB-hours per month (2 OCPUs / 12 GB for an Always Free tenancy).
-- Oracle publishes 20 HSM-protected key versions and 150 Always Free Vault secrets per tenancy; Private Vault is excluded.
-- First 10 TB/month outbound internet transfer is published free, but outbound usage beyond the free allowance is billable. No hard usage cutoff has been proven.
-- A VCN and Service Gateway are documented as no-charge; Service Gateway reaches supported Oracle Services Network endpoints only, not the external Neon API.
-- NAT Gateway / public egress configuration is not approved merely because a separate gateway price is not displayed. Exact account-specific no-bill routing and overage safeguards must be verified.
-- Always Free A1 compute may be reclaimed after a 7-day low-utilization period; it is not guaranteed 24x7 capacity.
-- Instance users with SSH access inherit the VM's IAM permissions. Instance Principals also include `compartment_inspect`.
+See the updated checklist. No account signup, upgrade, payment, network/VM/key resource or quota increase at this gate.
 
 ## Runtime and secret gates
 
 | Gate | Status | Required evidence |
 |---|---|---|
-| Dedicated public repository boundary | COMPLETE | Public visibility, default branch `main`, write permission and file read-back verified |
-| Public-safe runner scaffold | COMMITTED; NOT DISPATCHED | Manual-only workflow; no secrets or infrastructure calls; GitHub Actions run history remains zero |
-| GitHub-hosted Actions as runtime | HOLD | Resolve Cloudflare supplier-path applicability against the hard exclusion; no dispatch |
-| Neon Functions runtime | CANDIDATE ONLY | Secret storage/access/retention assurance, exact quota headroom, allowed supplier path and deployment review |
-| Neon Function env as private-key vault | BLOCKED | Snapshot exists but no sufficient field-specific assurance |
-| Neon Managed Better Auth OAuth for M2M | REJECTED | No `client_credentials`; tokens are issued for signed-in users |
-| Bitwarden Secrets Manager Free | NOT SELECTED | No Free-tier event/audit logs; bootstrap token lifecycle; Neon secret-bootstrap dependency unresolved |
-| Google Secret Manager | NOT SELECTED | Billing-account linkage and potential overage |
-| OCI Vault HSM RSA + Instance Principals | CONDITIONAL CANDIDATE | Existing tenancy, home region, free quota, no-bill egress, exact IAM scope and signature/Neon validation |
-| Secret provisioning method | BLOCKED | No production key path approved |
-| Exact deployment configuration review | NOT STARTED | Full target config and branch-bound dry-run plan |
-| Disposable branch integration QA | NOT AUTHORIZED | Separate bounded approval, cost evidence and cleanup plan |
-| Live Data API/JWKS/SQL validation | NOT STARTED | Branch-only approval and complete negative security tests |
-| Production/recurring workloads | PAUSED | Runtime, secret, security, quota, cost and operational gates must all pass |
+| Public repository boundary | COMPLETE | Public repo and file read-back verified |
+| Public-safe runner scaffold | COMMITTED; NOT DISPATCHED | Manual-only; no secrets; Actions run history zero |
+| GitHub-hosted Actions as runtime | HOLD | Cloudflare supplier-path issue unresolved; no dispatch |
+| Neon Functions runtime | CANDIDATE ONLY | Secret assurance, quota headroom, supplier path and deployment review |
+| Neon Function env as private-key vault | BLOCKED | Snapshot exists; field-specific assurance insufficient |
+| Neon Managed Better Auth OAuth for M2M | REJECTED | No `client_credentials`; signed-in user required |
+| Bitwarden Free | NOT SELECTED | Audit/bootstrap limitations |
+| Google Secret Manager | NOT SELECTED | Billing account/overage incompatible |
+| OCI Vault HSM RSA + Instance Principals | CONDITIONAL | Account/Home Region/free quota/IAM/network eligibility/signature proof |
+| OCI GUA IPv6 + IGW to Neon Data API | PREFERRED NETWORK HYPOTHESIS | Exact Data API AAAA/TLS, stable egress allowlist and billing evidence |
+| IPv4 NAT/public IPv4 egress | SECONDARY ONLY | No-bill behavior must be proven if IPv6 fails |
+| Secret provisioning | BLOCKED | No production key path approved |
+| Disposable branch integration QA | NOT AUTHORIZED | Separate bounded authorization, cost evidence and cleanup |
+| Production/recurring workloads | PAUSED | All runtime/security/quota/cost gates must pass |
 
 ## Live baseline
 
-- Canonical main branch read-back: READY.
-- Main Functions: 0.
-- Main Triggers: 0.
-- Data API: disabled.
-- Global quota governor: `PAUSE_DEGRADED` / `work_allowed=false`.
-- Function active/waiting Capacity-Hours and storage remain UNKNOWN; invocation observation is DEGRADED/stale.
-- Production agent instances, task runs, agent messages, opportunities, revenue events and scheduler invocations: zero at the latest read-only query.
-- Temporary validation branch expiry is configured for 2026-11-23 16:00 IST. Do not reuse, extend, delete or repurpose it.
+- Neon canonical main branch: READY.
+- Main Functions: 0; Triggers: 0; Data API disabled.
+- Global Quota Governor: `PAUSE_DEGRADED` / `work_allowed=false`.
+- Production agents, task runs, messages, opportunities, revenue events and scheduler invocations: zero at latest read-only query.
+- Existing temporary validation branch expiry remains 2026-11-23 16:00 IST. Do not reuse, extend, delete or repurpose.
 
 ## Delivery-time realism
 
-P03 remains open; P04–P23 are not started. Production agents, qualified buyer receipts and multi-day P22 stability evidence are absent. Do not claim production 24x7 or realised revenue until the evidence exists.
+P03 remains open; P04–P23 are not started. No production agents, buyer receipts or multi-day P22 stability evidence. Do not claim production 24x7 or realised revenue without proof.
 
-Unknown cost, security semantics, supplier path, account quota or eligibility must fail closed.
+Unknown cost, security semantics, supplier path, quota or eligibility fails closed.
