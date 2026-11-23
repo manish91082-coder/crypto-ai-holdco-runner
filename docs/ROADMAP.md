@@ -1,6 +1,6 @@
 # Roadmap and Gate Status
 
-Last reviewed: 2026-11-23 (P03.03 IPv6 egress feasibility)
+Last reviewed: 2026-11-23 (P03.03 v1.5 OCI Free-Tier spend guard and IPv6 egress controls)
 
 ## Mission control
 
@@ -26,8 +26,8 @@ Last reviewed: 2026-11-23 (P03.03 IPv6 egress feasibility)
 
 ## P03.03 runtime and network decision
 
-Latest report: [P03.03 Secret-Safe Runtime Assurance v1.3](P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.3.md).  
-Latest account evidence procedure: [OCI Tenancy Read-Only Evidence Checklist v1.1](P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.1.md).
+Latest report: [P03.03 Secret-Safe Runtime Assurance v1.5](P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.5.md).  
+Latest account evidence procedure: [OCI Tenancy Read-Only Evidence Checklist v1.2](P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.2.md).
 
 ### Preferred hypotheses
 
@@ -81,3 +81,19 @@ See the updated checklist. No account signup, upgrade, payment, network/VM/key r
 P03 remains open; P04–P23 are not started. No production agents, buyer receipts or multi-day P22 stability evidence. Do not claim production 24x7 or realised revenue without proof.
 
 Unknown cost, security semantics, supplier path, quota or eligibility fails closed.
+
+
+## Current checkpoint overlay — Continuity v34.6 (23 November 2026)
+
+This overlay supersedes prior P03.03 network/cost hypothesis wording above where it differs.
+
+- Active phase/task remains P03 / P03.03. Task row is PLANNED; nested progress is PARTIAL. Counts remain 15 COMPLETE, 1 BLOCKED, 103 PLANNED of 119.
+- OCI Budgets are soft limits; budget alerts are evaluated every 24 hours and are not hard spend stops. Do not count a budget alert as a zero-charge guarantee.
+- Only a proven, non-upgraded standard Free Tier / Always-Free-only account with exact Always Free resources and verified quota can be a conditional zero-charge candidate. A Pay-As-You-Go or unknown account state is NO-GO under the current policy. Standard Free Trial paid resources are reclaimed if not upgraded; special trial offers may suspend instead.
+- OCI IPv6 Resolver support and IPv6 CIDR security rules make constrained egress technically plausible, but the exact Neon Data API AAAA/TLS and stable allowlist are UNKNOWN.
+- Neon Data API is not protected by Neon IP Allow / Private Networking. Use strict worker-side egress, TLS hostname verification, JWT, and narrow PostgreSQL GRANT/RLS; this remains a public HTTPS service.
+- Neon Function env variables are deployment snapshots. Field-specific assurance for holding private signing keys remains insufficient; not approved as a private-key vault.
+- No OCI account evidence supplied; no resource or branch QA authorized; no provisioning or secret creation.
+- Quota Governor remains PAUSE_DEGRADED / work_allowed=false. Main Functions 0, Triggers 0, Data API disabled. Production workloads remain paused.
+
+Next action: obtain redacted, read-only OCI account type/upgrade state, Home Region, A1/HSM quota, existing VCN/IPv6/IGW/security-rule, resolver, and cost/usage evidence using checklist v1.2.
