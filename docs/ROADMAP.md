@@ -1,6 +1,6 @@
 # Roadmap and Gate Status
 
-Last reviewed: 2026-11-23
+Last reviewed: 2026-11-23 (P03.03 research v1.1)
 
 ## Mission control
 
@@ -24,15 +24,31 @@ Last reviewed: 2026-11-23
 | P03 | P03.02 and P03.04 COMPLETE; P03.01, P03.03, P03.05 retain partial evidence but are not COMPLETE |
 | P04–P23 | PLANNED |
 
+## P03.03 secret-safe runtime decision
+
+The newest candidate is **OCI Vault HSM-backed asymmetric signing + Instance Principals**, documented in [P03.03 Secret-Safe Runtime Assurance v1.1](P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.1.md).
+
+- OCI documents Always Free HSM key-version and secret allowances, RSA/ECDSA signing and Instance Principals. This is a provider-documented candidate, not proof of this account's eligibility.
+- Candidate design keeps the private signing key inside OCI KMS/HSM and uses an instance principal to request short-lived RS256 signing; the public key alone is published in JWKS.
+- PostgREST documents RS256 support, but exact Neon Data API acceptance and OCI KMS signature byte semantics remain untested.
+- OCI's Always Free A1 VM can be reclaimed after seven days under defined low-CPU/network/memory thresholds; do not describe this as guaranteed 24x7 runtime.
+- Existing OCI account, home region, capacity, public-IP/network cost, compartment quotas and no-overage posture are UNKNOWN.
+- No OCI account/resource/key/policy/VM was created. No Neon branch or Data API was provisioned.
+
 ## Runtime and secret gates
 
 | Gate | Status | Required evidence |
 |---|---|---|
 | Dedicated public repository boundary | COMPLETE | Public visibility, default branch `main`, write permission and file read-back verified |
-| Public-safe runner scaffold | COMMITTED; NOT DISPATCHED | Manual-only workflow; no secrets or infrastructure calls; GitHub Actions run count remains zero |
+| Public-safe runner scaffold | COMMITTED; NOT DISPATCHED | Manual-only workflow; no secrets or infrastructure calls; GitHub Actions run history remains zero |
 | GitHub-hosted Actions as runtime | HOLD | Resolve Cloudflare supplier-path applicability against the hard exclusion; no dispatch |
 | Neon Functions runtime | CANDIDATE ONLY | Secret storage/access/retention assurance, exact quota headroom, allowed supplier path and deployment review |
-| Secret provisioning method | BLOCKED | Provider-specific assurance or independently verified zero-cost external vault |
+| Neon Functions env as private-key vault | BLOCKED | Snapshot exists but no sufficient field-specific assurance |
+| Neon Managed Better Auth OAuth for M2M | REJECTED | Official Neon docs say no `client_credentials`; tokens are issued for signed-in users |
+| Bitwarden Secrets Manager Free | NOT SELECTED | No Free-tier event/audit logs; bootstrap token session lifecycle; Neon secret-bootstrap dependency unresolved |
+| Google Secret Manager | NOT SELECTED | Free allowance still tied to billing account and possible overage |
+| OCI Vault + Instance Principals | CONDITIONAL CANDIDATE | Account/home-region eligibility, free resources, KMS signing semantics, no-overage network route and IAM scope must be verified |
+| Secret provisioning method | BLOCKED | No approved production key path yet |
 | Exact deployment configuration review | NOT STARTED | Full target config and branch-bound dry-run plan |
 | Disposable branch integration QA | NOT AUTHORIZED | Separate bounded approval, cost evidence and cleanup plan |
 | Live Data API/JWKS/SQL validation | NOT STARTED | Branch-only approval and complete negative security tests |
