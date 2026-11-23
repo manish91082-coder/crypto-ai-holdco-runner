@@ -6,7 +6,8 @@ This is a **public, non-production scaffold** for a narrowly controlled manual p
 
 - Follow [Execution Control Protocol](docs/EXECUTION_CONTROL_PROTOCOL.md) for project identity, phase sequencing, cross-chat recovery and no-drift controls.
 - Read the [latest continuity checkpoint](docs/CONTINUITY_CHECKPOINT_2026-11-23.md) before any continuation.
-- See [Runtime and Secret-Storage Gate Review](docs/RUNTIME_AND_SECRET_GATE_REVIEW.md) for current infrastructure blockers.
+- See [P03.03 Secret-Safe Runtime Assurance v1.1](docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.1.md) for the newest conditional OCI KMS/Instance Principals research.
+- See [Runtime and Secret-Storage Gate Review](docs/RUNTIME_AND_SECRET_GATE_REVIEW.md) for prior infrastructure blockers.
 - See [Security Boundaries](docs/SECURITY_BOUNDARIES.md) and [Change Control](docs/CHANGE_CONTROL.md).
 
 ## Current purpose
