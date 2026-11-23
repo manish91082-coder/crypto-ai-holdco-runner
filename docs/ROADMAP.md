@@ -108,3 +108,17 @@ Next action: obtain redacted, read-only OCI account type/upgrade state, Home Reg
 - Active task remains P03.03, WBS PLANNED / nested PARTIAL. Counts remain 15 COMPLETE, 1 BLOCKED, 103 PLANNED of 119.
 - Canonical continuity: `docs/CONTINUITY_CHECKPOINT_2026-11-23.md` (v34.7). Assessment: `docs/P03.03_ALTERNATE_CLOUD_RUNTIME_ASSESSMENT_v1.0.md`.
 - Next single action: obtain redacted read-only OCI subscription/upgrade status, Home Region, A1/HSM quotas, existing VCN/IPv6/IGW/effective egress/DNS and visible cost evidence using checklist v1.2. Do not provision or cross into P04.
+
+
+## P03.03 Alternate runtime eligibility v1.1 / Continuity v34.8 (23 Nov 2026)
+
+- OCI account/subscription/quotas/VCN/IPv6/effective egress/billing evidence remains UNKNOWN. OCI Always Free A1 + GUA IPv6/IGW remains the first conditional persistent-runtime hypothesis, not approved.
+- Trigger.dev Cloud Free remains a conditional synthetic-only pilot candidate, not a production runtime; $5/month compute credits, 20 concurrent runs, 10 schedules, one-day logs, no Free SLA, recent vendor-reported 1 Nov credential incident, and unknown non-local/non-GitHub deployment path remain blockers.
+- Northflank Sandbox has always-on compute and small free resources, but Northflank requires a payment method before creating resources and says Sandbox must not be used for production. Reject.
+- Modal Starter has $30/month compute credits and limited scheduled functions. Modal Workspace budget is documented as a hard outer cap, but exact fresh-Starter zero-exposure cap/credit interaction, no-card eligibility, and compliant deployment route are UNKNOWN. Modal model APIs are separately billed; no deployment/account test performed. Conditional research only, not approved.
+- Fly.io Free requires a card and transitions to Pay-As-You-Go after its $5 monthly allowance. Reject.
+- Hugging Face Spaces free static hosting is distinct from compute-backed Gradio/Docker Spaces, which require paid plans; free hardware sleeps after inactivity. Not a worker runtime.
+- No reviewed provider meets all locked production requirements for zero-upfront, no-card, no-paid-overage, hard no-bill boundary, durable worker, adequate observability/security and a verified no-local/no-GitHub operational deployment route.
+- Neon main remains Functions 0 / Triggers 0 / Data API disabled. Quota Governor PAUSE_DEGRADED / work_allowed=false. P03.03 row remains PLANNED / nested PARTIAL; counts remain 15 COMPLETE, 1 BLOCKED, 103 PLANNED of 119.
+- Assessment: `docs/P03.03_ALTERNATE_CLOUD_RUNTIME_ASSESSMENT_v1.1.md`. Latest continuity: `docs/CONTINUITY_CHECKPOINT_2026-11-23.md` (v34.8).
+- Next single action: obtain redacted read-only OCI subscription/upgrade status, Home Region, A1/HSM quotas, existing VCN/IPv6/IGW/effective egress/DNS and visible cost evidence using checklist v1.2. Do not provision, add a payment method or cross into P04.
