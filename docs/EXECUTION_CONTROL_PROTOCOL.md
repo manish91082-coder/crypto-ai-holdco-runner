@@ -127,7 +127,7 @@ No deadline can override legal, security, secret-storage, quota, provider eligib
 - Temporary validation branch expiry is set for 2026-11-23 16:00 IST. Do not reuse, extend, delete or repurpose it; allow its existing expiry policy to operate.
 - `agent_instances`, `task_runs`, `agent_messages`, `opportunities`, `revenue_events` and `scheduler_invocations` each returned zero rows at the latest read-only query. Existing role templates are not running agents.
 - A dedicated public repository `manish91082-coder/crypto-ai-holdco-runner` exists on `main`. It contains only public-safe scaffold/process material. Its manual workflow has not been dispatched; GitHub Actions run count is zero. GitHub source repository status does not approve GitHub-hosted runtime.
-- Historical Round 38 checkpoint; superseded for current resumption by Continuity v34.6, stored in Library and Neon. The root continuity pointers have been reconciled to v34.5 and are being advanced to v34.6 in the canonical ledger.
+- Historical Round 38 checkpoint; superseded for current resumption by Continuity v34.6, synchronized across Library, Neon and this public repository. The canonical mission_state root continuity pointers now reference v34.6.
 
 **Current mission state:** P03 in progress; production recurring workloads PAUSED; no approved 24x7 runtime; no production agents; no revenue receipt.
 
