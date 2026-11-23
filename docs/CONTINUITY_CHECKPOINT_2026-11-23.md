@@ -1,96 +1,85 @@
-# Crypto AI Holdings — Continuity v34.0 / Execution-Control Lock
+# Crypto AI Holdings — Continuity v34.1 / P03.03 OCI KMS Candidate Research
 
 **Checkpoint:** 23 November 2026 (Asia/Kolkata)  
-**Audit lineage:** Round 38 remains latest formal P03 runtime audit; this v34.0 checkpoint records the subsequent repository and continuity-control work in this chat.  
+**Audit lineage:** Formal runtime baseline remains Audit Round 38; v34.1 adds this response's OCI KMS/Instance Principals research and the repository/ledger updates.  
 **Master Constitution:** v2.0.0 LOCKED  
 **WBS:** v2.0.0 LOCKED; 24 phases / 119 tasks  
 **Mission key:** `crypto-ai-holdco-master`  
-**Active phase:** P03 Cloud Runtime and Resilience
+**Active phase/task:** P03 / P03.03 Secret-Safe Runtime Assurance
 
-## 1. Correct project identity
+## 1. Project identity and locked goal
 
-This is **Crypto AI Holdings — Autonomous Crypto Revenue Ecosystem**. It is separate from ZAGRE / AI Agent-to-Agent Revenue Ecosystem, the Supabase ₹1,000/day mission, PHANTOMX, Ghost Hunter and all trading-bot projects. No resource or repository from those projects is reused by implication.
+This is only **Crypto AI Holdings — Autonomous Crypto Revenue Ecosystem**. It is not ZAGRE / AI Agent-to-Agent Revenue Ecosystem, the Supabase ₹1,000/day mission, PHANTOMX, Ghost Hunter or a trading-bot project.
 
-## 2. Locked goal and direction
+Ultimate success requires independently verified realised net revenue greater than zero from an unrelated buyer/sponsor after all direct costs, fees, gas, refunds and losses. Sustainable success requires repeated independent receipts and positive rolling net economics.
 
-Ultimate success requires independently verified realised net revenue greater than zero from an unrelated buyer or sponsor after all direct costs, fees, gas, refunds and losses. Sustainable success requires repeat receipts and positive rolling net economics.
+First implementation objective: complete the P01–P05 foundations; then build and test specialist agents, A2A/MCP, opportunity discovery, service offers and delivery; then separately gate payment/treasury/chain work; prove an external buyer receipt; prove repeatability and best-effort 24x7 recovery.
 
-The first implementation goal is to close P01–P05 legal, revenue, runtime, data/evidence and security foundations; then build specialist agents, A2A/MCP, opportunity discovery, service offers and tested delivery; then separately gate payment/treasury/chain execution; finally prove an independent buyer receipt, repeatability and best-effort 24x7 recovery.
+Master Constitution v2.0.0 and WBS v2.0.0 were not changed.
 
-Master Constitution v2.0.0 and WBS v2.0.0 were not changed. The new Execution Control Protocol is an operating/continuity safeguard, not a replacement WBS.
-
-## 3. Verified current task state from canonical Neon read-back
+## 2. Canonical task and live-state read-back
 
 - Task rows: 119 total; 15 COMPLETE, 1 BLOCKED, 103 PLANNED.
-- P00: 4/4 task rows COMPLETE.
-- P01: 4 COMPLETE; `CRYPTO-HOLDCO-V2-P01-04` BLOCKED pending pilot-specific jurisdiction, KYC, AI-use, IP, fee, gas and payout eligibility proof.
-- P02: 5/5 COMPLETE; first-wave paths selected, but no live buyer or pilot claimed.
-- P03: `.02` and `.04` COMPLETE. `.01`, `.03` and `.05` retain PARTIAL progress evidence but their task rows are not COMPLETE. P03 remains IN PROGRESS.
+- P00: 4/4 COMPLETE.
+- P01: 4 COMPLETE; P01.04 BLOCKED on an exact pilot's eligibility, KYC, AI-use, IP, fee, gas and payout evidence.
+- P02: 5/5 COMPLETE; first-wave paths selected, no live buyer/pilot claimed.
+- P03: P03.02 and P03.04 COMPLETE. P03.01, P03.03 and P03.05 have partial evidence but task rows are not COMPLETE.
 - P04–P23: PLANNED.
+- P03 phase exit gate remains unmet: verified cloud topology and quota limits, pause/recovery tests, no paid fallback.
+- Canonical main branch: READY; Functions 0; Triggers 0; Data API disabled.
+- Global quota governor: `PAUSE_DEGRADED`; `work_allowed=false`. Function active/waiting Capacity-Hours and storage remain UNKNOWN; invocation observation DEGRADED/stale.
+- Agent instances, task runs, agent messages, opportunities, revenue events and scheduler invocations each remain zero in the latest read-only verification.
+- Existing temporary Neon validation branch has a configured expiry of 23 Nov 2026 16:00 IST. Do not reuse, extend, delete or repurpose it.
 
-P03's phase exit gate requires verified cloud topology and quota limits, pause/recovery tests and no paid fallback. Those requirements are not yet satisfied.
+No Neon live provisioning, schema/role/ACL/password/Data API/Function/Trigger/branch mutation, wallet action or financial activity occurred in this response.
 
-## 4. Neon live read-only baseline
+## 3. New P03.03 research decision
 
-Canonical project remains the dedicated Crypto AI HoldCo project and canonical main branch. The latest read-only connector check in this chat showed:
+A new public-safe engineering record was added:
 
-- Main branch: READY.
-- Main Functions: 0.
-- Main Triggers: 0.
-- Data API: disabled.
-- Global quota decision: `PAUSE_DEGRADED`; `work_allowed=false`.
-- Function active/waiting Capacity-Hours and storage: UNKNOWN. Invocation observation: DEGRADED/stale. Some database compute/network counters had bounded allowances, but these do not override the global pause.
-- Agent instances, task runs, agent messages, opportunities, revenue events and scheduler invocations: each returned 0 rows.
-- No production agents, live source polling, live heartbeat or recurring workload is active.
+`docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.1.md`
 
-A temporary validation branch has expiry configured for **23 November 2026, 16:00 IST**. It must not be reused, extended, deleted or repurposed; leave its existing expiry policy untouched.
+The strongest new conditional candidate is OCI Vault HSM-backed RSA signing with OCI Instance Principals:
 
-No SQL/schema/role/ACL/password/credential/Data API/Function/Trigger/branch/financial mutation was performed in this chat.
+- OCI documents 150 Always Free Vault secrets and 20 HSM-protected key versions per tenancy, while private Vault is not in the free allowance.
+- OCI documents RSA/ECDSA asymmetric signing and SHA-256 RSA PKCS#1 v1.5 signing. Oracle documents retrieval of RSA/ECDSA public keys in PEM format.
+- OCI Instance Principals allow a compute instance to call permitted OCI APIs without placing a user API key/config file on the worker; a Dynamic Group and least-privilege policy are required.
+- Proposed design retains the RSA private key inside the HSM; the VM requests short-lived signatures and publishes only the public key through a JWKS endpoint. RS256 is the first algorithm candidate because KMS exposes SHA-256 RSA PKCS#1 v1.5 signing and PostgREST documents RS256/JWKS support.
+- This mapping is a technical rationale, not a compatibility proof. Exact Neon Data API acceptance, KMS byte semantics, key/JWKS construction and issuer enforcement need separate disposable-branch tests.
 
-## 5. Public repository progress
+## 4. Critical OCI limitations and open questions
 
-Repository: `https://github.com/manish91082-coder/crypto-ai-holdco-runner`  
-Visibility: Public  
-Default branch: `main`  
-Connected write permission: verified.
+- The user's OCI account existence, home region, verification status, Always Free eligibility and A1 capacity are unknown.
+- Compute must be deployed in the tenancy home region; free capacity may be unavailable.
+- Always Free A1 compute can be reclaimed if, across a seven-day period, CPU p95, network and A1 memory utilization all remain below the provider's published thresholds. This is not a guaranteed 24x7 VM.
+- Public-IP/network routing cost, egress route, compartment quotas, no-overage enforcement, data residency, SSH access exposure and account billing state need proof.
+- Instance Principal permissions are usable by users with access to the VM; SSH access therefore requires strict control.
+- Neon Data API's RS256 acceptance and `iss` enforcement are not yet proven.
+- The public JWKS hosting route must itself avoid Cloudflare and paid service dependencies.
+- No OCI account/resource, VM, Vault, HSM key, Dynamic Group or IAM policy has been created.
 
-The initial public-safe runner scaffold was committed, then `docs/ROADMAP.md` was updated and `docs/RUNTIME_AND_SECRET_GATE_REVIEW.md` added. Those files were fetched back from GitHub and content checks passed. The manual-only workflow remains undispatched; GitHub Actions workflow runs: 0.
+## 5. Other candidate decisions retained
 
-The repository is approved as a public source-control scaffold only. It is not approved as an operational runtime. Cloudflare's exclusion remains absolute; the GitHub supplier/subprocessor applicability issue is a hold for Actions runtime until resolved.
+- Neon Functions custom environment values are deployment snapshots; the reviewed docs still do not provide enough field-specific evidence for private-key encryption, privileged access, old-snapshot retention/deletion, logs and auditability. Not approved as a private-key vault.
+- Neon Managed Better Auth OAuth is rejected for autonomous M2M token issuance because its official documentation says no `client_credentials` grant; tokens are issued on behalf of a signed-in user.
+- Bitwarden Secrets Manager Free is not selected: native event/audit logs are not included, and bootstrap-token/session lifecycle does not solve the unresolved Neon environment bootstrap dependency.
+- Google Secret Manager is not selected under the no-bill constraint because billing-account linkage and potential overage remain.
+- GitHub remains public source control only; its manual workflow is undispatched and Actions run history is zero. GitHub-hosted Actions remains on HOLD; Cloudflare exclusion unchanged.
 
-## 6. Secret/runtime decision
+## 6. Branch-only test plan — no authorization yet
 
-- Neon Functions: candidate only. Deployment environment snapshots exist; field-specific assurance for encryption, provider operator access, historical snapshot retention/deletion, logs exposure and audit evidence is not yet sufficient.
-- Bitwarden Secrets Manager Free: not approved for production bootstrap; native audit/event log absence and machine-token session lifecycle need a reviewed control design.
-- Google Secret Manager: not selected under zero-bill constraints; billing-account linkage and potential overage are incompatible with current authorisation.
-- OCI Always Free: conditional candidate only; current account eligibility, capacity and no-cost operation are not verified.
-- No deployment key or other production secret has been generated or stored.
+Before any OCI or Neon resource creation: verify account/home region/eligibility, exact zero-charge allowances, public-IP/network route, IAM/quota controls and data residency; separately obtain bounded authorization for a new expiring Neon child branch and cleanup.
 
-## 7. New cross-chat execution lock
+If preconditions pass, test one HSM RSA signing key and one instance identity; verify signature independently; publish public-only JWKS; on the authorized test branch expose only `holdco_api` with one `SECURITY INVOKER` RPC; validate positive/negative JWT claims, bad signatures, role, raw-table access, unrelated RPCs, concurrency/idempotency/daily cap, kill switch and rotation. Verify cleanup; never promote to main automatically.
 
-`docs/EXECUTION_CONTROL_PROTOCOL.md` and `docs/CONTINUITY_CHECKPOINT_2026-11-23.md` are the public-safe repository copies. The full protocol sets:
+A passing test does not authorize production deployment, recurring triggers, source activation, agent assignment or financial actions.
 
-1. One active WBS phase per assistant work response. No cross-phase parallel work or project drift.
-2. Every response names the phase/task, scope, tests, evidence, blockers and one next action.
-3. Task/phase completion requires its exact exit gate, passing tests, independent review and continuity update. Otherwise status remains PARTIAL/BLOCKED/PLANNED and execution stays in the same phase.
-4. Every new chat cold-starts by reading the canonical mission key, Master/WBS hashes, live Neon mission/task/quota/runtime state, latest Library continuity, then the public repo process docs. Conflicts pause writes until reconciled.
-5. “Continue” or “Next” never authorises a project switch, deployment, workflow dispatch, secret creation, agent activation, paid use or financial action.
+## 7. Exact current resume point
 
-The repository copies do not override the locked master/WBS or live provider state.
-
-## 8. Same-day 24x7 feasibility
-
-The complete production agent swarm cannot honestly be promised by the evening of 23 November 2026 from the verified current state. P03 is still open; P04–P23 are not started; runtime and secret gates are blocked; no production agents, active sources, qualified buyer or verified receipt exist. Phase P22 additionally requires multi-day observed stability and recovery. A deadline does not waive these gates.
-
-Same-day target: complete the process/continuity lock, keep the live system paused and safe, and advance the current P03 runtime/secret gate toward a documented GO/NO-GO decision. Do not claim production 24x7 or realised revenue without live evidence.
-
-## 9. Exact resume point
-
-- Project: Crypto AI Holdings — Autonomous Crypto Revenue Ecosystem.
-- Locked baseline: Master v2.0.0; WBS v2.0.0; 24 phases / 119 tasks.
 - Active phase: P03 Cloud Runtime and Resilience.
-- Last working focus: P03.03 runner/secret-storage assurance. Dedicated public repository has now been created and its public-safe scaffold verified.
-- Current blocker: no secret provisioning method/runtime has passed all security, Cloudflare-exclusion, no-cost quota, account-eligibility and deployment gates.
-- Next single action: continue P03 runtime/secret gate research and obtain provider-specific written assurance or a separately verified zero-cost, compliant alternative. Do not dispatch GitHub Actions or deploy Neon Functions.
+- Active task: P03.03 Secret-Safe Runtime Assurance.
+- Status: PARTIAL; task row remains PLANNED; P03 IN PROGRESS.
+- Next single action: establish read-only evidence of OCI account/home-region/Always Free eligibility and network/cost controls, then decide whether the OCI signing candidate is admissible for a separately authorized disposable-branch test.
+- Do not create an OCI account/resource, Vault key, dynamic group, IAM policy, Neon branch, Data API, Function, Trigger or secret at this stage.
 
 **Mission state:** P03 IN PROGRESS; global quota governor PAUSED; production workloads off; no production agents; no verified revenue.
