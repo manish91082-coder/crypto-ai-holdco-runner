@@ -1,4 +1,4 @@
-# Crypto AI Holdings — Execution Control Protocol v1.0
+# Crypto AI Holdings — Execution Control Protocol v1.1
 
 **Effective:** 2026-11-23 (Asia/Kolkata)  
 **Master Constitution:** v2.0.0 — LOCKED  
@@ -127,6 +127,21 @@ No deadline can override legal, security, secret-storage, quota, provider eligib
 - Temporary validation branch expiry is set for 2026-11-23 16:00 IST. Do not reuse, extend, delete or repurpose it; allow its existing expiry policy to operate.
 - `agent_instances`, `task_runs`, `agent_messages`, `opportunities`, `revenue_events` and `scheduler_invocations` each returned zero rows at the latest read-only query. Existing role templates are not running agents.
 - A dedicated public repository `manish91082-coder/crypto-ai-holdco-runner` exists on `main`. It contains only public-safe scaffold/process material. Its manual workflow has not been dispatched; GitHub Actions run count is zero. GitHub source repository status does not approve GitHub-hosted runtime.
-- Latest Library continuity used: v33.0 / Audit Round 38. The remote `mission_state` JSON still contains older P03 details; reconcile it with the latest continuity rather than assuming it is already current.
+- Historical Round 38 checkpoint; superseded for current resumption by Continuity v34.6, stored in Library and Neon. The root continuity pointers have been reconciled to v34.5 and are being advanced to v34.6 in the canonical ledger.
 
 **Current mission state:** P03 in progress; production recurring workloads PAUSED; no approved 24x7 runtime; no production agents; no revenue receipt.
+
+
+## 10. Active checkpoint addendum v1.1 — Continuity v34.6
+
+This addendum supersedes stale current-state references in section 9; all locked master rules and WBS ordering remain unchanged.
+
+- Current Library continuity: v34.6. Canonical Master Constitution v2.0.0 and WBS v2.0.0 remain LOCKED at their previously verified checksums.
+- Active phase/task: P03 / P03.03 Secret-Safe Runtime Assurance. Task row remains PLANNED; nested progress PARTIAL. Task counts: 119 total, 15 COMPLETE, 1 BLOCKED, 103 PLANNED.
+- Latest report: `docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.5.md`; account evidence checklist: `docs/P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.2.md`.
+- OCI Budgets are soft limits and alerts are periodically evaluated every 24 hours; they are not hard spend controls. An Always-Free-only / non-upgraded standard Free Tier account is only a conditional candidate within actual Always Free limits. Pay-As-You-Go or unknown account state is NO-GO under zero-spend policy.
+- OCI IPv6 Resolver and CIDR egress rules are documented, but exact Neon Data API AAAA/TLS and address stability are UNKNOWN. Data API is not protected by Neon IP Allow / Private Networking.
+- Neon Function environment variables are per-deployment snapshots, not yet approved as a private signing-key vault because field-specific storage/access/retention/audit guarantees remain unproven.
+- Canonical Neon main remains READY; Functions 0; Triggers 0; Data API disabled. Global Quota Governor PAUSE_DEGRADED / work_allowed=false.
+- No OCI resources, Neon branch/API/Function/Trigger/secret, signing key, workflow dispatch, or financial activity was created or changed. The legacy expiring branch must not be reused, extended, deleted or repurposed.
+- Next single action: obtain redacted read-only OCI account/subscription/upgrade state, Home Region, quotas, existing VCN/GUA/subnet/IGW, effective IPv6 security rules, resolver and cost/usage evidence. Do not provision or cross into P04.
