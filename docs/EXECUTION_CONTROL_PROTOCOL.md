@@ -145,3 +145,12 @@ This addendum supersedes stale current-state references in section 9; all locked
 - Canonical Neon main remains READY; Functions 0; Triggers 0; Data API disabled. Global Quota Governor PAUSE_DEGRADED / work_allowed=false.
 - No OCI resources, Neon branch/API/Function/Trigger/secret, signing key, workflow dispatch, or financial activity was created or changed. The legacy expiring branch must not be reused, extended, deleted or repurposed.
 - Next single action: obtain redacted read-only OCI account/subscription/upgrade state, Home Region, quotas, existing VCN/GUA/subnet/IGW, effective IPv6 security rules, resolver and cost/usage evidence. Do not provision or cross into P04.
+
+
+## v34.7 addendum — alternate managed runtime research (23 Nov 2026)
+
+- New assessment: `docs/P03.03_ALTERNATE_CLOUD_RUNTIME_ASSESSMENT_v1.0.md`; continuity: `docs/CONTINUITY_CHECKPOINT_2026-11-23.md`.
+- Trigger.dev Cloud Free: CONDITIONAL_PILOT_CANDIDATE_NOT_APPROVED. It offers $5/month usage credits, 20 concurrent runs, 10 schedules and one-day logs; managed workers and no fixed task timeout. Free plan has no 99% availability commitment; $5 compute allowance excludes external model/API costs; once credits are used, upgrade is required to resume.
+- Vendor's 6 Nov 2026 report says the 1 Nov 2026 security incident affected 0.66% of customer environments and included access to root API keys and environment variables in some affected environments. No credentials, database access, personal data, wallet secrets or signing keys may be used in an initial synthetic pilot.
+- Trigger.dev account, account-specific incident status and no-local/no-GitHub deployment route are UNKNOWN. No account or deployment created.
+- OCI account evidence still absent; primary next gate remains read-only OCI proof. No automatic fallback or provider switching. Quota Governor PAUSE_DEGRADED / work_allowed=false. P03.03 remains PLANNED / PARTIAL; no task or phase completion.
