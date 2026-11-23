@@ -97,3 +97,14 @@ This overlay supersedes prior P03.03 network/cost hypothesis wording above where
 - Quota Governor remains PAUSE_DEGRADED / work_allowed=false. Main Functions 0, Triggers 0, Data API disabled. Production workloads remain paused.
 
 Next action: obtain redacted, read-only OCI account type/upgrade state, Home Region, A1/HSM quota, existing VCN/IPv6/IGW/security-rule, resolver, and cost/usage evidence using checklist v1.2.
+
+## P03.03 Alternate runtime assessment v1.0 / Continuity v34.7 (23 Nov 2026)
+
+- Trigger.dev Cloud Free is a conditional managed-task candidate for a bounded synthetic-only pilot, **not** a production runtime. Published Free: $0/month, no card, $5 monthly credits, 20 concurrent runs, 10 schedules and one-day logs/query history. Its task code runs on managed workers with no fixed task timeout, but Free has no 99% uptime undertaking and the $5 credit pool excludes external model/API costs.
+- Material security caution: vendor-reported 1 Nov 2026 incident affected 0.66% of customer environments and exposed root API keys/environment variables in some environments; account-specific impact remains unknown. No credentials, DB passwords, external API tokens, customer data or private keys in any initial synthetic test.
+- Netlify generic compute is not approved for this swarm under its 4 Nov 2026 AUP restriction; Inngest is orchestration over customer-hosted workers; Deno beta has no uptime guarantee; Val Town is winding down; Pipedream Free is development-only; QStash is queue-only.
+- OCI account/subscription/quotas/VCN/IPv6/billing evidence is still UNKNOWN. OCI remains the first conditional persistent-VM hypothesis. Trigger.dev account and non-local/non-GitHub deployment path are also UNKNOWN.
+- Main Neon remains Functions 0 / Triggers 0 / Data API disabled; Quota Governor PAUSE_DEGRADED / work_allowed=false; production agents and recurring workloads remain paused. No deployment or account was created.
+- Active task remains P03.03, WBS PLANNED / nested PARTIAL. Counts remain 15 COMPLETE, 1 BLOCKED, 103 PLANNED of 119.
+- Canonical continuity: `docs/CONTINUITY_CHECKPOINT_2026-11-23.md` (v34.7). Assessment: `docs/P03.03_ALTERNATE_CLOUD_RUNTIME_ASSESSMENT_v1.0.md`.
+- Next single action: obtain redacted read-only OCI subscription/upgrade status, Home Region, A1/HSM quotas, existing VCN/IPv6/IGW/effective egress/DNS and visible cost evidence using checklist v1.2. Do not provision or cross into P04.
