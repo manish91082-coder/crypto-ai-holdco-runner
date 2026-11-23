@@ -6,9 +6,9 @@ This is a **public, non-production scaffold** for a narrowly controlled manual p
 
 - Follow [Execution Control Protocol](docs/EXECUTION_CONTROL_PROTOCOL.md) for project identity, phase sequencing, cross-chat recovery and no-drift controls.
 - Read the [latest continuity checkpoint](docs/CONTINUITY_CHECKPOINT_2026-11-23.md) before any continuation.
-- For the next P03.03 input, use [OCI Tenancy Read-Only Evidence Checklist v1.0](docs/P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.0.md). It specifies the minimum redacted Console evidence and prohibits provisioning.
-- See [P03.03 Secret-Safe Runtime Assurance v1.2](docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.2.md) for the OCI HSM / Instance Principals review and network gates.
-- See [Runtime and Secret-Storage Gate Review](docs/RUNTIME_AND_SECRET_GATE_REVIEW.md) for prior infrastructure blockers.
+- For account evidence, use [OCI Tenancy Read-Only Evidence Checklist v1.1](docs/P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.1.md). It includes Home Region, quotas, existing VCN/IPv6 prefix, gateways, routes and security-rule inspection. No provisioning.
+- See [P03.03 Secret-Safe Runtime Assurance v1.3](docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.3.md) for the IPv6-first egress feasibility review.
+- See [P03.03 HSM/RS256 baseline v1.2](docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.2.md) for key-protection assurance and signing controls.
 - See [Security Boundaries](docs/SECURITY_BOUNDARIES.md) and [Change Control](docs/CHANGE_CONTROL.md).
 
 ## Current purpose
@@ -27,12 +27,8 @@ This is a **public, non-production scaffold** for a narrowly controlled manual p
 
 ## Manual preflight workflow
 
-`.github/workflows/manual-preflight.yml` is triggered only by `workflow_dispatch`, guarded to the `main` branch, uses one standard `ubuntu-24.04` runner and `contents: read`, and runs a harmless static message. It does not check out source or invoke external actions.
-
-The workflow is intentionally not dispatched. This repository is approved as public source control only, not as an operational runtime. Cloudflare remains excluded from all layers.
+`.github/workflows/manual-preflight.yml` is triggered only by `workflow_dispatch`, guarded to the `main` branch, uses one standard `ubuntu-24.04` runner and `contents: read`, and runs a harmless static message. It is not dispatched. This repository is approved as public source control only, not as an operational runtime. Cloudflare remains excluded.
 
 ## Status
 
 `SCAFFOLD_ONLY — NO SECRET PROVISIONING — NO NEON DEPLOYMENT — NO PRODUCTION WORKLOADS`
-
-This scaffold is not a certification of platform security, zero-cost availability beyond applicable provider terms, or production readiness.
