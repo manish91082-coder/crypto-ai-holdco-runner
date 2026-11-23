@@ -1,0 +1,23 @@
+name: Manual Preflight (No Infrastructure Access)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    steps:
+      - name: Confirm guarded manual runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s\n' \
+            'Manual preflight only.' \
+            'No repository checkout, secrets, Neon API calls, SQL, deployments, triggers, or financial actions are performed.'
