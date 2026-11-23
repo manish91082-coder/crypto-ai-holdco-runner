@@ -1,85 +1,93 @@
-# Crypto AI Holdings — Continuity v34.4 / P03.03 IPv6 Egress Feasibility
+# Crypto AI Holdings — Continuity v34.6 / P03.03 OCI Free-Tier Spend Guard
 
 **Checkpoint:** 23 November 2026 (Asia/Kolkata)  
-**Formal runtime audit lineage:** Audit Round 38 remains the latest formal runtime audit; v34.4 records the official-source IPv6 network research and exact next gate.  
+**Project:** Crypto AI Holdings — Autonomous Crypto Revenue Ecosystem  
+**Mission key:** `crypto-ai-holdco-master`  
 **Master Constitution:** v2.0.0 LOCKED  
 **WBS:** v2.0.0 LOCKED; 24 phases / 119 tasks  
-**Mission key:** `crypto-ai-holdco-master`  
-**Active phase/task:** P03 / P03.03 Secret-Safe Runtime Assurance
+**Active phase/task:** P03 Cloud Runtime and Resilience / P03.03 Secret-Safe Runtime Assurance  
+**Review lineage:** Audit Round 38 remains latest formal runtime/deployment audit; v1.5 is official-source and read-only research only.
 
-## 1. Project identity and locked goal
+## 1. Mission objective and immutable boundaries
 
-This is only **Crypto AI Holdings — Autonomous Crypto Revenue Ecosystem**. Separate from ZAGRE / AI Agent-to-Agent Revenue Ecosystem, Supabase ₹1,000/day mission, PHANTOMX, Ghost Hunter and trading bots.
+Ultimate success requires independently verified realised net revenue greater than zero from an unrelated external buyer/sponsor after direct costs, data/compute/provider fees, gas, facilitator fees, refunds and losses. Sustainable success requires repeated independent receipts and positive rolling net economics.
 
-Ultimate success requires independently verified realised net revenue greater than zero from an unrelated buyer/sponsor after direct costs, fees, gas, refunds and losses. Sustainable success requires repeat receipts and positive rolling net economics.
+First implementation objective remains completion of the P01–P05 legal, commercial, runtime, evidence and zero-trust foundations. Only after those gates may the specialist agent workforce, A2A/MCP fabric, opportunity discovery, service catalogue and work factory be activated. Payments, treasury, and on-chain execution retain their own separate gates.
 
-First implementation objective: complete P01–P05 foundations; then build/test specialist agents, A2A/MCP, opportunity discovery, offers and delivery; separately gate payment/treasury/chain work; prove an independent buyer receipt, repeatability and best-effort recovery.
+Constraints unchanged: zero upfront owner capital; no owner-funded gas; no paid fallback or automatic upgrade; Cloudflare excluded; no laptop/local server/WSL/self-hosted runtime dependency; GitHub optional public source control only; unknown cost/quota/region/eligibility/security fails closed; tax deferred; no legacy crypto/trading/flash-loan repository reuse; no secrets in chat/files/SQL/logs; no wallet signing, transfers, live trading, staking, MEV or live flash-loan execution in this pre-production stage.
 
-Master Constitution v2.0.0 and WBS v2.0.0 remain unchanged.
+## 2. Canonical identity and locked checksums
 
-## 2. Canonical task and live-state read-back
+- Neon project: `crypto-autonomous-holdco-memory` / `little-violet-66887398`.
+- Region/platform: `aws-ap-southeast-1` / AWS.
+- Database/schema: `crypto_holdco` / `holdco`.
+- Canonical main branch: `br-calm-block-a1fbdnnj`.
+- Master Constitution v2.0.0 SHA-256: `ae2086956bdcce1ba8f0086f4a44ffffbb315291c9e7cab6970654391e6fd803`.
+- WBS v2.0.0 SHA-256: `7e8fa46de0d1348dd3bda6f266f9afffad9116dd1d814a2bf5f653c74f39a2e2`.
+- P03.03 report v1.5 SHA-256: `ad045f081a1eedbfd97bbc4bd6e64c1dac08f63292c4a8c11daeec05018607e1`.
+- OCI checklist v1.2 SHA-256: `f80f954a07d9b4263338e02f5aac95696ce7dfa3261629b416126a40dc0dfd3b`.
 
-- Task rows: 119 total; 15 COMPLETE, 1 BLOCKED, 103 PLANNED.
-- P00: 4/4 COMPLETE.
-- P01: 4 COMPLETE; P01.04 BLOCKED on pilot-specific eligibility/compliance evidence.
-- P02: 5/5 COMPLETE; first-wave paths selected, no live buyer/pilot claimed.
-- P03: P03.02 and P03.04 COMPLETE. P03.01, P03.03 and P03.05 retain partial evidence but task rows are not COMPLETE.
-- P04–P23: PLANNED.
-- P03 exit gate remains unmet.
-- Neon main: READY; Functions 0; Triggers 0; Data API disabled.
-- Global Quota Governor: `PAUSE_DEGRADED`; `work_allowed=false`. Function active/waiting Capacity-Hours and storage UNKNOWN; invocation observation DEGRADED/stale.
-- Production agents, task runs, messages, opportunities, scheduler invocations and revenue events remain zero at latest read-only verification.
-- Existing validation branch expiry is 23 Nov 2026 16:00 IST. Do not reuse, extend, delete or repurpose.
+Master Constitution and WBS remain LOCKED and unchanged.
 
-No OCI resource, VCN, IPv6 prefix/address, route, Internet/NAT gateway, HSM key, IAM policy, Neon branch/Data API/Function/Trigger, secret, wallet or financial activity changed.
+## 3. Cold-start live-state read-back
 
-## 3. New P03.03 finding — IPv6 network path
+- Neon account/project read-back remains Free (`free_v3`), project AWS Singapore.
+- Main `br-calm-block-a1fbdnnj`: READY; Functions 0; Triggers 0; Data API disabled.
+- Legacy validation branch `br-round-block-a16i9agr`: READY at latest read-back with existing `n24smoke` completed, 0 Triggers, Data API disabled; configured expiry `2026-11-23T10:30:00Z` (16:00 IST). Do not reuse, extend, delete or repurpose; let expiry policy operate.
+- Task table: 119 rows; COMPLETE 15, BLOCKED 1, PLANNED 103.
+- P00 4/4 COMPLETE; P01 baseline complete with P01.04 blocked on pilot-specific evidence; P02 5/5 COMPLETE; P03.02/P03.04 COMPLETE; P03.01/P03.03/P03.05 remain partial; P04–P23 planned.
+- P03.03 row remains `PLANNED`; nested progress remains `PARTIAL`.
+- Quota Governor `PAUSE_DEGRADED`, `work_allowed=false`. Function active Capacity-Hours, waiting Capacity-Hours and storage remain UNKNOWN; monthly invocation observation 11 remains stale lower-bound / DEGRADED.
+- Agent instances, task runs, agent messages, opportunities, revenue events and scheduler invocations: 0.
+- OCI account, Home Region, quotas, VCN, GUA, IGW, egress rules and billing state: UNKNOWN; no OCI tenancy evidence supplied.
 
-New report: `docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.3.md`.  
-New checklist: `docs/P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.1.md`.
+## 4. P03.03 v1.5 research findings
 
-- OCI VCN can receive an Oracle-allocated globally routable IPv6 /56; IPv6-enabled subnet is /64. A public subnet GUA can route to internet via Internet Gateway.
-- This may avoid a public IPv4 and NAT gateway for a worker calling Neon over IPv6.
-- Neon's official docs say AWS PostgreSQL endpoints support IPv6. Canonical Neon project is on AWS.
-- The target is Neon Data API HTTPS, a separate shared proxy-fleet service. Its branch-specific URL comes from the Data API configuration API. Docs do not explicitly guarantee AAAA/IPv6 HTTPS for this hostname.
-- Test must retrieve exact Data API URL on a separately authorized child branch, inspect A/AAAA + TTL, then test IPv6 TLS/HTTPS with hostname/SNI validation. Direct PostgreSQL IPv6 is not sufficient proof.
-- Oracle's default IPv6 security-list example may allow TCP/22 from `::/0`; explicitly remove it. No inbound management should remain.
-- Egress must be allowlistable to the exact Neon IPv6 address set. If dynamic/unbounded or egress cannot be strictly controlled, NO-GO.
-- Oracle lists first 10 TB/month APAC outbound transfer free; overage may be billed. Account-specific GUA/IGW price treatment and no-overage are unknown; do not infer free from missing SKU/price row.
-- A1 idle reclaim after 7-day low utilization remains. Not guaranteed 24x7.
+### OCI account and spend guard
 
-## 4. Preferred conditional architecture
+- Oracle describes OCI Budgets as soft spending limits; budget alerts are evaluated periodically every 24 hours. They are notifications, not a hard spend cap.
+- Oracle states that Free Tier includes unlimited-duration Always Free services and a time-limited $300 / 30-day Free Trial. Its FAQ says identity verification may place a temporary card authorization hold; Oracle states that the card is not actually charged unless the account is upgraded.
+- For a standard Free Trial, Always Free resources remain after trial expiry; paid trial resources are reclaimed if the account is not upgraded. Some special Free Trial offers may suspend rather than continue as Always Free.
+- Oracle publishes 20 HSM-protected master-key versions and 150 Always Free Vault secrets per tenancy; Private Vaults are excluded from the Always Free allocation.
+- Oracle says VCN creation/use is free and public internet egress is free for the first 10 TB/month globally; other OCI services and egress beyond the allowance may be chargeable.
+- Consequence: account type must be proven. A standard Always-Free-only / non-upgraded account is a conditional no-charge candidate within Always Free quotas. A Pay-As-You-Go/paid account is NO-GO under the current zero-spend constraint unless every billable path is independently prevented. Budget alerts do not solve this.
 
-- Key: OCI Vault HSM RSA + Instance Principals, conditional only.
-- Signature: OCI KMS SHA-256 RSA PKCS#1 v1.5 RAW-message operation is algorithm-level RS256 compatible; live proof not done.
-- Network: public GUA IPv6 + Internet Gateway first; no NAT/public IPv4 if Data API IPv6 proves reachable and no-bill.
-- Data API: one `holdco_api` schema and one `SECURITY INVOKER` heartbeat RPC only on an authorized test branch; no direct raw-table exposure.
-- Egress: exact destination address allowlist, TLS hostname validation, no arbitrary egress, no Cloudflare.
-- Production worker: not deployed; quota governor paused.
+### OCI IPv6 network and controls
 
-## 5. Missing OCI evidence
+- Oracle documents an Oracle-assigned GUA `/56`, public IPv6-enabled `/64` subnets, Internet Gateway routing, and an Internet Resolver that supports resolution of external IPv6 hostnames.
+- IPv6 security rules can restrict destination CIDR ranges. This is useful only if the exact Neon Data API AAAA set is stable and bounded.
+- The IPv6 default security-list examples include broad SSH ingress and broad egress patterns. No worker may inherit public SSH from `::/0` or unrestricted egress.
+- A1 idleness reclamation and Home Region availability remain reliability limitations; no guaranteed 24x7 runtime is established.
 
-No authenticated OCI tenancy data is available through connected project sources. Need redacted read-only:
-- Existing tenancy/subscription/Home Region.
-- A1 and HSM limits/usage/available.
-- Existing VCN prefix type (Oracle GUA /56, BYOIPv6, ULA, none).
-- Existing subnet Public/Private, IPv6 /64, route `::/0` to IGW.
-- Existing Internet/NAT/Service Gateways.
-- Existing ingress/egress rules (SSH from `::/0`? unrestricted egress?).
-- Exact account billing/no-overage status for GUA/IGW and outbound transfer.
+### Neon Data API and secret-storage boundary
 
-Detailed Console steps and redaction rules live in the v1.1 checklist. No account signup, upgrade, payment, resource creation or quota increase.
+- Neon Data API is a branch-specific HTTPS endpoint using a compute-specific `apirest` hostname. AWS PostgreSQL IPv6 support does not prove Data API AAAA or IPv6 HTTPS.
+- Neon explicitly states Data API is not protected by IP Allow and is unsupported with IP Allow or Private Networking. Treat it as publicly reachable; authorization must rely on signed JWTs and narrowly scoped PostgreSQL GRANT/RLS, with OCI worker-side destination egress and TLS checks.
+- Neon Function environment variables are per-deployment snapshots; `NEON_DATA_API_URL` is branch-scoped when Data API exists. Reviewed docs still do not establish the field-specific encryption/access/retention/audit assurances required to treat these snapshots as a private signing-key vault.
+- Data API exact AAAA/TTL/TLS and address stability remain UNKNOWN. No exact API URL was retrieved and no probe was run.
 
-## 6. Exact next gate
+## 5. Network and spend decision
 
-Wait for the redacted OCI account/VCN evidence. Then determine whether account and quota are eligible and whether GUA IPv6 + IGW is truly no-bill for this tenancy. Only after a GO and separate bounded authorization propose a disposable Neon child-branch Data API AAAA/TLS test.
+Preferred conditional hypothesis remains OCI public-GUA IPv6 + Internet Gateway → Neon Data API HTTPS. It remains NOT VERIFIED and NOT PROVISIONED. No IPv4/NAT fallback is authorized. If account status is Pay-As-You-Go, if the exact resources are not Always Free, if no-charge cannot be established, or if a hard spend boundary is required but absent, NO-GO. If AAAA is missing/unstable or strict egress cannot be maintained, NO-GO.
 
-## 7. Exact resume point
+## 6. Current documents and repository synchronization
+
+- Library: `P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.5.md`.
+- Library: `P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.2.md`.
+- Library: `CONTINUITY_v34.6.md`.
+- Public repository `manish91082-coder/crypto-ai-holdco-runner` is being advanced to v34.6 / v1.5 as public-safe process documentation only. It is not an operational runtime dependency or authority to dispatch workflows.
+
+## 7. No-change confirmation
+
+No OCI resource/account/VM/VCN/prefix/route/gateway/security rule/HSM key/IAM policy was created or changed. No Neon branch, Data API, Function, Trigger, role, credential, secret or signing key was created or changed. No GitHub workflow was dispatched. No wallet, transaction, payment, signing, withdrawal, or financial activity occurred. No task or phase was marked complete.
+
+## 8. Exact resume point
 
 - Active phase: P03 Cloud Runtime and Resilience.
 - Active task: P03.03 Secret-Safe Runtime Assurance.
-- Task row remains PLANNED; nested progress remains PARTIAL.
-- Next action: obtain redacted OCI Home Region/quota/VCN/IPv6 evidence.
-- Production remains paused; no production agents, live sources or verified revenue.
+- Task row: PLANNED; nested progress: PARTIAL.
+- Quota Governor: PAUSE_DEGRADED / work_allowed=false.
+- Next action: obtain redacted read-only OCI subscription state, Home Region, A1/HSM quotas, existing VCN/IPv6/IGW/security rules, DNS resolver and visible cost/usage evidence using checklist v1.2.
+- If there is no existing eligible account, continue same-phase research into non-paid cloud-only alternatives; do not create an account or cross into P04.
 
-**Mission state:** P03 IN PROGRESS; Quota Governor PAUSED; no production workloads.
+**Mission state:** P03 IN PROGRESS; production recurring workloads PAUSED; no approved 24x7 runtime; no production agents; no independently verified revenue receipt.
