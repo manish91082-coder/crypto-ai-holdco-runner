@@ -154,3 +154,14 @@ This addendum supersedes stale current-state references in section 9; all locked
 - Vendor's 6 Nov 2026 report says the 1 Nov 2026 security incident affected 0.66% of customer environments and included access to root API keys and environment variables in some affected environments. No credentials, database access, personal data, wallet secrets or signing keys may be used in an initial synthetic pilot.
 - Trigger.dev account, account-specific incident status and no-local/no-GitHub deployment route are UNKNOWN. No account or deployment created.
 - OCI account evidence still absent; primary next gate remains read-only OCI proof. No automatic fallback or provider switching. Quota Governor PAUSE_DEGRADED / work_allowed=false. P03.03 remains PLANNED / PARTIAL; no task or phase completion.
+
+
+## v34.8 addendum — alternate runtime eligibility review (23 Nov 2026)
+
+- Latest assessment: `docs/P03.03_ALTERNATE_CLOUD_RUNTIME_ASSESSMENT_v1.1.md`; continuity: `docs/CONTINUITY_CHECKPOINT_2026-11-23.md`.
+- Northflank Sandbox: reject; payment method required before resources, Free Sandbox is not for production.
+- Modal Starter: $30/month compute credits; Workspace budget documented as a hard outer cap, but a fresh Starter zero-out-of-pocket cap/credit interaction, payment-method path and no-local/no-GitHub deployment route are unknown. Model APIs billed separately. Conditional research only, not approved.
+- Fly.io Free: card required and transitions to Pay-As-You-Go after $5; reject.
+- Hugging Face Spaces: free static; compute-backed Gradio/Docker requires paid plan and free hardware sleeps; not a worker runtime.
+- Trigger.dev remains conditional synthetic-only pilot, not production. OCI owner evidence remains primary next gate.
+- Quota Governor PAUSE_DEGRADED / work_allowed=false. P03.03 row PLANNED / nested PARTIAL. No account/payment/resource/deployment/task invocation or financial action occurred. No WBS task or phase completion.
