@@ -139,3 +139,7 @@ Next action: obtain redacted, read-only OCI account type/upgrade state, Home Reg
 - Function active/waiting capacity observations remain unknown and monthly invocation evidence remains degraded, so the Quota Governor remains paused.
 - OCI Always Free is a conditional candidate only; the account's Home Region, upgrade state, A1 quota, network topology, billing and secret-safe deployment are not verified. Budgets are soft alerts, not hard spend stops.
 - P03 remains IN_PROGRESS; do not begin P04. See `docs/P03_OFFICIAL_PROVIDER_EVIDENCE_2026-11-25.md` and `docs/CONTINUITY_CHECKPOINT_2026-11-25_v34.10.md`.
+
+## 25 November 2026 — open WBS/mission-state reconciliation
+
+The locked WBS document metadata still reports P02 as next and P00 as the only completed phase. The live Mission State reports P03 active and P00/P02 complete, while its own P01 projections conflict (phase array NOT_STARTED vs phase-state baseline complete with a pilot gate blocked). This is an OPEN reconciliation item. Do not alter WBS v2.0.0, force P01 complete, or use this discrepancy to skip/reorder phases. Current P03 exit gate still controls the active phase. See `docs/CONTINUITY_CHECKPOINT_2026-11-25_v34.11.md`.
