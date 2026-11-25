@@ -173,3 +173,15 @@ The conditional Google Apps Script + Google OIDC candidate remains design/prefli
 Canonical continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.13.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.13.md). Detailed validation: [P03_NEON_AUTH_OBJECTSTORE_VALIDATION_2026-11-25.md](P03_NEON_AUTH_OBJECTSTORE_VALIDATION_2026-11-25.md).
 
 **P03 exit: NOT PASSED. Do not begin P04.**
+
+## P03 S3 validation overlay — v34.14 (25 November 2026)
+
+The private S3 SigV4 diagnostic has advanced to a root-layout Node.js 24 Function bundle (deployment v5). The local ZIP integrity check passes and its SigV4 implementation matches the AWS published signer test vector. This is not proof of Neon storage access. The deployed Function uses Neon-injected branch-scoped S3 environment variables, and the test branch contains a private smoke bucket plus a short-lived `storage:read` / `storage:write` credential.
+
+The trigger scheduler did not produce a Function invocation and remains disabled. No S3 List/PUT/GET/DELETE application event has occurred, and the bucket is empty. A high-entropy nonce-protected manual GET capability is staged for a single bounded canary; its nonce and credential material are deliberately excluded from public files. TinyFish automation could not start because its wallet balance was negative; no paid top-up is used. Local DNS and the web fetch route could not reach the Function host. Storage authentication remains unproven, not failed.
+
+Main production remains Functions 0 / Triggers 0 / Data API disabled; Quota Governor remains PAUSE_DEGRADED / work_allowed=false. The temporary test resources remain disposable-branch only and must be cleaned up after the canary or credential expiry. Google OIDC preflight and OCI evidence remain outstanding. P01 sequencing discrepancy remains OPEN. Locked Master/WBS v2.0.0 are unchanged.
+
+Canonical continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.14.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.14.md). Detailed public-safe validation: [P03_S3_SIGV4_ROOT_BUNDLE_AND_CANARY_GATE_2026-11-25.md](P03_S3_SIGV4_ROOT_BUNDLE_AND_CANARY_GATE_2026-11-25.md).
+
+**P03 exit: NOT PASSED. Do not begin P04.**
