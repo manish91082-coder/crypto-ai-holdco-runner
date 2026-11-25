@@ -152,3 +152,24 @@ The locked WBS document metadata still reports P02 as next and P00 as the only c
 - P03 remains IN_PROGRESS; quota governor remains PAUSE_DEGRADED. The role-state reconciliation and WBS/P01 phase-state discrepancy remain open.
 - Latest continuity: `docs/CONTINUITY_CHECKPOINT_2026-11-25_v34.12.md`. Candidate review: `docs/P03_GOOGLE_APPS_SCRIPT_OIDC_CANDIDATE_2026-11-25.md`.
 - Do not begin P04 until P03 exit gate passes.
+
+## P03 validation overlay — v34.13 (25 November 2026)
+
+P03 remains IN_PROGRESS / NOT PASSED. A bounded isolated-branch authentication investigation produced three negative results:
+
+- Passwordless Postgres through a Function-injected connection string failed with SQLSTATE 28P01 (SCRAM-SHA-256).
+- Data API requests without a JWT bearer token failed with HTTP 401 / PGRST302. Anonymous role access is not JWT-free.
+- A private Object Storage bootstrap request returned HTTP 403. The diagnostic did not capture the provider error body/code, so the cause remains unclassified. The deployed probe recorded 55 failed application events in the isolated test only. No identity, Auth account, JWT or business-data row was created.
+
+The disposable test environment was cleaned up: Functions 0, Triggers 0, Data API disabled, buckets 0, Auth disabled. Production main was not modified. The failed manual signer is not evidence that Object Storage itself is unavailable; next iteration must use the official AWS SDK pattern or an independently standards-tested SigV4 signer, capture only sanitised error code/request ID, and run once without a recurring trigger.
+
+The conditional Google Apps Script + Google OIDC candidate remains design/preflight-only. The owner-side preflightIdentity() still needs to supply only subject_id and audience. OCI account and network evidence also remains outstanding. Quota Governor continues to fail closed. The holdco_runtime control-plane/catalog discrepancy remains OPEN.
+
+- WBS and Master Constitution remain v2.0.0 LOCKED, 24 phases / 119 tasks.
+- P03.02 and P03.04 remain COMPLETE; P03.01, P03.03 and P03.05 remain partial/blocked.
+- The P01/WBS/Mission-State sequencing discrepancy remains OPEN.
+- No production agents, recurring workloads, source polling, opportunities or realised revenue are claimed.
+
+Canonical continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.13.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.13.md). Detailed validation: [P03_NEON_AUTH_OBJECTSTORE_VALIDATION_2026-11-25.md](P03_NEON_AUTH_OBJECTSTORE_VALIDATION_2026-11-25.md).
+
+**P03 exit: NOT PASSED. Do not begin P04.**
