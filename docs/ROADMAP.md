@@ -122,3 +122,13 @@ Next action: obtain redacted, read-only OCI account type/upgrade state, Home Reg
 - Neon main remains Functions 0 / Triggers 0 / Data API disabled. Quota Governor PAUSE_DEGRADED / work_allowed=false. P03.03 row remains PLANNED / nested PARTIAL; counts remain 15 COMPLETE, 1 BLOCKED, 103 PLANNED of 119.
 - Assessment: `docs/P03.03_ALTERNATE_CLOUD_RUNTIME_ASSESSMENT_v1.1.md`. Latest continuity: `docs/CONTINUITY_CHECKPOINT_2026-11-23.md` (v34.8).
 - Next single action: obtain redacted read-only OCI subscription/upgrade status, Home Region, A1/HSM quotas, existing VCN/IPv6/IGW/effective egress/DNS and visible cost evidence using checklist v1.2. Do not provision, add a payment method or cross into P04.
+
+
+## 25 November 2026 — current execution overlay
+
+- Active WBS phase remains P03 — Cloud runtime and resilience; P03 is not complete.
+- Main database is READY; Functions 0, Triggers 0, Data API disabled; Quota Governor remains PAUSE_DEGRADED / work_allowed=false.
+- Production agents, live opportunity scanning, and verified revenue receipts are not active.
+- The operational task queue is not the canonical 119-task WBS register. Historical task counts must be identified by checkpoint/version, and the P01 phase-summary/task-count discrepancy must be reconciled before status changes.
+- One response must exhaust independently executable work in one active phase. A phase can be marked COMPLETE only when all tasks and its exit gate pass; external dependencies remain blockers and do not justify skipping phases.
+- Latest dated checkpoint: `docs/CONTINUITY_CHECKPOINT_2026-11-25.md`. Execution directive: `docs/EXECUTION_MODE_ADDENDUM_2026-11-25.md`.
