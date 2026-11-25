@@ -165,3 +165,12 @@ This addendum supersedes stale current-state references in section 9; all locked
 - Hugging Face Spaces: free static; compute-backed Gradio/Docker requires paid plan and free hardware sleeps; not a worker runtime.
 - Trigger.dev remains conditional synthetic-only pilot, not production. OCI owner evidence remains primary next gate.
 - Quota Governor PAUSE_DEGRADED / work_allowed=false. P03.03 row PLANNED / nested PARTIAL. No account/payment/resource/deployment/task invocation or financial action occurred. No WBS task or phase completion.
+
+
+## v1.2 additive execution directive — 25 November 2026
+
+The Phase-Complete Execution Mode addendum is now published at `docs/EXECUTION_MODE_ADDENDUM_2026-11-25.md`. The latest dated read-back is `docs/CONTINUITY_CHECKPOINT_2026-11-25.md`.
+
+This directive strengthens, but does not waive, the existing one-phase-per-response contract: each response must exhaust independently executable work in the active phase, including every in-phase task, tests, evidence, independent review and checkpoint work possible with the available authority. Do not stop after planning while in-phase work remains executable. A phase is COMPLETE only when every numbered task and the exact phase exit gate pass. External owner/provider/legal/credential/quota dependencies remain BLOCKED/PARTIAL; complete other in-phase work, document the dependency, and stay in the same phase. Never fabricate completion, skip/reorder WBS phases, or override the locked legal, zero-spend, security, and payment gates.
+
+Commercial priority is first unrelated external buyer/sponsor, accepted bounded deliverable, final settled receipt and independently verified positive net revenue. Same-day revenue is an objective, not a guarantee. The WBS v2.0.0 and Master Constitution v2.0.0 remain unchanged and LOCKED.
