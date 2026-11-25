@@ -132,3 +132,10 @@ Next action: obtain redacted, read-only OCI account type/upgrade state, Home Reg
 - The operational task queue is not the canonical 119-task WBS register. Historical task counts must be identified by checkpoint/version, and the P01 phase-summary/task-count discrepancy must be reconciled before status changes.
 - One response must exhaust independently executable work in one active phase. A phase can be marked COMPLETE only when all tasks and its exit gate pass; external dependencies remain blockers and do not justify skipping phases.
 - Latest dated checkpoint: `docs/CONTINUITY_CHECKPOINT_2026-11-25.md`. Execution directive: `docs/EXECUTION_MODE_ADDENDUM_2026-11-25.md`.
+
+## 25 November 2026 — P03 provider evidence refresh
+
+- Neon Free published limits have been rechecked against the official plans documentation; database storage and public network transfer observations have fresh read-backs and pass the project safe ceilings.
+- Function active/waiting capacity observations remain unknown and monthly invocation evidence remains degraded, so the Quota Governor remains paused.
+- OCI Always Free is a conditional candidate only; the account's Home Region, upgrade state, A1 quota, network topology, billing and secret-safe deployment are not verified. Budgets are soft alerts, not hard spend stops.
+- P03 remains IN_PROGRESS; do not begin P04. See `docs/P03_OFFICIAL_PROVIDER_EVIDENCE_2026-11-25.md` and `docs/CONTINUITY_CHECKPOINT_2026-11-25_v34.10.md`.
