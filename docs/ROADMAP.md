@@ -208,3 +208,14 @@ Quota Governor v0.2.1 offline evidence remains 33/33 tests passing; no productio
 Public-safe continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.17.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.17.md). Role audit: [P03_RUNTIME_ROLE_RECONCILIATION_2026-11-25.md](P03_RUNTIME_ROLE_RECONCILIATION_2026-11-25.md).
 
 **P03 exit: NOT PASSED. Do not begin P04.**
+
+
+## P03.03 runtime role alignment overlay — v34.18 (25 November 2026)
+
+The provider role API reports the runtime role as no_login; Neon documentation defines NOLOGIN as non-authenticating. Its PostgreSQL catalog flag unexpectedly showed rolcanlogin=true. A minimal `ALTER ROLE ... NOLOGIN` aligned the catalog, and read-back confirmed rolcanlogin=false. No password reset, grant/revoke, membership/ownership change, login attempt or runtime deployment occurred. The role is now a privilege group, not a login identity. A separate secret-safe login/OIDC/JWT runtime path remains unproven.
+
+Quota Governor v0.2.1 remains offline-only with 33/33 tests passing. Global governor remains PAUSE_DEGRADED / work_allowed=false. P03.01, P03.03, P03.05 remain partial/blocked; P03.02 and P03.04 remain complete. Main compute suspended. Master/WBS v2.0.0 unchanged; phase sequencing discrepancy remains open.
+
+Public continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.18.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.18.md). Role audit: [P03_RUNTIME_ROLE_NOLOGIN_ALIGNMENT_2026-11-25.md](P03_RUNTIME_ROLE_NOLOGIN_ALIGNMENT_2026-11-25.md).
+
+**P03 exit: NOT PASSED. Do not begin P04.**
