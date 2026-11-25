@@ -143,3 +143,12 @@ Next action: obtain redacted, read-only OCI account type/upgrade state, Home Reg
 ## 25 November 2026 — open WBS/mission-state reconciliation
 
 The locked WBS document metadata still reports P02 as next and P00 as the only completed phase. The live Mission State reports P03 active and P00/P02 complete, while its own P01 projections conflict (phase array NOT_STARTED vs phase-state baseline complete with a pilot gate blocked). This is an OPEN reconciliation item. Do not alter WBS v2.0.0, force P01 complete, or use this discrepancy to skip/reorder phases. Current P03 exit gate still controls the active phase. See `docs/CONTINUITY_CHECKPOINT_2026-11-25_v34.11.md`.
+
+## 25 November 2026 — Google OIDC runtime candidate / v34.12
+
+- Direct Apps Script JDBC to Neon Free is rejected because it requires source IP allowlisting and Neon IP Allow is Scale-tier only.
+- Google Apps Script + Google OIDC ID token + Neon Data API HTTPS is a conditional preflight candidate. The proposed `.sub` → NOLOGIN Postgres role mapping is not validated; do not configure on main.
+- Private source kit passed 12/12 offline mock tests; these are not live Google/Neon integration tests. No Data API, provider, role, Function or trigger was enabled or created.
+- P03 remains IN_PROGRESS; quota governor remains PAUSE_DEGRADED. The role-state reconciliation and WBS/P01 phase-state discrepancy remain open.
+- Latest continuity: `docs/CONTINUITY_CHECKPOINT_2026-11-25_v34.12.md`. Candidate review: `docs/P03_GOOGLE_APPS_SCRIPT_OIDC_CANDIDATE_2026-11-25.md`.
+- Do not begin P04 until P03 exit gate passes.
