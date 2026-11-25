@@ -198,3 +198,13 @@ Public-safe continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.16.md](CONTINUITY_
 P03.01, P03.03 and P03.05 remain partial/blocked; P03.02 and P03.04 remain complete. The runtime authentication, live freshness/recovery, role reconciliation, Google OIDC and OCI evidence gates remain open. P01 sequencing reconciliation remains open. Locked Master/WBS v2.0.0 unchanged.
 
 **P03 exit: NOT PASSED. Do not begin P04.**
+
+## P03.03 runtime role reconciliation overlay — v34.17 (25 November 2026)
+
+A read-only recheck still shows an unresolved contradiction: provider role API says `no_login`, while PostgreSQL catalog reports `rolcanlogin=true` and a password field. Role permissions remain narrow, but this does not prove a valid login path. No reset, login attempt, grant, role mutation or deployment was performed. The runtime role remains prohibited pending an isolated authentication proof.
+
+Quota Governor v0.2.1 offline evidence remains 33/33 tests passing; no production deployment. Global Governor remains fail-closed. P03.01, P03.03 and P03.05 remain partial/blocked. P03.02 and P03.04 remain complete. Main compute is suspended. Master/WBS v2.0.0 unchanged; phase-sequencing discrepancy open.
+
+Public-safe continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.17.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.17.md). Role audit: [P03_RUNTIME_ROLE_RECONCILIATION_2026-11-25.md](P03_RUNTIME_ROLE_RECONCILIATION_2026-11-25.md).
+
+**P03 exit: NOT PASSED. Do not begin P04.**
