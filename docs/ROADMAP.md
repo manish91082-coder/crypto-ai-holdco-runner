@@ -185,3 +185,16 @@ Main production remains Functions 0 / Triggers 0 / Data API disabled; Quota Gove
 Canonical continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.14.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.14.md). Detailed public-safe validation: [P03_S3_SIGV4_ROOT_BUNDLE_AND_CANARY_GATE_2026-11-25.md](P03_S3_SIGV4_ROOT_BUNDLE_AND_CANARY_GATE_2026-11-25.md).
 
 **P03 exit: NOT PASSED. Do not begin P04.**
+
+
+## P03.05 quota Governor v0.2.1 overlay — v34.16 (25 November 2026)
+
+A current 25-Nov-2026 Neon Free-plan six-resource quota snapshot has been added as an offline fixture to the v0.2.0 deterministic Governor. The v0.2.1 package has 33/33 tests passing, re-extracted archive tests passing, syntax/manifest/ZIP integrity checks passing, and a secret-pattern scan with no matches. No runtime dependency, network call, database connection, schema migration, deployment or dispatch authority was added.
+
+The exact-six-resource contract remains unchanged. Object Storage inventory and branch count stay in audit context, not in the Governor feed. Fresh database compute, transfer and storage guard measurements do not clear the global pause: Function active/waiting capacity remains UNKNOWN and invocation evidence remains stale/DEGRADED. Global Governor remains PAUSE_DEGRADED / work_allowed=false.
+
+Public-safe continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.16.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.16.md). P03.05 report: [P03_QUOTA_GOVERNOR_V0.2.1_OFFLINE_EVIDENCE_REFRESH_2026-11-25.md](P03_QUOTA_GOVERNOR_V0.2.1_OFFLINE_EVIDENCE_REFRESH_2026-11-25.md).
+
+P03.01, P03.03 and P03.05 remain partial/blocked; P03.02 and P03.04 remain complete. The runtime authentication, live freshness/recovery, role reconciliation, Google OIDC and OCI evidence gates remain open. P01 sequencing reconciliation remains open. Locked Master/WBS v2.0.0 unchanged.
+
+**P03 exit: NOT PASSED. Do not begin P04.**
