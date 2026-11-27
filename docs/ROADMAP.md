@@ -267,3 +267,35 @@ https://neon.com/blog/neon-backend-is-ga
 
 ### Next execution policy
 Continue bounded on-demand engineering; do not repeat OCI or Apps Script account audits because neither is selected as a runtime dependency. Keep recurring scheduling behind Functions MTD evidence and first real financial data behind private canonical backup/restore. Keep Governor PAUSE outside controlled tests. Do not change locked Master/WBS or claim revenue.
+
+
+## Authoritative current overlay — 27-Nov-2026 / Continuity v34.21
+This overlay supersedes the older status and quota statements above. Historical notes remain for audit history.
+
+### WBS status
+- P03.01 COMPLETE_WITH_KNOWN_PROVIDER_FUNCTION_METER_LIMITATION.
+- P03.02 and P03.04 COMPLETE.
+- P03.03 is the next active WBS task (runtime/auth/region/secrets/deployment evaluation).
+- P03.05 remains PLANNED / nested PARTIAL and follows P03.03.
+- P03 remains IN_PROGRESS; P03 exit NOT PASSED; P04 not started.
+- Counts: 16 COMPLETE, 1 BLOCKED, 102 PLANNED, 0 QUEUED of 119.
+- Locked Master/WBS hashes unchanged.
+
+### Neon custom project quota telemetry
+Actual custom project settings, project `little-violet-66887398`, plan `free_v3`, period 16-Nov to 01-Dec 2026:
+- Active time cap 129,600 sec; current use 94,687 sec (73.061%); remaining 34,913 sec.
+- Compute cap 36,000 CU-sec (10 CU-hours); current use 23,950 CU-sec (6.65278 CU-hours; 66.5278%); remaining 12,050 CU-sec.
+- Transfer cap 1,000,000,000 bytes; current 24,860,369 bytes (2.486%).
+- Written bytes cap 268,435,456; current 0.
+- Per-branch logical size cap 536,870,912 bytes.
+These actual custom project limits are tighter than Neon Free’s published default 100 CU-hours and 5GB transfer; use the project-specific caps for operations.
+
+### Functions meter limitation
+Functions active/waiting Capacity-Hours and MTD invocations are UNKNOWN, not zero. Free-plan consumption API returns HTTP 403 and Neon’s official Plans documentation says the simplified Usage Summary does not display Function metrics. Recurring scheduler stays disabled. P03.05 must implement application-side counters/budgets and fail-closed dispatch.
+
+### P03.05 quota guard requirement, not yet implemented
+Proposed internal 80% limits: active 103,680 sec; compute 28,800 CU-sec; transfer 800,000,000 bytes; writes 214,748,364 bytes. Current margin to internal thresholds: 8,993 active seconds and 4,850 compute CU-seconds. These are design targets only, not live enforcement.
+
+### Current runtime and latest CI
+Function `cryptoaicore`, deployment #11, Node.js 24, Singapore; Governor PAUSE_DEGRADED/work_allowed=false; scheduler disabled. All five known Postgres endpoints are idle after the last audit. Run #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46012576148. Runtime CI path filters skip live Neon smoke on documentation-only commits.
+Full quota details: [P03.01 Neon telemetry](P03.01_NEON_PROJECT_QUOTA_TELEMETRY_2026-11-27.md). Continuity: [v34.21](CONTINUITY_CHECKPOINT_2026-11-27_v34.21.md). Resume: [v2.7.3](NEXT_CHAT_RESUME_PROMPT_v2.7.3.md).
