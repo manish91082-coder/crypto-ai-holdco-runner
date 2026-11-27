@@ -64,7 +64,7 @@ jobs:
       - name: Domain and safety tests
         run: node --test
       - name: Live Neon Function and database smoke test
-          if: github.event_name == 'push' && contains(github.event.head_commit.message, 'enable-oidc-live-canary')
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, 'enable-oidc-live-canary')
         env:
           FUNCTION_URL: https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech
         run: |
