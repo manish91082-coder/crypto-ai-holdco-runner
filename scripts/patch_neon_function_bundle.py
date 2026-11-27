@@ -163,12 +163,22 @@ async function authorizeGoogleAppsScriptScheduler(request) {
   const match = header.match(/^Bearer\\s+(.+)$/i);
   const audience = process.env.GOOGLE_APPS_SCRIPT_CLIENT_ID;
   const subjectSha256 = process.env.GOOGLE_APPS_SCRIPT_OWNER_SUB_SHA256;
-  if (!match || !audience || !subjectSha256) return false;
-  return verifyGoogleAppsScriptOidc(match[1], {
+  if (!match || !audience || !subjectSha256) return null;
+  const token = match[1];
+  const verified = await verifyGoogleAppsScriptOidc(token, {
     audience,
     subjectSha256,
     onFailure: (reason) => console.info('GOOGLE_APPS_SCRIPT_OIDC_DENIED', reason)
   });
+  if (!verified) return null;
+  try {
+    const claims = decodeGoogleJwtSegment(token.split('.')[1]);
+    const exp = Number(claims?.exp);
+    if (!Number.isInteger(exp) || exp <= Math.floor(Date.now() / 1000)) return null;
+    return { tokenHash: digest(token), tokenExpiresAt: new Date(exp * 1000).toISOString() };
+  } catch {
+    return null;
+  }
 }
 """
 if source.count(auth_old) != 1:
@@ -176,14 +186,31 @@ if source.count(auth_old) != 1:
 source = source.replace(auth_old, auth_new, 1)
 
 canary_routes = """      if (request.method === 'POST' && url.pathname === '/internal/google/scheduler/dispatch' && url.search === '') {
-        if (!await authorizeGoogleAppsScriptScheduler(request)) return json({ error: 'UNAUTHORIZED' }, 401);
+        const identity = await authorizeGoogleAppsScriptScheduler(request);
+        if (!identity) return json({ error: 'UNAUTHORIZED' }, 401);
         if (process.env.GOOGLE_APPS_SCRIPT_SCHEDULER_ENABLED !== 'true') {
           return json({ status: 'PAUSED', reason: 'SCHEDULER_NOT_ARMED', dispatched: 0 }, 200);
+        }
+        const body = await readJsonBounded(request);
+        const tickId = body?.tick_id;
+        if (!body || typeof body !== 'object' || Array.isArray(body)
+            || Object.keys(body).length !== 1
+            || typeof tickId !== 'string'
+            || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(tickId)) {
+          return json({ error: 'INVALID_SCHEDULER_TICK' }, 400);
         }
         const gate = await sql('SELECT governor_state, work_allowed FROM runtime.control_plane WHERE singleton_id IS TRUE');
         const control = gate.rows[0];
         if (!control || control.governor_state !== 'RUNNING' || control.work_allowed !== true) {
           return json({ status: 'PAUSED', reason: 'GOVERNOR_CLOSED', dispatched: 0 }, 200);
+        }
+        const replay = await sql(
+          'SELECT runtime.consume_google_scheduler_tick($1::uuid,$2,$3::timestamptz) AS accepted',
+          [tickId, identity.tokenHash, identity.tokenExpiresAt]
+        );
+        if (replay.rows[0]?.accepted !== true) {
+          console.info('GOOGLE_APPS_SCRIPT_REPLAY_DENIED', 'duplicate_tick_or_token');
+          return json({ error: 'DUPLICATE_SCHEDULER_TICK' }, 409);
         }
         const outcomes = await dispatch(1);
         return json({ status: 'DISPATCH_COMPLETE', dispatched: outcomes.length, completed: outcomes.filter((x) => x.status === 'completed').length, timestamp: new Date().toISOString() }, 200);
@@ -411,6 +438,14 @@ if "GOOGLE_APPS_SCRIPT_OWNER_SUB_SHA256" not in source:
     raise SystemExit("Google Apps Script owner-subject binding is missing")
 if "await dispatch(1)" not in source:
     raise SystemExit("Google Apps Script dispatch is not bounded to one task")
+if "runtime.consume_google_scheduler_tick($1::uuid,$2,$3::timestamptz)" not in source:
+    raise SystemExit("Google scheduler atomic replay/idempotency validator is not wired")
+if "DUPLICATE_SCHEDULER_TICK" not in source or "GOOGLE_APPS_SCRIPT_REPLAY_DENIED" not in source:
+    raise SystemExit("Google scheduler duplicate-tick denial is missing")
+if "identity.tokenHash" not in source or "identity.tokenExpiresAt" not in source:
+    raise SystemExit("Google scheduler bearer hash/expiry are not bound to replay record")
+if "Object.keys(body).length !== 1" not in source or "body?.tick_id" not in source:
+    raise SystemExit("Google scheduler tick payload is not strictly validated")
 if "console.log(match[1]" in source or "console.log(token" in source:
     raise SystemExit("Google bearer may be written to logs")
 
