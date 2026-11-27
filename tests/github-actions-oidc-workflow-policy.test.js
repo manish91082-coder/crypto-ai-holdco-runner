@@ -56,3 +56,16 @@ test('positive metrics response checks only schema presence, not provider numeri
   assert.ok(workflow.includes("Object.prototype.hasOwnProperty.call(body, 'agent_messages')"));
   assert.equal(workflow.includes('Number.isSafeInteger(body?.tasks?.total)'), false);
 });
+
+test('OIDC metrics identity cannot read agents, run demos, read tasks or write A2A/tasks', () => {
+  for (const route of [
+    "process.env.FUNCTION_URL + '/v1/agents'",
+    "process.env.FUNCTION_URL + '/v1/demo'",
+    "process.env.FUNCTION_URL + '/v1/tasks/00000000-0000-4000-8000-000000000000'",
+    "process.env.FUNCTION_URL + '/v1/tasks'",
+    "process.env.FUNCTION_URL + '/a2a/v1/messages'"
+  ]) assert.ok(workflow.includes(route), `missing scope-denial probe: ${route}`);
+  assert.ok(workflow.includes('OIDC agents:read escalation should be denied'));
+  assert.ok(workflow.includes('OIDC demo:run escalation should be denied'));
+  assert.ok(workflow.includes('OIDC tasks:read:own escalation should be denied'));
+});
