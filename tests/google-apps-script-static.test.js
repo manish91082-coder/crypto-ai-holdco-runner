@@ -49,8 +49,8 @@ test('Google OIDC source never accepts a token without pinned owner-sub hash and
 });
 
 test('Apps Script distinguishes an authenticated-but-paused Function from a dispatch acknowledgement',()=>{
-  assert.ok(script.includes("body.status === 'PAUSED'"));
-  assert.ok(script.includes("body.status === 'DISPATCH_COMPLETE'"));
+  assert.ok(script.includes("responseState === 'PAUSED'"));
+  assert.ok(script.includes("responseState === 'DISPATCH_COMPLETE'"));
   assert.ok(script.includes("return 'SCHEDULER_PAUSED'"));
   assert.ok(script.includes("return 'DISPATCH_ACK'"));
   assert.ok(script.includes('response.getContentText()'));
