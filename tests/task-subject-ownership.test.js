@@ -55,7 +55,7 @@ test('client-supplied owner is never trusted for task ownership', () => {
   assert.equal(patcher.includes('body.owner_subject'), false);
   assert.ok(patcher.includes('requestSubject]);'));
   const blockStart = patcher.indexOf('new_a2a_insert =');
-  const blockEnd = patcher.indexOf('if (source.count(old_a2a_insert)', blockStart);
+  const blockEnd = patcher.indexOf('if source.count(old_a2a_insert)', blockStart);
   const block = patcher.slice(blockStart, blockEnd);
   const a2aCheck = block.indexOf('const taskAccess = await sql(');
   const messageInsert = block.indexOf('INSERT INTO runtime.agent_messages');
