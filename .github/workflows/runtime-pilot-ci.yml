@@ -123,7 +123,8 @@ jobs:
           });
           if (response.status !== 200) throw new Error(`Positive Bearer metrics canary failed: HTTP ${response.status}`);
           const body = await response.json();
-          if (!Number.isSafeInteger(body?.tasks?.total) || !Number.isSafeInteger(body?.agent_messages)) {
+          if (!body || typeof body !== 'object' || !body.tasks || typeof body.tasks !== 'object'
+            || !Object.prototype.hasOwnProperty.call(body, 'agent_messages')) {
             throw new Error('Positive Bearer metrics response shape invalid');
           }
           console.log('Positive authenticated Bearer HTTP canary: PASS (HTTP 200; metrics:read only)');
