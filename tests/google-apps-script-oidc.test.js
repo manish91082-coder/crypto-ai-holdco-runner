@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash, generateKeyPairSync, sign } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import {
   verifyGoogleAppsScriptOidc,
   resetGoogleOidcJwksCacheForTests
@@ -112,7 +113,7 @@ test('fails closed when Google JWKS is unavailable',async()=>{
 });
 
 test('uses only the standard Google issuer set and Google cert endpoint',()=>{
-  const source=requireSource();
+  const source=readFileSync(new URL('../scripts/google_apps_script_oidc_auth.mjs',import.meta.url),'utf8');
   assert.ok(source.includes('https://accounts.google.com'));
   assert.ok(source.includes('accounts.google.com'));
   assert.ok(source.includes('https://www.googleapis.com/oauth2/v3/certs'));
