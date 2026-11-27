@@ -18,7 +18,7 @@ The goal is a zero-upfront, cloud-only, crypto-native AI-agent revenue ecosystem
 ## Current runtime
 
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`, database `crypto_holdco`.
-- Neon Function `cryptoaicore`, deployment #11, Node.js 24, Singapore.
+- Neon Function `cryptoaicore`, deployment #12, Node.js 24, Singapore.
 - Function database identity: `crypto_holdco_function`.
 - `/readyz` reports `governor_state=PAUSE_DEGRADED`, `work_allowed=false`.
 - Seven specialist roles appear in the A2A agent card. These are logical roles in one Function, not yet seven independent LLM instances.
@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.21](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.21.md).  
-Next-chat resume: [v2.7.3](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.3.md).
+Latest continuity: [v34.22](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md).  
+Next-chat resume: [v2.7.4](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
 
 ## Evidence and verification
 
@@ -44,7 +44,7 @@ Next-chat resume: [v2.7.3](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.3.md).
 - Database migration: `db/migrations/pilot/20261127_fail_closed_governor.sql`.
 - Static regression tests: `tests/governor-migration.test.js`.
 - Active Function documentation: [Neon Function runtime README](neon-functions/cryptoaicore/README.md).
-- Latest runtime CI run #55: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46012576148 (SUCCESS).
+- Latest security runtime CI run #69: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247 (SUCCESS).
 - CI includes source integrity/build, domain/safety tests, Governor policy regression tests, live readiness, seven-role agent card and HTTP 401 denial for unauthenticated internal metrics.
 
 ## Strict boundaries
@@ -69,3 +69,14 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - Neon Free Functions active/waiting MTD Capacity-Hours and invocations remain UNKNOWN, not zero, because the Free API returns 403 and the simplified Usage Summary omits these Function metrics. Scheduler remains disabled.
 - P03.05 must implement application-level invocation/day budget and proposed 80% stop thresholds. These are not currently deployed.
 - Details: [custom quota telemetry](docs/P03.01_NEON_PROJECT_QUOTA_TELEMETRY_2026-11-27.md), [continuity v34.21](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.21.md), [resume prompt v2.7.3](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.3.md).
+
+
+## Latest P03.03 security and continuity checkpoint — v34.22
+- Function deployment #12, Node.js 24, Singapore. The database role has least-privilege access; direct token-table SELECT is revoked.
+- API and cron tokens now have explicit scopes, 30-day expiry, revocation fields, rotation groups and last-used tracking. Existing credentials expire 27-Dec-2026 09:44:32 UTC. No replacement token has been issued or rotated.
+- Scoped validators enforce enabled, scope, expiry and revocation. Request body cap is 65,536 bytes; internal error messages are sanitised.
+- CI #69 denies unauthenticated metrics, task submission, A2A and cron routes with HTTP 401.
+- Positive bearer-token canary, secure rotation, subject-bound task ownership and successful last-used event remain unverified. The owner-only tasks:read:any scope is not approved for multi-tenant use.
+- Neon Terms review: use Neon only as infrastructure for Crypto AI Holdings' own services; do not resell/white-label Neon APIs/products or build a competing Neon backend. Customer-owned backup/security responsibility remains.
+- P03.03 remains PARTIAL; P03.05 quota Governor remains PLANNED. Scheduler disabled, Governor PAUSE_DEGRADED, work_allowed=false, revenue ₹0.
+- [P03.03 security review](docs/P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md), [continuity v34.22](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md), [resume prompt v2.7.4](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
