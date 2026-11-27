@@ -201,3 +201,12 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - This is not the owner-operator-pilot token. Owner token remains unchanged and rotation remains gated by consumer census and protected delivery.
 - New issue/revoke functions are SECURITY DEFINER, tightly scoped; Function role retains no direct api_tokens SELECT/INSERT/UPDATE/DELETE privileges.
 - Trigger disabled; Governor PAUSE_DEGRADED/work_allowed=false; no task dispatch or financial activity.
+
+
+## Current role-password bootstrap blocker — 27-Nov-2026
+- The Neon Functions pilot uses the separate Neon-managed identity crypto_holdco_function. It is not authenticated with holdco_runtime and deployment #17 does not depend on that role's password.
+- Fresh read-only pg_authid on both main and pilot branches shows holdco_runtime rolcanlogin=false, password absent, no superuser/createdb/createrole/replication/bypass-RLS flags and zero active sessions. Memberships are recorded in docs/P03.03_ROLE_PASSWORD_BOOTSTRAP_RESEARCH_v1.2.md.
+- Neon SDK source refuses reset for passwordless roles. The documented SDK new-role path injects a bootstrap password into SQL text and warns that statement logging may record it. It creates a new role, not the existing identity. This path is not allowed under the locked no-secret-in-SQL policy.
+- Provider issues #12984 and #12986 are still open; retrieved comments do not provide a maintainer-confirmed supported resolution. Do not reset, set LOGIN, recreate, replace, elevate or mutate holdco_runtime.
+- Historical 25-Nov role reconciliation reported a contradictory catalog state; current 27-Nov read-back supersedes it as the present state, while preserving the historical document.
+- Current role research: [v1.2](../docs/P03.03_ROLE_PASSWORD_BOOTSTRAP_RESEARCH_v1.2.md); current catalog reconciliation: [v2.0](../docs/P03_RUNTIME_ROLE_RECONCILIATION_v2.0.md).
