@@ -113,3 +113,14 @@ test('CI-only canary issue and revoke use only a signed workflow-run identity', 
   assert.ok(patcher.includes('ci-auth-canary:'));
   assert.ok(canaryMigration.includes("ARRAY['metrics:read']"));
 });
+
+
+test('Google Apps Script scheduler route is identity-bound, fail-closed and one-task bounded', () => {
+  assert.ok(patcher.includes('verifyGoogleAppsScriptOidc'));
+  assert.ok(patcher.includes('GOOGLE_APPS_SCRIPT_CLIENT_ID'));
+  assert.ok(patcher.includes('GOOGLE_APPS_SCRIPT_OWNER_SUB_SHA256'));
+  assert.ok(patcher.includes("GOOGLE_APPS_SCRIPT_SCHEDULER_ENABLED !== 'true'"));
+  assert.ok(patcher.includes("control.governor_state !== 'RUNNING'"));
+  assert.ok(patcher.includes('await dispatch(1)'));
+  assert.ok(patcher.includes('/internal/google/scheduler/dispatch'));
+});
