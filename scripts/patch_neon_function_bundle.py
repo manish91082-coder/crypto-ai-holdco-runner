@@ -62,6 +62,12 @@ if source.count(old_receipt) != 1:
     raise SystemExit("receipt normalization patch anchor mismatch")
 source = source.replace(old_receipt, new_receipt, 1)
 
+old_returning = """RETURNING t.id::text AS id, t.task_type, t.payload, t.attempt_count, t.max_attempts"""
+new_returning = """RETURNING t.id::text AS id, t.task_type, t.payload::text AS payload, t.attempt_count, t.max_attempts"""
+if source.count(old_returning) != 1:
+    raise SystemExit("task-claim payload cast patch anchor mismatch")
+source = source.replace(old_returning, new_returning, 1)
+
 if "task.payload?.candidate" in source or "task.payload?.receipt" in source:
     raise SystemExit("un-normalized task payload access remains")
 
