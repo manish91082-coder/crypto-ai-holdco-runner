@@ -78,3 +78,11 @@ These actual custom caps are authoritative for this project.
 Neon Free Function active/waiting Capacity-Hours and MTD invocations are UNKNOWN, not zero: Free consumption API returns 403 and the simplified Usage Summary does not show Function metrics. Recurring scheduling stays disabled.
 
 P03.01 is now COMPLETE_WITH_KNOWN_PROVIDER_FUNCTION_METER_LIMITATION. Next active task P03.03. P03.05 remains later in sequence and must implement persistent application-level quotas, dispatch stop and the proposed 80% soft ceilings. These soft ceilings are not live enforcement. P03 remains IN_PROGRESS and P03 exit remains NOT PASSED.
+
+
+## 27-Nov-2026 OIDC workload identity and API-token decision addendum
+The isolated Neon Function is now deployment #16 (Node.js 24, Singapore). CI #109 proves a short-lived GitHub Actions OIDC Bearer token can call only `GET /v1/metrics` with HTTP 200 after 15 signed-claim checks. It is pinned to the exact repository/owner, workflow file/ref, push branch, actor and hosted runner. The same token is denied HTTP 401 for `agents:read`, `demo:run`, `tasks:write`, `tasks:read:own` and A2A. CI #109: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043581519; 40/40 tests. CI #110 follow-up suite: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043585428.
+
+This does not prove the existing `owner-operator-pilot` database-hash API token over HTTP. The token remains enabled, last-used `2026-11-27T14:55:00.737Z`, expires `2026-12-27T09:44:32.105Z`; its raw value/hash was not read. Railway's connected `Crypto Holdco Pilot` project has no services or shared variables. The repository `APP_API_TOKEN` is a separate dormant scaffold setting. No complete external/manual consumer map or protected one-time delivery channel exists, so token rotation is deliberately deferred until a safe overlap/cutover can be proven.
+
+P03.03 remains PARTIAL. The scheduler is disabled; Governor remains `PAUSE_DEGRADED / work_allowed=false`. P03.05 is not activated; P03 exit remains NOT PASSED.
