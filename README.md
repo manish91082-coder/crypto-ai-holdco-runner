@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.22](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md).  
-Next-chat resume: [v2.7.4](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
+Latest continuity: [v34.24](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.24.md).  
+Next-chat resume: [v2.7.5](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.5.md).
 
 ## Evidence and verification
 
@@ -44,7 +44,7 @@ Next-chat resume: [v2.7.4](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
 - Database migration: `db/migrations/pilot/20261127_fail_closed_governor.sql`.
 - Static regression tests: `tests/governor-migration.test.js`.
 - Active Function documentation: [Neon Function runtime README](neon-functions/cryptoaicore/README.md).
-- Latest security runtime CI run #69: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247 (SUCCESS).
+- Latest runtime CI #70: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46017056190 (SUCCESS); security runtime CI #69 also passed: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247.
 - CI includes source integrity/build, domain/safety tests, Governor policy regression tests, live readiness, seven-role agent card and HTTP 401 denial for unauthenticated internal metrics.
 
 ## Strict boundaries
@@ -87,7 +87,16 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - API/cron credentials now have explicit scopes, 30-day expiry, revocation fields, rotation groups and last-used tracking. Existing credential expiry: 27-Dec-2026 09:44:32 UTC. No replacement token issued or rotated.
 - Scoped validators enforce enabled/scope/expiry/revocation. Request-body cap 65,536 bytes; generic internal errors are sanitised.
 - CI #69 denies unauthenticated metrics, task submission, A2A and cron routes with HTTP 401.
-- Positive bearer canary, secure token rotation and subject-bound task ownership remain unverified. The tasks:read:any scope is restricted to the single operator pilot and is not suitable for multiple buyers.
+- Positive database validator canary now passes (API metrics:read=1, wrong wallet:withdraw=0; cron dispatch:run=1) and both last_used_at fields are observed. Positive HTTP bearer request, secure token rotation and subject-bound task ownership remain open. The tasks:read:any scope is restricted to the single operator pilot and is not suitable for multiple buyers.
 - Neon remains infrastructure for our own agent services only. Do not white-label/resell Neon APIs or build a competing Neon backend. Customer remains responsible for security and backups.
 - P03.03 PARTIAL; P03.05 quota Governor not yet implemented. Scheduler disabled; Governor PAUSE_DEGRADED / work_allowed=false; realised net revenue 0.
-- [P03.03 security report](docs/P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md), [continuity v34.22](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md), [resume v2.7.4](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
+- [P03.03 security report](docs/P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md), [continuity v34.24](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.24.md), [resume v2.7.5](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.5.md).
+
+
+## v34.24 positive scoped-validator checkpoint
+- Function deployment #12 SHA-256: `15871f3c2114ba0b0c21a3634ca9b267fb7a3802cf71aac41d4d007c596c3c87`.
+- Database-only positive validator check passed without exposing raw credentials: API `metrics:read` one match; API wrong `wallet:withdraw` zero matches; cron `dispatch:run` one match. Both last-used timestamps are now non-null.
+- This is not an authenticated HTTP bearer proof; no task was inserted or dispatched.
+- Both credentials expire 27-Dec-2026 09:44:32.105 UTC; no rotation/reissue yet.
+- Current project transfer: 24,997,930 bytes (2.500% of custom cap); active and compute use unchanged at 73.061% / 66.528%.
+- Current continuity v34.24, audit 48, snapshot 64. P03.03 remains PARTIAL.
