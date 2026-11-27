@@ -151,3 +151,12 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - CI #69 live negative smoke: unauthenticated metrics/tasks/A2A/cron all return 401. Positive bearer canary and valid-authenticated route remain unverified; no token-rotation runbook; task reads use privileged tasks:read:any for the single operator only.
 - Scheduler disabled; Governor PAUSE_DEGRADED / work_allowed=false. Seven roles remain logical in one deterministic pipeline, not independent LLMs.
 - Full security report: [P03.03 auth hardening](../../docs/P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md); continuity [v34.22](../../docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md); resume [v2.7.4](../../docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
+
+
+## 27-Nov-2026 v34.24 validator canary
+- Active deployment #12, source SHA-256 `15871f3c2114ba0b0c21a3634ca9b267fb7a3802cf71aac41d4d007c596c3c87`.
+- Positive DB-only scoped-validator canary: API metrics:read accepted (1), wrong wallet:withdraw denied (0), cron dispatch:run accepted (1). Both last_used_at fields observed non-null.
+- No raw token/hash was read. No actual task insert, cron dispatch or positive HTTP bearer test.
+- Credentials expire at `2026-12-27T09:44:32.105Z`; no new token/reissue/rotation.
+- CI #69: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247; CI #70: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46017056190. Both SUCCESS.
+- Continuity v34.24; resume v2.7.5. P03.03 remains PARTIAL; scheduler disabled; Governor PAUSE_DEGRADED.
