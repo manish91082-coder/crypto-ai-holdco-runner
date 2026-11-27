@@ -220,3 +220,10 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - CI #131: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46053348674, SUCCESS, 58/58 tests. Candidate source hash `367ea0205d797aa8a22d78a5b5a6f1e6638460aaf76ef98a20b04f1f78604921`; live smoke skipped.
 - No Function #18, Apps Script project, owner identity, environment allowlist values or trigger has been created or installed. Deployment #17 remains active. Keep scheduler off pending identity tests, replay/idempotency control, P03.05 budgets, owner credential gates and independent WBS acceptance.
 - Current Neon quota: active 87.64%, compute 79.77%, transfer 3.10%; period ends 2026-12-01T00:00Z. Governor remains paused.
+
+
+## 28-Nov-2026 — replay/idempotency guard source proof
+- Candidate v1.1 uses a UUID per Apps Script tick plus an atomic replay function keyed by UUID and SHA-256 of the verified bearer. A repeated tick or bearer is rejected with HTTP 409.
+- Proposed SQL migration and test remain source-only; not applied or run in Neon. No deployment #18; current deployment #17 is unchanged.
+- CI #137 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46054644565: SUCCESS, 60/60 tests; candidate source SHA `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`; live smoke skipped.
+- At-most-once admission only. Exactly-once task execution is not claimed. Keep scheduler disabled pending actual Google identity, WBS acceptance, P03.05, replay migration review and quota gates.
