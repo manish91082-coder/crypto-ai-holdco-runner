@@ -99,3 +99,13 @@ test('GitHub Actions OIDC is a metrics-read-only identity, not a general API bea
   assert.ok(patcher.includes("'github-actions:repo:1468220353'"));
   assert.ok(patcher.includes('runtime.validate_api_token($1,$2)'));
 });
+
+
+test('CI-only canary issue and revoke use only a signed workflow-run identity', () => {
+  assert.ok(patcher.includes("randomBytes(32).toString('hex')"));
+  assert.ok(patcher.includes('verifiedCiAuthCanaryRun'));
+  assert.ok(patcher.includes('runtime.issue_ci_auth_canary($1,$2,$3)'));
+  assert.ok(patcher.includes('runtime.revoke_ci_auth_canary($1,$2)'));
+  assert.ok(patcher.includes('ci-auth-canary:'));
+  assert.ok(patcher.includes("ARRAY['metrics:read']"));
+});
