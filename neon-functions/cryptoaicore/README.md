@@ -113,3 +113,9 @@ The official plan facts above are from Neon’s 02-Oct-2026 Free-plan update and
 - **First real buyer/financial ledger event:** blocked until private canonical backup + restore evidence, counterparty eligibility, commercial acceptance, and independent receipt verification are complete.
 
 P03.01 remains PARTIAL and the overall P03 exit gate remains NOT PASSED; this is an intentional release-tier separation, not a revenue or production-readiness claim.
+
+
+## Canonical continuity and decision records
+- Goal-first P03 gate review: `docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md`
+- Latest mission continuity checkpoint v34.20: `docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.20.md`
+- CI run #47 verified the new SQL-migration regression tests (4 additional tests) plus live endpoint smoke tests: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46009145835
