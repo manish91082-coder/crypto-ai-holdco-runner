@@ -28,7 +28,12 @@
 - Pilot branch only. Main production branch and locked Master Constitution/WBS were not changed.
 - Public CI smoke-tested root handler, database readiness and seven-agent card.
 - Scheduled trigger currently runs every 5 minutes and dispatches at most three queued tasks per invocation.
-- Current verified task was synthetic only: seven agent messages, eight audit events, QA_PASS; realised net revenue is zero and no revenue claim is made.
+- Positive synthetic E2E task `e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21`: completed; seven A2A messages, eight audit events, QA_PASS and delivery packaged for human review. No buyer or payment.
+- Negative-control task `0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2`: all eight eligibility requirements missing; BLOCKED_OR_UNVERIFIED, QA_BLOCK and BLOCKED_BY_QA; seven messages/eight audit events.
+- Both tasks explicitly recorded `NO_REVENUE_CLAIM`; realised net revenue is zero.
+- Neon project-level snapshot on 2026-11-27: 20,380 CU-seconds (5.6611 CU-hours), 22,372,340 transfer bytes; pilot database logical size 15,892,480 bytes. Logical size is not billed physical storage.
+- Account inventory: two projects; this project has one Function/one trigger, the other project has zero Functions/Triggers. Free-plan consumption API returned HTTP 403 requiring a v3 paid plan; billed storage and Functions active/waiting usage therefore remain UNKNOWN.
+- Crash-recovery leases and retry-idempotent writes are not yet deployed/accepted; do not describe the pilot as crash-recovery complete.
 - Live submissions, wallet signing, trading and payments are disabled.
 - The function currently uses Neon-injected `DATABASE_URL`; least-privilege runtime role adoption and independent backup/restore are still open P03 controls.
 - Neon Functions Free allowances are limited and enforced both per project and account-wide. Stop/reduce dispatch if capacity approaches the free ceiling; do not upgrade or enable paid fallback.
