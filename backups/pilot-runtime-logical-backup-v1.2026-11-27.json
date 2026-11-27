@@ -1,0 +1,2591 @@
+{
+  "tasks": [
+    {
+      "id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "result": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": true
+          },
+          "passed": true,
+          "decision": "QA_PASS"
+        },
+        "mode": "SYNTHETIC_END_TO_END_TEST",
+        "safety": {
+          "trading_enabled": false,
+          "payments_enabled": false,
+          "wallet_signing_enabled": false,
+          "live_submissions_enabled": false
+        },
+        "revenue": "NO_REVENUE_CLAIM",
+        "delivery": {
+          "qa": {
+            "checks": {
+              "scopedWork": true,
+              "artifactPresent": true,
+              "noExternalSubmission": true,
+              "noFinancialAuthority": true,
+              "candidateExplicitlySyntheticOrFunded": true
+            },
+            "passed": true,
+            "decision": "QA_PASS"
+          },
+          "scope": "Synthetic demonstration of an agent-to-agent engineering delivery workflow.",
+          "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+          "status": "PACKAGED_FOR_HUMAN_REVIEW",
+          "artifact_id": "1c010c14-6f1f-46b9-8985-e6e7af412454",
+          "work_packages": [
+            "Confirm buyer authority, scope, acceptance and IP terms",
+            "Create a reproducible implementation plan",
+            "Build only in an isolated workspace",
+            "Run automated tests and static security checks",
+            "Independent review before any external delivery"
+          ]
+        },
+        "pipeline": "crypto-ai-holdco-neon-runtime-v0.2",
+        "candidate": {
+          "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+          "eligibility": {
+            "total": 8,
+            "checks": {
+              "sourceUrl": true,
+              "scopeKnown": true,
+              "zeroUpfront": true,
+              "aiPermission": true,
+              "namedSponsor": true,
+              "actualFunding": true,
+              "deadlineKnown": true,
+              "indiaEligibility": true
+            },
+            "passed": 8,
+            "decision": "QUALIFIED_FOR_HUMAN_REVIEW",
+            "autonomousSubmissionAllowed": false
+          },
+          "synthetic_test": true,
+          "autonomous_submission_allowed": false
+        },
+        "completed_at": "2026-11-27T09:56:01.273Z",
+        "agents_executed": [
+          "opportunity-discovery",
+          "eligibility-analyst",
+          "scope-planner",
+          "engineering-agent",
+          "independent-qa",
+          "delivery-packager",
+          "revenue-verifier"
+        ],
+        "engineering_plan": {
+          "scope": "Synthetic demonstration of an agent-to-agent engineering delivery workflow.",
+          "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+          "work_packages": [
+            "Confirm buyer authority, scope, acceptance and IP terms",
+            "Create a reproducible implementation plan",
+            "Build only in an isolated workspace",
+            "Run automated tests and static security checks",
+            "Independent review before any external delivery"
+          ],
+          "prohibited_without_separate_authorization": [
+            "external submission",
+            "wallet signing",
+            "trading or token transfer",
+            "payment or deposit",
+            "production credential access"
+          ]
+        },
+        "realised_net_revenue": 0
+      },
+      "status": "completed",
+      "payload": {
+        "purpose": "pilot_e2e_acceptance",
+        "synthetic_test": true
+      },
+      "task_type": "demo_e2e",
+      "created_at": "2026-11-27T09:55:06.535934+00:00",
+      "last_error": null,
+      "started_at": "2026-11-27T09:56:01.211461+00:00",
+      "updated_at": "2026-11-27T09:56:01.281134+00:00",
+      "completed_at": "2026-11-27T09:56:01.281134+00:00",
+      "max_attempts": 3,
+      "attempt_count": 1,
+      "idempotency_key": null
+    },
+    {
+      "id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "result": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": false
+          },
+          "passed": false,
+          "decision": "QA_BLOCK"
+        },
+        "mode": "OPPORTUNITY_REVIEW",
+        "safety": {
+          "trading_enabled": false,
+          "payments_enabled": false,
+          "wallet_signing_enabled": false,
+          "live_submissions_enabled": false
+        },
+        "revenue": "NO_REVENUE_CLAIM",
+        "delivery": {
+          "qa": {
+            "checks": {
+              "scopedWork": true,
+              "artifactPresent": true,
+              "noExternalSubmission": true,
+              "noFinancialAuthority": true,
+              "candidateExplicitlySyntheticOrFunded": false
+            },
+            "passed": false,
+            "decision": "QA_BLOCK"
+          },
+          "scope": "No engineering execution permitted until hard checks pass",
+          "title": "Unqualified candidate",
+          "status": "BLOCKED_BY_QA",
+          "artifact_id": "6a5460fb-2213-4321-9061-26bacfb8c506",
+          "work_packages": []
+        },
+        "pipeline": "crypto-ai-holdco-neon-runtime-v0.2",
+        "candidate": {
+          "title": null,
+          "eligibility": {
+            "total": 8,
+            "checks": {
+              "sourceUrl": false,
+              "scopeKnown": false,
+              "zeroUpfront": false,
+              "aiPermission": false,
+              "namedSponsor": false,
+              "actualFunding": false,
+              "deadlineKnown": false,
+              "indiaEligibility": false
+            },
+            "passed": 0,
+            "decision": "BLOCKED_OR_UNVERIFIED",
+            "autonomousSubmissionAllowed": false
+          },
+          "synthetic_test": false,
+          "autonomous_submission_allowed": false
+        },
+        "completed_at": "2026-11-27T10:05:01.529Z",
+        "agents_executed": [
+          "opportunity-discovery",
+          "eligibility-analyst",
+          "scope-planner",
+          "engineering-agent",
+          "independent-qa",
+          "delivery-packager",
+          "revenue-verifier"
+        ],
+        "engineering_plan": {
+          "scope": "No engineering execution permitted until hard checks pass",
+          "title": "Unqualified candidate",
+          "work_packages": [],
+          "blocked_reason": "Eligibility evidence incomplete"
+        },
+        "realised_net_revenue": 0
+      },
+      "status": "completed",
+      "payload": {
+        "candidate": {
+          "title": "Synthetic negative-control candidate with missing funding evidence",
+          "source": "SYNTHETIC_NEGATIVE_CONTROL",
+          "synthetic_test": false
+        }
+      },
+      "task_type": "qualify_opportunity",
+      "created_at": "2026-11-27T10:01:09.248135+00:00",
+      "last_error": null,
+      "started_at": "2026-11-27T10:05:01.470741+00:00",
+      "updated_at": "2026-11-27T10:05:01.536834+00:00",
+      "completed_at": "2026-11-27T10:05:01.536834+00:00",
+      "max_attempts": 3,
+      "attempt_count": 1,
+      "idempotency_key": null
+    },
+    {
+      "id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "result": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": true
+          },
+          "passed": true,
+          "decision": "QA_PASS"
+        },
+        "mode": "SYNTHETIC_END_TO_END_TEST",
+        "safety": {
+          "trading_enabled": false,
+          "payments_enabled": false,
+          "wallet_signing_enabled": false,
+          "live_submissions_enabled": false
+        },
+        "revenue": "NO_REVENUE_CLAIM",
+        "delivery": {
+          "qa": {
+            "checks": {
+              "scopedWork": true,
+              "artifactPresent": true,
+              "noExternalSubmission": true,
+              "noFinancialAuthority": true,
+              "candidateExplicitlySyntheticOrFunded": true
+            },
+            "passed": true,
+            "decision": "QA_PASS"
+          },
+          "scope": "Synthetic demonstration of an agent-to-agent engineering delivery workflow.",
+          "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+          "status": "PACKAGED_FOR_HUMAN_REVIEW",
+          "artifact_id": "72106d5c-d598-4150-8471-e061e084d52b",
+          "work_packages": [
+            "Confirm buyer authority, scope, acceptance and IP terms",
+            "Create a reproducible implementation plan",
+            "Build only in an isolated workspace",
+            "Run automated tests and static security checks",
+            "Independent review before any external delivery"
+          ]
+        },
+        "pipeline": "crypto-ai-holdco-neon-runtime-v0.2",
+        "candidate": {
+          "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+          "eligibility": {
+            "total": 8,
+            "checks": {
+              "sourceUrl": true,
+              "scopeKnown": true,
+              "zeroUpfront": true,
+              "aiPermission": true,
+              "namedSponsor": true,
+              "actualFunding": true,
+              "deadlineKnown": true,
+              "indiaEligibility": true
+            },
+            "passed": 8,
+            "decision": "QUALIFIED_FOR_HUMAN_REVIEW",
+            "autonomousSubmissionAllowed": false
+          },
+          "synthetic_test": true,
+          "autonomous_submission_allowed": false
+        },
+        "completed_at": "2026-11-27T10:15:01.972Z",
+        "agents_executed": [
+          "opportunity-discovery",
+          "eligibility-analyst",
+          "scope-planner",
+          "engineering-agent",
+          "independent-qa",
+          "delivery-packager",
+          "revenue-verifier"
+        ],
+        "engineering_plan": {
+          "scope": "Synthetic demonstration of an agent-to-agent engineering delivery workflow.",
+          "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+          "work_packages": [
+            "Confirm buyer authority, scope, acceptance and IP terms",
+            "Create a reproducible implementation plan",
+            "Build only in an isolated workspace",
+            "Run automated tests and static security checks",
+            "Independent review before any external delivery"
+          ],
+          "prohibited_without_separate_authorization": [
+            "external submission",
+            "wallet signing",
+            "trading or token transfer",
+            "payment or deposit",
+            "production credential access"
+          ]
+        },
+        "realised_net_revenue": 0
+      },
+      "status": "completed",
+      "payload": {
+        "purpose": "cold_start_recovery_probe",
+        "synthetic_test": true
+      },
+      "task_type": "demo_e2e",
+      "created_at": "2026-11-27T10:11:26.221352+00:00",
+      "last_error": null,
+      "started_at": "2026-11-27T10:15:01.700689+00:00",
+      "updated_at": "2026-11-27T10:15:01.990569+00:00",
+      "completed_at": "2026-11-27T10:15:01.990569+00:00",
+      "max_attempts": 3,
+      "attempt_count": 1,
+      "idempotency_key": null
+    },
+    {
+      "id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "result": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": false
+          },
+          "passed": false,
+          "decision": "QA_BLOCK"
+        },
+        "mode": "OPPORTUNITY_REVIEW",
+        "safety": {
+          "trading_enabled": false,
+          "payments_enabled": false,
+          "wallet_signing_enabled": false,
+          "live_submissions_enabled": false
+        },
+        "revenue": "NO_REVENUE_CLAIM",
+        "delivery": {
+          "qa": {
+            "checks": {
+              "scopedWork": true,
+              "artifactPresent": true,
+              "noExternalSubmission": true,
+              "noFinancialAuthority": true,
+              "candidateExplicitlySyntheticOrFunded": false
+            },
+            "passed": false,
+            "decision": "QA_BLOCK"
+          },
+          "scope": "No engineering execution permitted until hard checks pass",
+          "title": "Unqualified candidate",
+          "status": "BLOCKED_BY_QA",
+          "artifact_id": "b1ee5e57-ff96-4043-a7be-f21b29268916",
+          "work_packages": []
+        },
+        "pipeline": "crypto-ai-holdco-neon-runtime-v0.2",
+        "candidate": {
+          "title": null,
+          "eligibility": {
+            "total": 8,
+            "checks": {
+              "sourceUrl": false,
+              "scopeKnown": false,
+              "zeroUpfront": false,
+              "aiPermission": false,
+              "namedSponsor": false,
+              "actualFunding": false,
+              "deadlineKnown": false,
+              "indiaEligibility": false
+            },
+            "passed": 0,
+            "decision": "BLOCKED_OR_UNVERIFIED",
+            "autonomousSubmissionAllowed": false
+          },
+          "synthetic_test": false,
+          "autonomous_submission_allowed": false
+        },
+        "completed_at": "2026-11-27T11:30:01.785Z",
+        "agents_executed": [
+          "opportunity-discovery",
+          "eligibility-analyst",
+          "scope-planner",
+          "engineering-agent",
+          "independent-qa",
+          "delivery-packager",
+          "revenue-verifier"
+        ],
+        "engineering_plan": {
+          "scope": "No engineering execution permitted until hard checks pass",
+          "title": "Unqualified candidate",
+          "work_packages": [],
+          "blocked_reason": "Eligibility evidence incomplete"
+        },
+        "realised_net_revenue": 0
+      },
+      "status": "completed",
+      "payload": {
+        "candidate": {
+          "title": "Synthetic negative-control candidate: missing funding evidence",
+          "source": "SYNTHETIC_NEGATIVE_CONTROL",
+          "sponsor": "Controlled test fixture only",
+          "synthetic_test": false
+        },
+        "fixture_metadata": {
+          "purpose": "Verify missing funding evidence remains blocked after JSONB payload normalization",
+          "fixture_only": true,
+          "fixture_classification": "SYNTHETIC_NEGATIVE_CONTROL",
+          "not_a_real_opportunity": true
+        }
+      },
+      "task_type": "qualify_opportunity",
+      "created_at": "2026-11-27T11:29:43.248579+00:00",
+      "last_error": null,
+      "started_at": "2026-11-27T11:30:01.686246+00:00",
+      "updated_at": "2026-11-27T11:30:01.790452+00:00",
+      "completed_at": "2026-11-27T11:30:01.790452+00:00",
+      "max_attempts": 3,
+      "attempt_count": 1,
+      "idempotency_key": null
+    },
+    {
+      "id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "result": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": false
+          },
+          "passed": false,
+          "decision": "QA_BLOCK"
+        },
+        "mode": "OPPORTUNITY_REVIEW",
+        "safety": {
+          "trading_enabled": false,
+          "payments_enabled": false,
+          "wallet_signing_enabled": false,
+          "live_submissions_enabled": false
+        },
+        "revenue": "NO_REVENUE_CLAIM",
+        "delivery": {
+          "qa": {
+            "checks": {
+              "scopedWork": true,
+              "artifactPresent": true,
+              "noExternalSubmission": true,
+              "noFinancialAuthority": true,
+              "candidateExplicitlySyntheticOrFunded": false
+            },
+            "passed": false,
+            "decision": "QA_BLOCK"
+          },
+          "scope": "No engineering execution permitted until hard checks pass",
+          "title": "Synthetic negative-control candidate: missing funding evidence",
+          "status": "BLOCKED_BY_QA",
+          "artifact_id": "c2700464-9d8d-4cf2-8521-8f307bbd209d",
+          "work_packages": []
+        },
+        "pipeline": "crypto-ai-holdco-neon-runtime-v0.2",
+        "candidate": {
+          "title": "Synthetic negative-control candidate: missing funding evidence",
+          "eligibility": {
+            "total": 8,
+            "checks": {
+              "sourceUrl": false,
+              "scopeKnown": false,
+              "zeroUpfront": false,
+              "aiPermission": false,
+              "namedSponsor": true,
+              "actualFunding": false,
+              "deadlineKnown": false,
+              "indiaEligibility": false
+            },
+            "passed": 1,
+            "decision": "BLOCKED_OR_UNVERIFIED",
+            "autonomousSubmissionAllowed": false
+          },
+          "synthetic_test": false,
+          "autonomous_submission_allowed": false
+        },
+        "completed_at": "2026-11-27T11:32:01.386Z",
+        "agents_executed": [
+          "opportunity-discovery",
+          "eligibility-analyst",
+          "scope-planner",
+          "engineering-agent",
+          "independent-qa",
+          "delivery-packager",
+          "revenue-verifier"
+        ],
+        "engineering_plan": {
+          "scope": "No engineering execution permitted until hard checks pass",
+          "title": "Synthetic negative-control candidate: missing funding evidence",
+          "work_packages": [],
+          "blocked_reason": "Eligibility evidence incomplete"
+        },
+        "realised_net_revenue": 0
+      },
+      "status": "completed",
+      "payload": {
+        "candidate": {
+          "title": "Synthetic negative-control candidate: missing funding evidence",
+          "source": "SYNTHETIC_NEGATIVE_CONTROL",
+          "sponsor": "Controlled test fixture only",
+          "synthetic_test": false
+        },
+        "fixture_metadata": {
+          "purpose": "Verify JSONB payload parsing and fail-closed qualification",
+          "fixture_only": true,
+          "fixture_classification": "SYNTHETIC_NEGATIVE_CONTROL",
+          "not_a_real_opportunity": true
+        }
+      },
+      "task_type": "qualify_opportunity",
+      "created_at": "2026-11-27T11:31:28.88858+00:00",
+      "last_error": null,
+      "started_at": "2026-11-27T11:32:01.31872+00:00",
+      "updated_at": "2026-11-27T11:32:01.391866+00:00",
+      "completed_at": "2026-11-27T11:32:01.391866+00:00",
+      "max_attempts": 3,
+      "attempt_count": 1,
+      "idempotency_key": null
+    },
+    {
+      "id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "result": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": true
+          },
+          "passed": true,
+          "decision": "QA_PASS"
+        },
+        "mode": "OPPORTUNITY_REVIEW",
+        "safety": {
+          "trading_enabled": false,
+          "payments_enabled": false,
+          "wallet_signing_enabled": false,
+          "live_submissions_enabled": false
+        },
+        "revenue": "NO_REVENUE_CLAIM",
+        "delivery": {
+          "qa": {
+            "checks": {
+              "scopedWork": true,
+              "artifactPresent": true,
+              "noExternalSubmission": true,
+              "noFinancialAuthority": true,
+              "candidateExplicitlySyntheticOrFunded": true
+            },
+            "passed": true,
+            "decision": "QA_PASS"
+          },
+          "scope": "Synthetic positive-control test of the agent integration engineering workflow.",
+          "title": "Synthetic positive-control fixture: agent integration engineering pack",
+          "status": "PACKAGED_FOR_HUMAN_REVIEW",
+          "artifact_id": "1b4db652-ec60-4231-b713-3871117ffa99",
+          "work_packages": [
+            "Confirm buyer authority, scope, acceptance and IP terms",
+            "Create a reproducible implementation plan",
+            "Build only in an isolated workspace",
+            "Run automated tests and static security checks",
+            "Independent review before any external delivery"
+          ]
+        },
+        "pipeline": "crypto-ai-holdco-neon-runtime-v0.2",
+        "candidate": {
+          "title": "Synthetic positive-control fixture: agent integration engineering pack",
+          "eligibility": {
+            "total": 8,
+            "checks": {
+              "sourceUrl": true,
+              "scopeKnown": true,
+              "zeroUpfront": true,
+              "aiPermission": true,
+              "namedSponsor": true,
+              "actualFunding": true,
+              "deadlineKnown": true,
+              "indiaEligibility": true
+            },
+            "passed": 8,
+            "decision": "QUALIFIED_FOR_HUMAN_REVIEW",
+            "autonomousSubmissionAllowed": false
+          },
+          "synthetic_test": true,
+          "autonomous_submission_allowed": false
+        },
+        "completed_at": "2026-11-27T11:46:01.402Z",
+        "agents_executed": [
+          "opportunity-discovery",
+          "eligibility-analyst",
+          "scope-planner",
+          "engineering-agent",
+          "independent-qa",
+          "delivery-packager",
+          "revenue-verifier"
+        ],
+        "engineering_plan": {
+          "scope": "Synthetic positive-control test of the agent integration engineering workflow.",
+          "title": "Synthetic positive-control fixture: agent integration engineering pack",
+          "work_packages": [
+            "Confirm buyer authority, scope, acceptance and IP terms",
+            "Create a reproducible implementation plan",
+            "Build only in an isolated workspace",
+            "Run automated tests and static security checks",
+            "Independent review before any external delivery"
+          ],
+          "prohibited_without_separate_authorization": [
+            "external submission",
+            "wallet signing",
+            "trading or token transfer",
+            "payment or deposit",
+            "production credential access"
+          ]
+        },
+        "realised_net_revenue": 0
+      },
+      "status": "completed",
+      "payload": {
+        "candidate": {
+          "scope": "Synthetic positive-control test of the agent integration engineering workflow.",
+          "title": "Synthetic positive-control fixture: agent integration engineering pack",
+          "source": "SYNTHETIC_TEST_FIXTURE",
+          "sponsor": "Synthetic fixture sponsor (not a buyer)",
+          "currency": "USD",
+          "deadline": "2099-12-31T23:59:00Z",
+          "entry_fee": 0,
+          "source_url": "https://example.invalid/synthetic-positive-control",
+          "funded_amount": 100,
+          "synthetic_test": true,
+          "deposit_required": false,
+          "funding_evidence_url": "https://example.invalid/synthetic-funding-proof",
+          "actual_funding_verified": true,
+          "ai_participation_allowed": true,
+          "owner_funded_gas_required": false,
+          "india_eligibility_verified": true
+        },
+        "fixture_metadata": {
+          "fixture_classification": "SYNTHETIC_POSITIVE_CONTROL",
+          "not_a_real_opportunity": true
+        }
+      },
+      "task_type": "qualify_opportunity",
+      "created_at": "2026-11-27T11:45:09.943219+00:00",
+      "last_error": null,
+      "started_at": "2026-11-27T11:46:01.278497+00:00",
+      "updated_at": "2026-11-27T11:46:01.411243+00:00",
+      "completed_at": "2026-11-27T11:46:01.411243+00:00",
+      "max_attempts": 3,
+      "attempt_count": 1,
+      "idempotency_key": null
+    },
+    {
+      "id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "result": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": true
+          },
+          "passed": true,
+          "decision": "QA_PASS"
+        },
+        "mode": "OPPORTUNITY_REVIEW",
+        "safety": {
+          "trading_enabled": false,
+          "payments_enabled": false,
+          "wallet_signing_enabled": false,
+          "live_submissions_enabled": false
+        },
+        "revenue": "NO_REVENUE_CLAIM",
+        "delivery": {
+          "qa": {
+            "checks": {
+              "scopedWork": true,
+              "artifactPresent": true,
+              "noExternalSubmission": true,
+              "noFinancialAuthority": true,
+              "candidateExplicitlySyntheticOrFunded": true
+            },
+            "passed": true,
+            "decision": "QA_PASS"
+          },
+          "scope": "Verify the deployment-9 least-privilege worker can process an approved synthetic qualification task.",
+          "title": "Synthetic deployment-9 least-privilege positive control",
+          "status": "PACKAGED_FOR_HUMAN_REVIEW",
+          "artifact_id": "6f878a05-560a-4c76-b181-117e6e69f4dc",
+          "work_packages": [
+            "Confirm buyer authority, scope, acceptance and IP terms",
+            "Create a reproducible implementation plan",
+            "Build only in an isolated workspace",
+            "Run automated tests and static security checks",
+            "Independent review before any external delivery"
+          ]
+        },
+        "pipeline": "crypto-ai-holdco-neon-runtime-v0.2",
+        "candidate": {
+          "title": "Synthetic deployment-9 least-privilege positive control",
+          "eligibility": {
+            "total": 8,
+            "checks": {
+              "sourceUrl": true,
+              "scopeKnown": true,
+              "zeroUpfront": true,
+              "aiPermission": true,
+              "namedSponsor": true,
+              "actualFunding": true,
+              "deadlineKnown": true,
+              "indiaEligibility": true
+            },
+            "passed": 8,
+            "decision": "QUALIFIED_FOR_HUMAN_REVIEW",
+            "autonomousSubmissionAllowed": false
+          },
+          "synthetic_test": true,
+          "autonomous_submission_allowed": false
+        },
+        "completed_at": "2026-11-27T11:57:01.261Z",
+        "agents_executed": [
+          "opportunity-discovery",
+          "eligibility-analyst",
+          "scope-planner",
+          "engineering-agent",
+          "independent-qa",
+          "delivery-packager",
+          "revenue-verifier"
+        ],
+        "engineering_plan": {
+          "scope": "Verify the deployment-9 least-privilege worker can process an approved synthetic qualification task.",
+          "title": "Synthetic deployment-9 least-privilege positive control",
+          "work_packages": [
+            "Confirm buyer authority, scope, acceptance and IP terms",
+            "Create a reproducible implementation plan",
+            "Build only in an isolated workspace",
+            "Run automated tests and static security checks",
+            "Independent review before any external delivery"
+          ],
+          "prohibited_without_separate_authorization": [
+            "external submission",
+            "wallet signing",
+            "trading or token transfer",
+            "payment or deposit",
+            "production credential access"
+          ]
+        },
+        "realised_net_revenue": 0
+      },
+      "status": "completed",
+      "payload": {
+        "candidate": {
+          "scope": "Verify the deployment-9 least-privilege worker can process an approved synthetic qualification task.",
+          "title": "Synthetic deployment-9 least-privilege positive control",
+          "source": "SYNTHETIC_TEST_FIXTURE",
+          "sponsor": "Synthetic fixture sponsor (not a buyer)",
+          "currency": "USD",
+          "deadline": "2099-12-31T23:59:00Z",
+          "entry_fee": 0,
+          "source_url": "https://example.invalid/deployment-9-positive-control",
+          "funded_amount": 100,
+          "synthetic_test": true,
+          "deposit_required": false,
+          "funding_evidence_url": "https://example.invalid/synthetic-funding-proof",
+          "actual_funding_verified": true,
+          "ai_participation_allowed": true,
+          "owner_funded_gas_required": false,
+          "india_eligibility_verified": true
+        },
+        "fixture_metadata": {
+          "testing_deployment": 9,
+          "fixture_classification": "SYNTHETIC_POSITIVE_CONTROL",
+          "not_a_real_opportunity": true
+        }
+      },
+      "task_type": "qualify_opportunity",
+      "created_at": "2026-11-27T11:56:34.88827+00:00",
+      "last_error": null,
+      "started_at": "2026-11-27T11:57:01.212098+00:00",
+      "updated_at": "2026-11-27T11:57:01.268649+00:00",
+      "completed_at": "2026-11-27T11:57:01.268649+00:00",
+      "max_attempts": 3,
+      "attempt_count": 1,
+      "idempotency_key": null
+    }
+  ],
+  "captured_at": "2026-11-27T12:12:49.931946+00:00",
+  "audit_events": [
+    {
+      "id": "9903271b-f549-4268-b867-d051e7e8a34b",
+      "actor": "opportunity-discovery",
+      "details": {
+        "next_agent": "eligibility-analyst",
+        "message_type": "CANDIDATE_DISCOVERED"
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "created_at": "2026-11-27T09:56:01.231696+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "a21da69e-3cde-4754-9f67-1a82f0952cc9",
+      "actor": "eligibility-analyst",
+      "details": {
+        "next_agent": "scope-planner",
+        "message_type": "ELIGIBILITY_DECISION"
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "created_at": "2026-11-27T09:56:01.24055+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "9fb9c5fb-d4d2-40c1-aae2-d9b95db0dae1",
+      "actor": "scope-planner",
+      "details": {
+        "next_agent": "engineering-agent",
+        "message_type": "WORK_PLAN"
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "created_at": "2026-11-27T09:56:01.247245+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "6a0d64c5-8230-4d74-8d05-1ff76c116f3d",
+      "actor": "engineering-agent",
+      "details": {
+        "next_agent": "independent-qa",
+        "message_type": "DELIVERABLE_DRAFT"
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "created_at": "2026-11-27T09:56:01.254658+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "6e629a99-f230-46b6-bb69-4a070c681977",
+      "actor": "independent-qa",
+      "details": {
+        "decision": "QA_PASS",
+        "next_agent": "delivery-packager"
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "created_at": "2026-11-27T09:56:01.261148+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "eb4f35b7-c3f9-492b-8998-992607f683ce",
+      "actor": "delivery-packager",
+      "details": {
+        "status": "PACKAGED_FOR_HUMAN_REVIEW",
+        "next_agent": "revenue-verifier"
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "created_at": "2026-11-27T09:56:01.267214+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "e07d104b-e9fa-449a-aeda-e23987ce8444",
+      "actor": "revenue-verifier",
+      "details": {
+        "status": "NO_REVENUE_CLAIM",
+        "next_agent": "mission-control"
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "created_at": "2026-11-27T09:56:01.273806+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "b59d6649-8db4-454a-a378-fe3ea81ca164",
+      "actor": "mission-control",
+      "details": {
+        "qa": "QA_PASS",
+        "mode": "SYNTHETIC_END_TO_END_TEST",
+        "revenue": "NO_REVENUE_CLAIM",
+        "synthetic_test": true
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "created_at": "2026-11-27T09:56:01.277183+00:00",
+      "event_type": "PIPELINE_COMPLETED"
+    },
+    {
+      "id": "3af2ce8d-caee-4b81-b24f-bc24dd82c19e",
+      "actor": "opportunity-discovery",
+      "details": {
+        "next_agent": "eligibility-analyst",
+        "message_type": "CANDIDATE_DISCOVERED"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "created_at": "2026-11-27T10:05:01.483012+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "9f113dc2-b89e-436c-ab4e-b34e34436fe1",
+      "actor": "eligibility-analyst",
+      "details": {
+        "next_agent": "scope-planner",
+        "message_type": "ELIGIBILITY_DECISION"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "created_at": "2026-11-27T10:05:01.491513+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "a9bc5ce9-5748-42fa-bfdf-4ba4dbff4d8d",
+      "actor": "scope-planner",
+      "details": {
+        "next_agent": "engineering-agent",
+        "message_type": "WORK_PLAN"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "created_at": "2026-11-27T10:05:01.498632+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "4cc4fba6-bcfb-423f-9b9a-09a5e7f29fb8",
+      "actor": "engineering-agent",
+      "details": {
+        "next_agent": "independent-qa",
+        "message_type": "DELIVERABLE_DRAFT"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "created_at": "2026-11-27T10:05:01.506157+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "a34253b0-7a5b-4389-827b-f5e7b44ced91",
+      "actor": "independent-qa",
+      "details": {
+        "decision": "QA_BLOCK",
+        "next_agent": "delivery-packager"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "created_at": "2026-11-27T10:05:01.512985+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "b19a1d06-8454-4ab1-9c42-04f5b4b335d8",
+      "actor": "delivery-packager",
+      "details": {
+        "status": "BLOCKED_BY_QA",
+        "next_agent": "revenue-verifier"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "created_at": "2026-11-27T10:05:01.521079+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "76cf7c5b-563b-4f4a-bf09-ed24765675cc",
+      "actor": "revenue-verifier",
+      "details": {
+        "status": "NO_REVENUE_CLAIM",
+        "next_agent": "mission-control"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "created_at": "2026-11-27T10:05:01.529243+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "26a27460-bf0d-42a5-b29f-6ce776688d51",
+      "actor": "mission-control",
+      "details": {
+        "qa": "QA_BLOCK",
+        "mode": "OPPORTUNITY_REVIEW",
+        "revenue": "NO_REVENUE_CLAIM",
+        "synthetic_test": false
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "created_at": "2026-11-27T10:05:01.532788+00:00",
+      "event_type": "PIPELINE_COMPLETED"
+    },
+    {
+      "id": "fb09ed0c-8a71-491a-92d8-b0503d783a9c",
+      "actor": "opportunity-discovery",
+      "details": {
+        "next_agent": "eligibility-analyst",
+        "message_type": "CANDIDATE_DISCOVERED"
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "created_at": "2026-11-27T10:15:01.761759+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "b1a8c955-dd20-41f6-b33b-45f296d6aee1",
+      "actor": "eligibility-analyst",
+      "details": {
+        "next_agent": "scope-planner",
+        "message_type": "ELIGIBILITY_DECISION"
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "created_at": "2026-11-27T10:15:01.788891+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "3d16ef2d-cb79-41e8-aed1-7aee8c39356a",
+      "actor": "scope-planner",
+      "details": {
+        "next_agent": "engineering-agent",
+        "message_type": "WORK_PLAN"
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "created_at": "2026-11-27T10:15:01.888318+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "32622ea8-e59c-4272-bd6c-cf1f0fe3c4f6",
+      "actor": "engineering-agent",
+      "details": {
+        "next_agent": "independent-qa",
+        "message_type": "DELIVERABLE_DRAFT"
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "created_at": "2026-11-27T10:15:01.897267+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "acf6c4c9-5ab9-4671-9a79-15c30975e855",
+      "actor": "independent-qa",
+      "details": {
+        "decision": "QA_PASS",
+        "next_agent": "delivery-packager"
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "created_at": "2026-11-27T10:15:01.904078+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "352cb1eb-2355-4eb6-a31b-559bb6370209",
+      "actor": "delivery-packager",
+      "details": {
+        "status": "PACKAGED_FOR_HUMAN_REVIEW",
+        "next_agent": "revenue-verifier"
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "created_at": "2026-11-27T10:15:01.91133+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "835cd20c-4209-4ca3-8d6e-381179e564bf",
+      "actor": "revenue-verifier",
+      "details": {
+        "status": "NO_REVENUE_CLAIM",
+        "next_agent": "mission-control"
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "created_at": "2026-11-27T10:15:01.983175+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "550ef0ce-e071-49c9-be02-8c8ff0a34f56",
+      "actor": "mission-control",
+      "details": {
+        "qa": "QA_PASS",
+        "mode": "SYNTHETIC_END_TO_END_TEST",
+        "revenue": "NO_REVENUE_CLAIM",
+        "synthetic_test": true
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "created_at": "2026-11-27T10:15:01.987296+00:00",
+      "event_type": "PIPELINE_COMPLETED"
+    },
+    {
+      "id": "c22a66ca-33e3-4791-8814-0ada1ddb2d34",
+      "actor": "opportunity-discovery",
+      "details": {
+        "next_agent": "eligibility-analyst",
+        "message_type": "CANDIDATE_DISCOVERED"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "created_at": "2026-11-27T11:30:01.697202+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "9a6b7b4a-7089-4b1a-8917-744d268cf615",
+      "actor": "eligibility-analyst",
+      "details": {
+        "next_agent": "scope-planner",
+        "message_type": "ELIGIBILITY_DECISION"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "created_at": "2026-11-27T11:30:01.705076+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "b5861fc5-c729-41fa-8ffb-134cc7052e05",
+      "actor": "scope-planner",
+      "details": {
+        "next_agent": "engineering-agent",
+        "message_type": "WORK_PLAN"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "created_at": "2026-11-27T11:30:01.711128+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "b0b7e748-d385-42d4-b174-15d708b155e4",
+      "actor": "engineering-agent",
+      "details": {
+        "next_agent": "independent-qa",
+        "message_type": "DELIVERABLE_DRAFT"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "created_at": "2026-11-27T11:30:01.717884+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "6d7d4c9a-5013-4354-93ab-9dffe0d7c740",
+      "actor": "independent-qa",
+      "details": {
+        "decision": "QA_BLOCK",
+        "next_agent": "delivery-packager"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "created_at": "2026-11-27T11:30:01.725013+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "2262c156-9647-40cd-8c07-f7d3daa1bc87",
+      "actor": "delivery-packager",
+      "details": {
+        "status": "BLOCKED_BY_QA",
+        "next_agent": "revenue-verifier"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "created_at": "2026-11-27T11:30:01.732241+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "2512cf9e-e01a-469c-90bd-7d364a32bf66",
+      "actor": "revenue-verifier",
+      "details": {
+        "status": "NO_REVENUE_CLAIM",
+        "next_agent": "mission-control"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "created_at": "2026-11-27T11:30:01.739404+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "c38b6a60-6901-4a7d-93db-dc4fc8569431",
+      "actor": "mission-control",
+      "details": {
+        "qa": "QA_BLOCK",
+        "mode": "OPPORTUNITY_REVIEW",
+        "revenue": "NO_REVENUE_CLAIM",
+        "synthetic_test": false
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "created_at": "2026-11-27T11:30:01.786993+00:00",
+      "event_type": "PIPELINE_COMPLETED"
+    },
+    {
+      "id": "311cb4b1-0843-4992-b827-21abaa4aa3a0",
+      "actor": "opportunity-discovery",
+      "details": {
+        "next_agent": "eligibility-analyst",
+        "message_type": "CANDIDATE_DISCOVERED"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "created_at": "2026-11-27T11:32:01.331564+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "5cb0fa0c-4d5d-45c0-94bd-d120647cb2d5",
+      "actor": "eligibility-analyst",
+      "details": {
+        "next_agent": "scope-planner",
+        "message_type": "ELIGIBILITY_DECISION"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "created_at": "2026-11-27T11:32:01.338316+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "aa25a11b-618d-4e0d-87c0-05fc202a6b71",
+      "actor": "scope-planner",
+      "details": {
+        "next_agent": "engineering-agent",
+        "message_type": "WORK_PLAN"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "created_at": "2026-11-27T11:32:01.36046+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "b6b91266-f221-4be0-a4b1-7667d0b3242c",
+      "actor": "engineering-agent",
+      "details": {
+        "next_agent": "independent-qa",
+        "message_type": "DELIVERABLE_DRAFT"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "created_at": "2026-11-27T11:32:01.367082+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "6af05203-d69a-436f-9901-a492e9872c0a",
+      "actor": "independent-qa",
+      "details": {
+        "decision": "QA_BLOCK",
+        "next_agent": "delivery-packager"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "created_at": "2026-11-27T11:32:01.373113+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "4780f937-54f6-4bbc-9a6e-4e89e3699787",
+      "actor": "delivery-packager",
+      "details": {
+        "status": "BLOCKED_BY_QA",
+        "next_agent": "revenue-verifier"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "created_at": "2026-11-27T11:32:01.379448+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "2039b6d8-3951-4916-88da-cd87b62e83c0",
+      "actor": "revenue-verifier",
+      "details": {
+        "status": "NO_REVENUE_CLAIM",
+        "next_agent": "mission-control"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "created_at": "2026-11-27T11:32:01.38576+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "032c4506-df84-44d4-bdb1-c6b61a7c0316",
+      "actor": "mission-control",
+      "details": {
+        "qa": "QA_BLOCK",
+        "mode": "OPPORTUNITY_REVIEW",
+        "revenue": "NO_REVENUE_CLAIM",
+        "synthetic_test": false
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "created_at": "2026-11-27T11:32:01.38885+00:00",
+      "event_type": "PIPELINE_COMPLETED"
+    },
+    {
+      "id": "1fc1a3b1-bd66-48b9-b5d1-dc5225f06081",
+      "actor": "opportunity-discovery",
+      "details": {
+        "next_agent": "eligibility-analyst",
+        "message_type": "CANDIDATE_DISCOVERED"
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "created_at": "2026-11-27T11:46:01.290269+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "9d9b1e03-9b4b-4a8c-bc38-8f38f22c853f",
+      "actor": "eligibility-analyst",
+      "details": {
+        "next_agent": "scope-planner",
+        "message_type": "ELIGIBILITY_DECISION"
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "created_at": "2026-11-27T11:46:01.297213+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "020a1d4f-6b2f-43d3-af52-88dd89eccb10",
+      "actor": "scope-planner",
+      "details": {
+        "next_agent": "engineering-agent",
+        "message_type": "WORK_PLAN"
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "created_at": "2026-11-27T11:46:01.303965+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "f403db20-7b46-4639-a160-7d4904cc0502",
+      "actor": "engineering-agent",
+      "details": {
+        "next_agent": "independent-qa",
+        "message_type": "DELIVERABLE_DRAFT"
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "created_at": "2026-11-27T11:46:01.310569+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "908dda3f-3c03-4602-b63b-597ed3b218ac",
+      "actor": "independent-qa",
+      "details": {
+        "decision": "QA_PASS",
+        "next_agent": "delivery-packager"
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "created_at": "2026-11-27T11:46:01.32517+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "4a3cba08-5239-40fc-843d-29c01a3e61b4",
+      "actor": "delivery-packager",
+      "details": {
+        "status": "PACKAGED_FOR_HUMAN_REVIEW",
+        "next_agent": "revenue-verifier"
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "created_at": "2026-11-27T11:46:01.332531+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "7ccbe850-ba82-45e1-b8d8-e314c9d89c8a",
+      "actor": "revenue-verifier",
+      "details": {
+        "status": "NO_REVENUE_CLAIM",
+        "next_agent": "mission-control"
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "created_at": "2026-11-27T11:46:01.404747+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "71c9572d-a67a-4744-98f8-2312891bfdd0",
+      "actor": "mission-control",
+      "details": {
+        "qa": "QA_PASS",
+        "mode": "OPPORTUNITY_REVIEW",
+        "revenue": "NO_REVENUE_CLAIM",
+        "synthetic_test": true
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "created_at": "2026-11-27T11:46:01.408247+00:00",
+      "event_type": "PIPELINE_COMPLETED"
+    },
+    {
+      "id": "c773dda4-8491-4b46-8f2c-75dcbf3a73f7",
+      "actor": "opportunity-discovery",
+      "details": {
+        "next_agent": "eligibility-analyst",
+        "message_type": "CANDIDATE_DISCOVERED"
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "created_at": "2026-11-27T11:57:01.224738+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "2ea4a8e8-7a5d-4e6b-98b9-ac731b07f477",
+      "actor": "eligibility-analyst",
+      "details": {
+        "next_agent": "scope-planner",
+        "message_type": "ELIGIBILITY_DECISION"
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "created_at": "2026-11-27T11:57:01.230803+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "387f8f9e-ee22-4da4-93c6-836375e7206f",
+      "actor": "scope-planner",
+      "details": {
+        "next_agent": "engineering-agent",
+        "message_type": "WORK_PLAN"
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "created_at": "2026-11-27T11:57:01.237309+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "eb6959a9-4691-4759-a830-7a48031150a4",
+      "actor": "engineering-agent",
+      "details": {
+        "next_agent": "independent-qa",
+        "message_type": "DELIVERABLE_DRAFT"
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "created_at": "2026-11-27T11:57:01.243884+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "72317e51-e1e7-42fc-a1cc-ceb177e079b3",
+      "actor": "independent-qa",
+      "details": {
+        "decision": "QA_PASS",
+        "next_agent": "delivery-packager"
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "created_at": "2026-11-27T11:57:01.249642+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "abc70c96-df3d-42ee-9ecc-c36ed747689b",
+      "actor": "delivery-packager",
+      "details": {
+        "status": "PACKAGED_FOR_HUMAN_REVIEW",
+        "next_agent": "revenue-verifier"
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "created_at": "2026-11-27T11:57:01.255617+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "fdc9b298-2b35-4811-a4ad-20bee4cc603d",
+      "actor": "revenue-verifier",
+      "details": {
+        "status": "NO_REVENUE_CLAIM",
+        "next_agent": "mission-control"
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "created_at": "2026-11-27T11:57:01.262179+00:00",
+      "event_type": "AGENT_STEP_COMPLETED"
+    },
+    {
+      "id": "33b22119-d4b5-4d6c-be16-531e40aa03d3",
+      "actor": "mission-control",
+      "details": {
+        "qa": "QA_PASS",
+        "mode": "OPPORTUNITY_REVIEW",
+        "revenue": "NO_REVENUE_CLAIM",
+        "synthetic_test": true
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "created_at": "2026-11-27T11:57:01.265279+00:00",
+      "event_type": "PIPELINE_COMPLETED"
+    }
+  ],
+  "agent_messages": [
+    {
+      "id": "ff5d8f20-f22c-41c3-b810-9837c8f0f374",
+      "payload": {
+        "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+        "source": "SYNTHETIC_TEST_FIXTURE",
+        "synthetic_test": true
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "to_agent": "eligibility-analyst",
+      "created_at": "2026-11-27T09:56:01.227902+00:00",
+      "from_agent": "opportunity-discovery",
+      "message_type": "CANDIDATE_DISCOVERED",
+      "correlation_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21"
+    },
+    {
+      "id": "c9198087-2522-42f7-a012-557edcd4f852",
+      "payload": {
+        "total": 8,
+        "checks": {
+          "sourceUrl": true,
+          "scopeKnown": true,
+          "zeroUpfront": true,
+          "aiPermission": true,
+          "namedSponsor": true,
+          "actualFunding": true,
+          "deadlineKnown": true,
+          "indiaEligibility": true
+        },
+        "passed": 8,
+        "decision": "QUALIFIED_FOR_HUMAN_REVIEW",
+        "autonomousSubmissionAllowed": false
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "to_agent": "scope-planner",
+      "created_at": "2026-11-27T09:56:01.236767+00:00",
+      "from_agent": "eligibility-analyst",
+      "message_type": "ELIGIBILITY_DECISION",
+      "correlation_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21"
+    },
+    {
+      "id": "a5549e43-7eab-4c53-9be6-3d8d651dbab9",
+      "payload": {
+        "scope": "Synthetic demonstration of an agent-to-agent engineering delivery workflow.",
+        "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+        "work_packages": [
+          "Confirm buyer authority, scope, acceptance and IP terms",
+          "Create a reproducible implementation plan",
+          "Build only in an isolated workspace",
+          "Run automated tests and static security checks",
+          "Independent review before any external delivery"
+        ],
+        "prohibited_without_separate_authorization": [
+          "external submission",
+          "wallet signing",
+          "trading or token transfer",
+          "payment or deposit",
+          "production credential access"
+        ]
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "to_agent": "engineering-agent",
+      "created_at": "2026-11-27T09:56:01.243985+00:00",
+      "from_agent": "scope-planner",
+      "message_type": "WORK_PLAN",
+      "correlation_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21"
+    },
+    {
+      "id": "2252ca4b-bac3-48bb-a860-e9291f4537b9",
+      "payload": {
+        "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+        "work_packages": 5,
+        "external_submission_enabled": false
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "to_agent": "independent-qa",
+      "created_at": "2026-11-27T09:56:01.251493+00:00",
+      "from_agent": "engineering-agent",
+      "message_type": "DELIVERABLE_DRAFT",
+      "correlation_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21"
+    },
+    {
+      "id": "dab2278d-b566-4700-b299-4387b81825ba",
+      "payload": {
+        "checks": {
+          "scopedWork": true,
+          "artifactPresent": true,
+          "noExternalSubmission": true,
+          "noFinancialAuthority": true,
+          "candidateExplicitlySyntheticOrFunded": true
+        },
+        "passed": true,
+        "decision": "QA_PASS"
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "to_agent": "delivery-packager",
+      "created_at": "2026-11-27T09:56:01.257707+00:00",
+      "from_agent": "independent-qa",
+      "message_type": "QA_RESULT",
+      "correlation_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21"
+    },
+    {
+      "id": "0a4cc03e-dc00-4818-8cdd-8079db6e879c",
+      "payload": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": true
+          },
+          "passed": true,
+          "decision": "QA_PASS"
+        },
+        "scope": "Synthetic demonstration of an agent-to-agent engineering delivery workflow.",
+        "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+        "status": "PACKAGED_FOR_HUMAN_REVIEW",
+        "artifact_id": "1c010c14-6f1f-46b9-8985-e6e7af412454",
+        "work_packages": [
+          "Confirm buyer authority, scope, acceptance and IP terms",
+          "Create a reproducible implementation plan",
+          "Build only in an isolated workspace",
+          "Run automated tests and static security checks",
+          "Independent review before any external delivery"
+        ]
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "to_agent": "revenue-verifier",
+      "created_at": "2026-11-27T09:56:01.264189+00:00",
+      "from_agent": "delivery-packager",
+      "message_type": "DELIVERY_PACKAGE",
+      "correlation_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21"
+    },
+    {
+      "id": "1e0186e8-581b-433a-bac9-edab1e51427d",
+      "payload": {
+        "status": "NO_REVENUE_CLAIM",
+        "realised_net_revenue": 0,
+        "independent_verification_required": true
+      },
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "to_agent": "mission-control",
+      "created_at": "2026-11-27T09:56:01.270491+00:00",
+      "from_agent": "revenue-verifier",
+      "message_type": "REVENUE_DISPOSITION",
+      "correlation_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21"
+    },
+    {
+      "id": "84de7361-8798-4193-a9b8-ebb3c8c8281b",
+      "payload": {
+        "title": null,
+        "source": "provided_payload",
+        "synthetic_test": false
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "to_agent": "eligibility-analyst",
+      "created_at": "2026-11-27T10:05:01.479156+00:00",
+      "from_agent": "opportunity-discovery",
+      "message_type": "CANDIDATE_DISCOVERED",
+      "correlation_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2"
+    },
+    {
+      "id": "c6281163-fff2-4fb3-affa-cec3b98af2c6",
+      "payload": {
+        "total": 8,
+        "checks": {
+          "sourceUrl": false,
+          "scopeKnown": false,
+          "zeroUpfront": false,
+          "aiPermission": false,
+          "namedSponsor": false,
+          "actualFunding": false,
+          "deadlineKnown": false,
+          "indiaEligibility": false
+        },
+        "passed": 0,
+        "decision": "BLOCKED_OR_UNVERIFIED",
+        "autonomousSubmissionAllowed": false
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "to_agent": "scope-planner",
+      "created_at": "2026-11-27T10:05:01.487287+00:00",
+      "from_agent": "eligibility-analyst",
+      "message_type": "ELIGIBILITY_DECISION",
+      "correlation_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2"
+    },
+    {
+      "id": "d2371774-50a2-4418-bc0e-a302f4b39fc3",
+      "payload": {
+        "scope": "No engineering execution permitted until hard checks pass",
+        "title": "Unqualified candidate",
+        "work_packages": [],
+        "blocked_reason": "Eligibility evidence incomplete"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "to_agent": "engineering-agent",
+      "created_at": "2026-11-27T10:05:01.494938+00:00",
+      "from_agent": "scope-planner",
+      "message_type": "WORK_PLAN",
+      "correlation_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2"
+    },
+    {
+      "id": "60ae66e1-a596-40c2-8c63-fec7740aa6de",
+      "payload": {
+        "title": "Unqualified candidate",
+        "work_packages": 0,
+        "external_submission_enabled": false
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "to_agent": "independent-qa",
+      "created_at": "2026-11-27T10:05:01.502448+00:00",
+      "from_agent": "engineering-agent",
+      "message_type": "DELIVERABLE_DRAFT",
+      "correlation_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2"
+    },
+    {
+      "id": "750f9f29-7989-4963-8ab7-4dffa80c7369",
+      "payload": {
+        "checks": {
+          "scopedWork": true,
+          "artifactPresent": true,
+          "noExternalSubmission": true,
+          "noFinancialAuthority": true,
+          "candidateExplicitlySyntheticOrFunded": false
+        },
+        "passed": false,
+        "decision": "QA_BLOCK"
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "to_agent": "delivery-packager",
+      "created_at": "2026-11-27T10:05:01.509369+00:00",
+      "from_agent": "independent-qa",
+      "message_type": "QA_RESULT",
+      "correlation_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2"
+    },
+    {
+      "id": "f6b16cc0-5fff-4509-b878-5f394eb402b3",
+      "payload": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": false
+          },
+          "passed": false,
+          "decision": "QA_BLOCK"
+        },
+        "scope": "No engineering execution permitted until hard checks pass",
+        "title": "Unqualified candidate",
+        "status": "BLOCKED_BY_QA",
+        "artifact_id": "6a5460fb-2213-4321-9061-26bacfb8c506",
+        "work_packages": []
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "to_agent": "revenue-verifier",
+      "created_at": "2026-11-27T10:05:01.516626+00:00",
+      "from_agent": "delivery-packager",
+      "message_type": "DELIVERY_PACKAGE",
+      "correlation_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2"
+    },
+    {
+      "id": "c6687211-1698-43bf-998e-bde723efe9f9",
+      "payload": {
+        "status": "NO_REVENUE_CLAIM",
+        "realised_net_revenue": 0,
+        "independent_verification_required": true
+      },
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "to_agent": "mission-control",
+      "created_at": "2026-11-27T10:05:01.525537+00:00",
+      "from_agent": "revenue-verifier",
+      "message_type": "REVENUE_DISPOSITION",
+      "correlation_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2"
+    },
+    {
+      "id": "9dc1ecae-737a-4a23-b42f-97d6b451dd46",
+      "payload": {
+        "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+        "source": "SYNTHETIC_TEST_FIXTURE",
+        "synthetic_test": true
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "to_agent": "eligibility-analyst",
+      "created_at": "2026-11-27T10:15:01.752818+00:00",
+      "from_agent": "opportunity-discovery",
+      "message_type": "CANDIDATE_DISCOVERED",
+      "correlation_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc"
+    },
+    {
+      "id": "de8fc428-4a84-40e7-8b1c-5ecde95b5117",
+      "payload": {
+        "total": 8,
+        "checks": {
+          "sourceUrl": true,
+          "scopeKnown": true,
+          "zeroUpfront": true,
+          "aiPermission": true,
+          "namedSponsor": true,
+          "actualFunding": true,
+          "deadlineKnown": true,
+          "indiaEligibility": true
+        },
+        "passed": 8,
+        "decision": "QUALIFIED_FOR_HUMAN_REVIEW",
+        "autonomousSubmissionAllowed": false
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "to_agent": "scope-planner",
+      "created_at": "2026-11-27T10:15:01.784553+00:00",
+      "from_agent": "eligibility-analyst",
+      "message_type": "ELIGIBILITY_DECISION",
+      "correlation_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc"
+    },
+    {
+      "id": "a0a423e6-c4f6-4121-b8c2-482582089bdc",
+      "payload": {
+        "scope": "Synthetic demonstration of an agent-to-agent engineering delivery workflow.",
+        "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+        "work_packages": [
+          "Confirm buyer authority, scope, acceptance and IP terms",
+          "Create a reproducible implementation plan",
+          "Build only in an isolated workspace",
+          "Run automated tests and static security checks",
+          "Independent review before any external delivery"
+        ],
+        "prohibited_without_separate_authorization": [
+          "external submission",
+          "wallet signing",
+          "trading or token transfer",
+          "payment or deposit",
+          "production credential access"
+        ]
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "to_agent": "engineering-agent",
+      "created_at": "2026-11-27T10:15:01.883136+00:00",
+      "from_agent": "scope-planner",
+      "message_type": "WORK_PLAN",
+      "correlation_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc"
+    },
+    {
+      "id": "ff1e78b6-7ed9-4a21-9c38-715baebfbb06",
+      "payload": {
+        "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+        "work_packages": 5,
+        "external_submission_enabled": false
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "to_agent": "independent-qa",
+      "created_at": "2026-11-27T10:15:01.893075+00:00",
+      "from_agent": "engineering-agent",
+      "message_type": "DELIVERABLE_DRAFT",
+      "correlation_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc"
+    },
+    {
+      "id": "e6522a65-13af-4d39-b018-d70b555fb730",
+      "payload": {
+        "checks": {
+          "scopedWork": true,
+          "artifactPresent": true,
+          "noExternalSubmission": true,
+          "noFinancialAuthority": true,
+          "candidateExplicitlySyntheticOrFunded": true
+        },
+        "passed": true,
+        "decision": "QA_PASS"
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "to_agent": "delivery-packager",
+      "created_at": "2026-11-27T10:15:01.900633+00:00",
+      "from_agent": "independent-qa",
+      "message_type": "QA_RESULT",
+      "correlation_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc"
+    },
+    {
+      "id": "bf015434-9760-4ed9-a892-0256e429703c",
+      "payload": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": true
+          },
+          "passed": true,
+          "decision": "QA_PASS"
+        },
+        "scope": "Synthetic demonstration of an agent-to-agent engineering delivery workflow.",
+        "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+        "status": "PACKAGED_FOR_HUMAN_REVIEW",
+        "artifact_id": "72106d5c-d598-4150-8471-e061e084d52b",
+        "work_packages": [
+          "Confirm buyer authority, scope, acceptance and IP terms",
+          "Create a reproducible implementation plan",
+          "Build only in an isolated workspace",
+          "Run automated tests and static security checks",
+          "Independent review before any external delivery"
+        ]
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "to_agent": "revenue-verifier",
+      "created_at": "2026-11-27T10:15:01.908166+00:00",
+      "from_agent": "delivery-packager",
+      "message_type": "DELIVERY_PACKAGE",
+      "correlation_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc"
+    },
+    {
+      "id": "ae3c12c5-6b57-4075-9bd4-085d9e6eb748",
+      "payload": {
+        "status": "NO_REVENUE_CLAIM",
+        "realised_net_revenue": 0,
+        "independent_verification_required": true
+      },
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "to_agent": "mission-control",
+      "created_at": "2026-11-27T10:15:01.914627+00:00",
+      "from_agent": "revenue-verifier",
+      "message_type": "REVENUE_DISPOSITION",
+      "correlation_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc"
+    },
+    {
+      "id": "4200afb1-f5a3-4c58-839f-6a6af93aee1a",
+      "payload": {
+        "title": null,
+        "source": "provided_payload",
+        "synthetic_test": false
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "to_agent": "eligibility-analyst",
+      "created_at": "2026-11-27T11:30:01.693609+00:00",
+      "from_agent": "opportunity-discovery",
+      "message_type": "CANDIDATE_DISCOVERED",
+      "correlation_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6"
+    },
+    {
+      "id": "268701d1-adab-4567-b6a9-d9e31fb8b31c",
+      "payload": {
+        "total": 8,
+        "checks": {
+          "sourceUrl": false,
+          "scopeKnown": false,
+          "zeroUpfront": false,
+          "aiPermission": false,
+          "namedSponsor": false,
+          "actualFunding": false,
+          "deadlineKnown": false,
+          "indiaEligibility": false
+        },
+        "passed": 0,
+        "decision": "BLOCKED_OR_UNVERIFIED",
+        "autonomousSubmissionAllowed": false
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "to_agent": "scope-planner",
+      "created_at": "2026-11-27T11:30:01.701343+00:00",
+      "from_agent": "eligibility-analyst",
+      "message_type": "ELIGIBILITY_DECISION",
+      "correlation_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6"
+    },
+    {
+      "id": "99ecbc8f-cbb8-4474-adfe-da3c5c768c54",
+      "payload": {
+        "scope": "No engineering execution permitted until hard checks pass",
+        "title": "Unqualified candidate",
+        "work_packages": [],
+        "blocked_reason": "Eligibility evidence incomplete"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "to_agent": "engineering-agent",
+      "created_at": "2026-11-27T11:30:01.707945+00:00",
+      "from_agent": "scope-planner",
+      "message_type": "WORK_PLAN",
+      "correlation_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6"
+    },
+    {
+      "id": "2b90610a-5f6d-4471-b03a-a1ca74a0330f",
+      "payload": {
+        "title": "Unqualified candidate",
+        "work_packages": 0,
+        "external_submission_enabled": false
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "to_agent": "independent-qa",
+      "created_at": "2026-11-27T11:30:01.71435+00:00",
+      "from_agent": "engineering-agent",
+      "message_type": "DELIVERABLE_DRAFT",
+      "correlation_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6"
+    },
+    {
+      "id": "cdb5297a-38de-41b0-9631-469a3e8b4aa6",
+      "payload": {
+        "checks": {
+          "scopedWork": true,
+          "artifactPresent": true,
+          "noExternalSubmission": true,
+          "noFinancialAuthority": true,
+          "candidateExplicitlySyntheticOrFunded": false
+        },
+        "passed": false,
+        "decision": "QA_BLOCK"
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "to_agent": "delivery-packager",
+      "created_at": "2026-11-27T11:30:01.721215+00:00",
+      "from_agent": "independent-qa",
+      "message_type": "QA_RESULT",
+      "correlation_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6"
+    },
+    {
+      "id": "af22d4e9-0394-4d2a-9951-271c52a2d674",
+      "payload": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": false
+          },
+          "passed": false,
+          "decision": "QA_BLOCK"
+        },
+        "scope": "No engineering execution permitted until hard checks pass",
+        "title": "Unqualified candidate",
+        "status": "BLOCKED_BY_QA",
+        "artifact_id": "b1ee5e57-ff96-4043-a7be-f21b29268916",
+        "work_packages": []
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "to_agent": "revenue-verifier",
+      "created_at": "2026-11-27T11:30:01.72866+00:00",
+      "from_agent": "delivery-packager",
+      "message_type": "DELIVERY_PACKAGE",
+      "correlation_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6"
+    },
+    {
+      "id": "587fdc31-dbcb-428b-9a49-97c2ada6258d",
+      "payload": {
+        "status": "NO_REVENUE_CLAIM",
+        "realised_net_revenue": 0,
+        "independent_verification_required": true
+      },
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "to_agent": "mission-control",
+      "created_at": "2026-11-27T11:30:01.735762+00:00",
+      "from_agent": "revenue-verifier",
+      "message_type": "REVENUE_DISPOSITION",
+      "correlation_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6"
+    },
+    {
+      "id": "d694c2af-c93b-4fd2-8114-d23712a10a19",
+      "payload": {
+        "title": "Synthetic negative-control candidate: missing funding evidence",
+        "source": "SYNTHETIC_NEGATIVE_CONTROL",
+        "synthetic_test": false
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "to_agent": "eligibility-analyst",
+      "created_at": "2026-11-27T11:32:01.328106+00:00",
+      "from_agent": "opportunity-discovery",
+      "message_type": "CANDIDATE_DISCOVERED",
+      "correlation_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16"
+    },
+    {
+      "id": "69ff1cef-255c-4e38-bb1d-d3e234da48e9",
+      "payload": {
+        "total": 8,
+        "checks": {
+          "sourceUrl": false,
+          "scopeKnown": false,
+          "zeroUpfront": false,
+          "aiPermission": false,
+          "namedSponsor": true,
+          "actualFunding": false,
+          "deadlineKnown": false,
+          "indiaEligibility": false
+        },
+        "passed": 1,
+        "decision": "BLOCKED_OR_UNVERIFIED",
+        "autonomousSubmissionAllowed": false
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "to_agent": "scope-planner",
+      "created_at": "2026-11-27T11:32:01.334864+00:00",
+      "from_agent": "eligibility-analyst",
+      "message_type": "ELIGIBILITY_DECISION",
+      "correlation_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16"
+    },
+    {
+      "id": "a853d335-1531-4d4a-8b44-5fde20638391",
+      "payload": {
+        "scope": "No engineering execution permitted until hard checks pass",
+        "title": "Synthetic negative-control candidate: missing funding evidence",
+        "work_packages": [],
+        "blocked_reason": "Eligibility evidence incomplete"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "to_agent": "engineering-agent",
+      "created_at": "2026-11-27T11:32:01.341854+00:00",
+      "from_agent": "scope-planner",
+      "message_type": "WORK_PLAN",
+      "correlation_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16"
+    },
+    {
+      "id": "e2a15f99-8444-437e-90bd-0ab54dd85183",
+      "payload": {
+        "title": "Synthetic negative-control candidate: missing funding evidence",
+        "work_packages": 0,
+        "external_submission_enabled": false
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "to_agent": "independent-qa",
+      "created_at": "2026-11-27T11:32:01.363822+00:00",
+      "from_agent": "engineering-agent",
+      "message_type": "DELIVERABLE_DRAFT",
+      "correlation_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16"
+    },
+    {
+      "id": "8a52b53d-d02b-4598-a107-41e068c1e7d8",
+      "payload": {
+        "checks": {
+          "scopedWork": true,
+          "artifactPresent": true,
+          "noExternalSubmission": true,
+          "noFinancialAuthority": true,
+          "candidateExplicitlySyntheticOrFunded": false
+        },
+        "passed": false,
+        "decision": "QA_BLOCK"
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "to_agent": "delivery-packager",
+      "created_at": "2026-11-27T11:32:01.370216+00:00",
+      "from_agent": "independent-qa",
+      "message_type": "QA_RESULT",
+      "correlation_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16"
+    },
+    {
+      "id": "95d693fc-5a95-4574-989e-d9fa76964aeb",
+      "payload": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": false
+          },
+          "passed": false,
+          "decision": "QA_BLOCK"
+        },
+        "scope": "No engineering execution permitted until hard checks pass",
+        "title": "Synthetic negative-control candidate: missing funding evidence",
+        "status": "BLOCKED_BY_QA",
+        "artifact_id": "c2700464-9d8d-4cf2-8521-8f307bbd209d",
+        "work_packages": []
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "to_agent": "revenue-verifier",
+      "created_at": "2026-11-27T11:32:01.376193+00:00",
+      "from_agent": "delivery-packager",
+      "message_type": "DELIVERY_PACKAGE",
+      "correlation_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16"
+    },
+    {
+      "id": "a4671381-d7fd-4232-bf41-664d0f44f4e2",
+      "payload": {
+        "status": "NO_REVENUE_CLAIM",
+        "realised_net_revenue": 0,
+        "independent_verification_required": true
+      },
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "to_agent": "mission-control",
+      "created_at": "2026-11-27T11:32:01.382745+00:00",
+      "from_agent": "revenue-verifier",
+      "message_type": "REVENUE_DISPOSITION",
+      "correlation_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16"
+    },
+    {
+      "id": "9a9105e1-c726-4c7f-9275-343a79fbccfb",
+      "payload": {
+        "title": "Synthetic positive-control fixture: agent integration engineering pack",
+        "source": "SYNTHETIC_TEST_FIXTURE",
+        "synthetic_test": true
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "to_agent": "eligibility-analyst",
+      "created_at": "2026-11-27T11:46:01.286849+00:00",
+      "from_agent": "opportunity-discovery",
+      "message_type": "CANDIDATE_DISCOVERED",
+      "correlation_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1"
+    },
+    {
+      "id": "651b24a5-ee32-4d0a-b052-3462a5277e28",
+      "payload": {
+        "total": 8,
+        "checks": {
+          "sourceUrl": true,
+          "scopeKnown": true,
+          "zeroUpfront": true,
+          "aiPermission": true,
+          "namedSponsor": true,
+          "actualFunding": true,
+          "deadlineKnown": true,
+          "indiaEligibility": true
+        },
+        "passed": 8,
+        "decision": "QUALIFIED_FOR_HUMAN_REVIEW",
+        "autonomousSubmissionAllowed": false
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "to_agent": "scope-planner",
+      "created_at": "2026-11-27T11:46:01.293778+00:00",
+      "from_agent": "eligibility-analyst",
+      "message_type": "ELIGIBILITY_DECISION",
+      "correlation_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1"
+    },
+    {
+      "id": "c30810c3-6fa7-4132-bae0-6f02c39cb7ab",
+      "payload": {
+        "scope": "Synthetic positive-control test of the agent integration engineering workflow.",
+        "title": "Synthetic positive-control fixture: agent integration engineering pack",
+        "work_packages": [
+          "Confirm buyer authority, scope, acceptance and IP terms",
+          "Create a reproducible implementation plan",
+          "Build only in an isolated workspace",
+          "Run automated tests and static security checks",
+          "Independent review before any external delivery"
+        ],
+        "prohibited_without_separate_authorization": [
+          "external submission",
+          "wallet signing",
+          "trading or token transfer",
+          "payment or deposit",
+          "production credential access"
+        ]
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "to_agent": "engineering-agent",
+      "created_at": "2026-11-27T11:46:01.300918+00:00",
+      "from_agent": "scope-planner",
+      "message_type": "WORK_PLAN",
+      "correlation_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1"
+    },
+    {
+      "id": "6fef1ae7-bff7-4e79-8271-8620b7c40613",
+      "payload": {
+        "title": "Synthetic positive-control fixture: agent integration engineering pack",
+        "work_packages": 5,
+        "external_submission_enabled": false
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "to_agent": "independent-qa",
+      "created_at": "2026-11-27T11:46:01.30745+00:00",
+      "from_agent": "engineering-agent",
+      "message_type": "DELIVERABLE_DRAFT",
+      "correlation_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1"
+    },
+    {
+      "id": "8cf6035f-dc1b-4809-9f85-fc4a77dbff97",
+      "payload": {
+        "checks": {
+          "scopedWork": true,
+          "artifactPresent": true,
+          "noExternalSubmission": true,
+          "noFinancialAuthority": true,
+          "candidateExplicitlySyntheticOrFunded": true
+        },
+        "passed": true,
+        "decision": "QA_PASS"
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "to_agent": "delivery-packager",
+      "created_at": "2026-11-27T11:46:01.321642+00:00",
+      "from_agent": "independent-qa",
+      "message_type": "QA_RESULT",
+      "correlation_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1"
+    },
+    {
+      "id": "89c07db1-5794-4e1a-af82-f630678fba66",
+      "payload": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": true
+          },
+          "passed": true,
+          "decision": "QA_PASS"
+        },
+        "scope": "Synthetic positive-control test of the agent integration engineering workflow.",
+        "title": "Synthetic positive-control fixture: agent integration engineering pack",
+        "status": "PACKAGED_FOR_HUMAN_REVIEW",
+        "artifact_id": "1b4db652-ec60-4231-b713-3871117ffa99",
+        "work_packages": [
+          "Confirm buyer authority, scope, acceptance and IP terms",
+          "Create a reproducible implementation plan",
+          "Build only in an isolated workspace",
+          "Run automated tests and static security checks",
+          "Independent review before any external delivery"
+        ]
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "to_agent": "revenue-verifier",
+      "created_at": "2026-11-27T11:46:01.328555+00:00",
+      "from_agent": "delivery-packager",
+      "message_type": "DELIVERY_PACKAGE",
+      "correlation_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1"
+    },
+    {
+      "id": "c7570f3f-0d29-4762-8a4c-8c319f1d01a2",
+      "payload": {
+        "status": "NO_REVENUE_CLAIM",
+        "realised_net_revenue": 0,
+        "independent_verification_required": true
+      },
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "to_agent": "mission-control",
+      "created_at": "2026-11-27T11:46:01.401244+00:00",
+      "from_agent": "revenue-verifier",
+      "message_type": "REVENUE_DISPOSITION",
+      "correlation_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1"
+    },
+    {
+      "id": "e31f2244-073a-496a-85bf-11fd2e9e6457",
+      "payload": {
+        "title": "Synthetic deployment-9 least-privilege positive control",
+        "source": "SYNTHETIC_TEST_FIXTURE",
+        "synthetic_test": true
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "to_agent": "eligibility-analyst",
+      "created_at": "2026-11-27T11:57:01.22124+00:00",
+      "from_agent": "opportunity-discovery",
+      "message_type": "CANDIDATE_DISCOVERED",
+      "correlation_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1"
+    },
+    {
+      "id": "8e11b9fc-d9ac-4be6-bcf2-57d6817e3f85",
+      "payload": {
+        "total": 8,
+        "checks": {
+          "sourceUrl": true,
+          "scopeKnown": true,
+          "zeroUpfront": true,
+          "aiPermission": true,
+          "namedSponsor": true,
+          "actualFunding": true,
+          "deadlineKnown": true,
+          "indiaEligibility": true
+        },
+        "passed": 8,
+        "decision": "QUALIFIED_FOR_HUMAN_REVIEW",
+        "autonomousSubmissionAllowed": false
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "to_agent": "scope-planner",
+      "created_at": "2026-11-27T11:57:01.227782+00:00",
+      "from_agent": "eligibility-analyst",
+      "message_type": "ELIGIBILITY_DECISION",
+      "correlation_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1"
+    },
+    {
+      "id": "1232e4f1-3dbb-4aa9-9bcb-a01f07af11d3",
+      "payload": {
+        "scope": "Verify the deployment-9 least-privilege worker can process an approved synthetic qualification task.",
+        "title": "Synthetic deployment-9 least-privilege positive control",
+        "work_packages": [
+          "Confirm buyer authority, scope, acceptance and IP terms",
+          "Create a reproducible implementation plan",
+          "Build only in an isolated workspace",
+          "Run automated tests and static security checks",
+          "Independent review before any external delivery"
+        ],
+        "prohibited_without_separate_authorization": [
+          "external submission",
+          "wallet signing",
+          "trading or token transfer",
+          "payment or deposit",
+          "production credential access"
+        ]
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "to_agent": "engineering-agent",
+      "created_at": "2026-11-27T11:57:01.233586+00:00",
+      "from_agent": "scope-planner",
+      "message_type": "WORK_PLAN",
+      "correlation_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1"
+    },
+    {
+      "id": "30799d53-30e1-4d66-a330-25ee763e65a2",
+      "payload": {
+        "title": "Synthetic deployment-9 least-privilege positive control",
+        "work_packages": 5,
+        "external_submission_enabled": false
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "to_agent": "independent-qa",
+      "created_at": "2026-11-27T11:57:01.240257+00:00",
+      "from_agent": "engineering-agent",
+      "message_type": "DELIVERABLE_DRAFT",
+      "correlation_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1"
+    },
+    {
+      "id": "587ef47e-02fd-4736-b859-fb65554ce1c3",
+      "payload": {
+        "checks": {
+          "scopedWork": true,
+          "artifactPresent": true,
+          "noExternalSubmission": true,
+          "noFinancialAuthority": true,
+          "candidateExplicitlySyntheticOrFunded": true
+        },
+        "passed": true,
+        "decision": "QA_PASS"
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "to_agent": "delivery-packager",
+      "created_at": "2026-11-27T11:57:01.246659+00:00",
+      "from_agent": "independent-qa",
+      "message_type": "QA_RESULT",
+      "correlation_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1"
+    },
+    {
+      "id": "56820de8-9f2a-4b90-a87f-9131b0413b82",
+      "payload": {
+        "qa": {
+          "checks": {
+            "scopedWork": true,
+            "artifactPresent": true,
+            "noExternalSubmission": true,
+            "noFinancialAuthority": true,
+            "candidateExplicitlySyntheticOrFunded": true
+          },
+          "passed": true,
+          "decision": "QA_PASS"
+        },
+        "scope": "Verify the deployment-9 least-privilege worker can process an approved synthetic qualification task.",
+        "title": "Synthetic deployment-9 least-privilege positive control",
+        "status": "PACKAGED_FOR_HUMAN_REVIEW",
+        "artifact_id": "6f878a05-560a-4c76-b181-117e6e69f4dc",
+        "work_packages": [
+          "Confirm buyer authority, scope, acceptance and IP terms",
+          "Create a reproducible implementation plan",
+          "Build only in an isolated workspace",
+          "Run automated tests and static security checks",
+          "Independent review before any external delivery"
+        ]
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "to_agent": "revenue-verifier",
+      "created_at": "2026-11-27T11:57:01.252392+00:00",
+      "from_agent": "delivery-packager",
+      "message_type": "DELIVERY_PACKAGE",
+      "correlation_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1"
+    },
+    {
+      "id": "8c6cadf0-5d84-4f1c-976d-a157f7e96ff2",
+      "payload": {
+        "status": "NO_REVENUE_CLAIM",
+        "realised_net_revenue": 0,
+        "independent_verification_required": true
+      },
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "to_agent": "mission-control",
+      "created_at": "2026-11-27T11:57:01.258752+00:00",
+      "from_agent": "revenue-verifier",
+      "message_type": "REVENUE_DISPOSITION",
+      "correlation_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1"
+    }
+  ],
+  "backup_version": "pilot-runtime-logical-backup-v1",
+  "classification": "SYNTHETIC_TEST_DATA_ONLY",
+  "source_database": "crypto_holdco",
+  "secrets_excluded": [
+    "runtime.api_tokens",
+    "runtime.cron_tokens",
+    "all connection strings",
+    "all raw bearer tokens",
+    "all wallet keys"
+  ],
+  "source_branch_id": "br-lively-flower-a15zb6ar",
+  "source_project_id": "little-violet-66887398",
+  "worker_heartbeats": [],
+  "opportunity_candidates": [
+    {
+      "id": "0501a1ef-5d6e-469a-9316-a6bc6383a19c",
+      "url": "https://example.invalid/opportunity-fixture",
+      "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+      "source": "SYNTHETIC_TEST_FIXTURE",
+      "task_id": "e1a54be2-6e2e-46f1-8d73-6f8e1a9e7a21",
+      "evidence": {
+        "checks": {
+          "sourceUrl": true,
+          "scopeKnown": true,
+          "zeroUpfront": true,
+          "aiPermission": true,
+          "namedSponsor": true,
+          "actualFunding": true,
+          "deadlineKnown": true,
+          "indiaEligibility": true
+        },
+        "synthetic_test": true
+      },
+      "created_at": "2026-11-27T09:56:01.223777+00:00",
+      "funding_status": "EVIDENCE_PROVIDED",
+      "eligibility_status": "QUALIFIED_FOR_HUMAN_REVIEW"
+    },
+    {
+      "id": "d5ce145b-59eb-49f3-b4e0-9c02d42fa3ae",
+      "url": null,
+      "title": "Untitled",
+      "source": "unknown",
+      "task_id": "0b437f24-34fb-4eb1-a6f2-ded86fdbe8b2",
+      "evidence": {
+        "checks": {
+          "sourceUrl": false,
+          "scopeKnown": false,
+          "zeroUpfront": false,
+          "aiPermission": false,
+          "namedSponsor": false,
+          "actualFunding": false,
+          "deadlineKnown": false,
+          "indiaEligibility": false
+        },
+        "synthetic_test": false
+      },
+      "created_at": "2026-11-27T10:05:01.475228+00:00",
+      "funding_status": "UNVERIFIED",
+      "eligibility_status": "BLOCKED_OR_UNVERIFIED"
+    },
+    {
+      "id": "2a8684d1-fa0c-4022-adae-fd329c7f4a49",
+      "url": "https://example.invalid/opportunity-fixture",
+      "title": "Agent Integration Engineering Pack: controlled pilot fixture",
+      "source": "SYNTHETIC_TEST_FIXTURE",
+      "task_id": "5b217a36-5bc5-4e7d-8304-1c8c9a6626cc",
+      "evidence": {
+        "checks": {
+          "sourceUrl": true,
+          "scopeKnown": true,
+          "zeroUpfront": true,
+          "aiPermission": true,
+          "namedSponsor": true,
+          "actualFunding": true,
+          "deadlineKnown": true,
+          "indiaEligibility": true
+        },
+        "synthetic_test": true
+      },
+      "created_at": "2026-11-27T10:15:01.744185+00:00",
+      "funding_status": "EVIDENCE_PROVIDED",
+      "eligibility_status": "QUALIFIED_FOR_HUMAN_REVIEW"
+    },
+    {
+      "id": "c63f524c-d5ea-4f9b-8da3-4d0189e17663",
+      "url": null,
+      "title": "Untitled",
+      "source": "unknown",
+      "task_id": "d9fd8eef-f83d-496a-bda8-c2bde12fbcf6",
+      "evidence": {
+        "checks": {
+          "sourceUrl": false,
+          "scopeKnown": false,
+          "zeroUpfront": false,
+          "aiPermission": false,
+          "namedSponsor": false,
+          "actualFunding": false,
+          "deadlineKnown": false,
+          "indiaEligibility": false
+        },
+        "synthetic_test": false
+      },
+      "created_at": "2026-11-27T11:30:01.69029+00:00",
+      "funding_status": "UNVERIFIED",
+      "eligibility_status": "BLOCKED_OR_UNVERIFIED"
+    },
+    {
+      "id": "c30f5c5f-ddee-4de6-a404-b0fd0b3ee419",
+      "url": null,
+      "title": "Synthetic negative-control candidate: missing funding evidence",
+      "source": "SYNTHETIC_NEGATIVE_CONTROL",
+      "task_id": "4e3f4c18-6c1a-4e32-9850-2f14cc8e4e16",
+      "evidence": {
+        "checks": {
+          "sourceUrl": false,
+          "scopeKnown": false,
+          "zeroUpfront": false,
+          "aiPermission": false,
+          "namedSponsor": true,
+          "actualFunding": false,
+          "deadlineKnown": false,
+          "indiaEligibility": false
+        },
+        "synthetic_test": false
+      },
+      "created_at": "2026-11-27T11:32:01.324336+00:00",
+      "funding_status": "UNVERIFIED",
+      "eligibility_status": "BLOCKED_OR_UNVERIFIED"
+    },
+    {
+      "id": "3df871ae-e963-47b6-8808-d22ad8f41d18",
+      "url": "https://example.invalid/synthetic-positive-control",
+      "title": "Synthetic positive-control fixture: agent integration engineering pack",
+      "source": "SYNTHETIC_TEST_FIXTURE",
+      "task_id": "0d43c3d9-5c8f-42e0-85f2-b9d6cb9fd3b1",
+      "evidence": {
+        "checks": {
+          "sourceUrl": true,
+          "scopeKnown": true,
+          "zeroUpfront": true,
+          "aiPermission": true,
+          "namedSponsor": true,
+          "actualFunding": true,
+          "deadlineKnown": true,
+          "indiaEligibility": true
+        },
+        "synthetic_test": true
+      },
+      "created_at": "2026-11-27T11:46:01.283374+00:00",
+      "funding_status": "EVIDENCE_PROVIDED",
+      "eligibility_status": "QUALIFIED_FOR_HUMAN_REVIEW"
+    },
+    {
+      "id": "7e108a4f-879f-4bf0-9924-176291fdb647",
+      "url": "https://example.invalid/deployment-9-positive-control",
+      "title": "Synthetic deployment-9 least-privilege positive control",
+      "source": "SYNTHETIC_TEST_FIXTURE",
+      "task_id": "b662ac8a-dca2-4c70-9c9d-1de8d5e0e6a1",
+      "evidence": {
+        "checks": {
+          "sourceUrl": true,
+          "scopeKnown": true,
+          "zeroUpfront": true,
+          "aiPermission": true,
+          "namedSponsor": true,
+          "actualFunding": true,
+          "deadlineKnown": true,
+          "indiaEligibility": true
+        },
+        "synthetic_test": true
+      },
+      "created_at": "2026-11-27T11:57:01.217575+00:00",
+      "funding_status": "EVIDENCE_PROVIDED",
+      "eligibility_status": "QUALIFIED_FOR_HUMAN_REVIEW"
+    }
+  ]
+}
