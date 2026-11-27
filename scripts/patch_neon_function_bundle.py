@@ -63,10 +63,17 @@ if "GITHUB_OIDC_SUBJECT" not in oidc_helper or "verifyGithubActionsOidc" not in 
     raise SystemExit("unexpected GitHub Actions OIDC verifier source")
 oidc_helper = oidc_helper.replace("export async function ", "async function ").replace("export function ", "function ")
 
+google_oidc_helper_path = pathlib.Path(__file__).with_name("google_apps_script_oidc_auth.mjs")
+if not google_oidc_helper_path.is_file():
+    raise SystemExit("missing Google Apps Script OIDC verifier source")
+google_oidc_helper = google_oidc_helper_path.read_text(encoding="utf-8")
+if "verifyGoogleAppsScriptOidc" not in google_oidc_helper or "GOOGLE_OIDC_JWKS_URL" not in google_oidc_helper:
+    raise SystemExit("unexpected Google Apps Script OIDC verifier source")
+
 anchor = "function syntheticCandidate() {"
 if source.count(anchor) != 1:
     raise SystemExit("expected one syntheticCandidate anchor")
-source = source.replace(anchor, oidc_helper + "\n" + helper + anchor, 1)
+source = source.replace(anchor, oidc_helper + "\n" + google_oidc_helper + "\n" + helper + anchor, 1)
 canary_identity = """async function verifiedCiAuthCanaryRun(request) {
   const header = request.headers.get('authorization') ?? '';
   const match = header.match(/^Bearer\\s+(.+)$/i);
@@ -150,12 +157,38 @@ function requiredApiScope(request, pathname) {
   if (request.method === 'POST' && pathname === '/a2a/v1/messages') return 'a2a:write';
   return null;
 }
+
+async function authorizeGoogleAppsScriptScheduler(request) {
+  const header = request.headers.get('authorization') ?? '';
+  const match = header.match(/^Bearer\\s+(.+)$/i);
+  const audience = process.env.GOOGLE_APPS_SCRIPT_CLIENT_ID;
+  const subjectSha256 = process.env.GOOGLE_APPS_SCRIPT_OWNER_SUB_SHA256;
+  if (!match || !audience || !subjectSha256) return false;
+  return verifyGoogleAppsScriptOidc(match[1], {
+    audience,
+    subjectSha256,
+    onFailure: (reason) => console.info('GOOGLE_APPS_SCRIPT_OIDC_DENIED', reason)
+  });
+}
 """
 if source.count(auth_old) != 1:
     raise SystemExit("token authorization patch anchor mismatch")
 source = source.replace(auth_old, auth_new, 1)
 
-canary_routes = """      if (request.method === 'POST' && url.pathname === '/internal/ci/auth-canary/issue') {
+canary_routes = """      if (request.method === 'POST' && url.pathname === '/internal/google/scheduler/dispatch' && url.search === '') {
+        if (!await authorizeGoogleAppsScriptScheduler(request)) return json({ error: 'UNAUTHORIZED' }, 401);
+        if (process.env.GOOGLE_APPS_SCRIPT_SCHEDULER_ENABLED !== 'true') {
+          return json({ status: 'PAUSED', reason: 'SCHEDULER_NOT_ARMED', dispatched: 0 }, 200);
+        }
+        const gate = await sql('SELECT governor_state, work_allowed FROM runtime.control_plane WHERE singleton_id IS TRUE');
+        const control = gate.rows[0];
+        if (!control || control.governor_state !== 'RUNNING' || control.work_allowed !== true) {
+          return json({ status: 'PAUSED', reason: 'GOVERNOR_CLOSED', dispatched: 0 }, 200);
+        }
+        const outcomes = await dispatch(1);
+        return json({ status: 'DISPATCH_COMPLETE', dispatched: outcomes.length, completed: outcomes.filter((x) => x.status === 'completed').length, timestamp: new Date().toISOString() }, 200);
+      }
+      if (request.method === 'POST' && url.pathname === '/internal/ci/auth-canary/issue') {
         const identity = await verifiedCiAuthCanaryRun(request);
         if (!identity) return json({ error: 'UNAUTHORIZED' }, 401);
         const rawToken = randomBytes(32).toString('hex');
@@ -368,6 +401,18 @@ if "CI_AUTH_CANARY_ISSUED" not in source or "CI_AUTH_CANARY_REVOKED" not in sour
     raise SystemExit("canary safe audit logs are missing")
 if "console.info('CI_AUTH_CANARY_ISSUED', rawToken" in source or "console.log(rawToken" in source:
     raise SystemExit("canary token may be written to logs")
+if "verifyGoogleAppsScriptOidc" not in source or "authorizeGoogleAppsScriptScheduler(request)" not in source:
+    raise SystemExit("Google Apps Script OIDC verifier is not wired")
+if "/internal/google/scheduler/dispatch" not in source:
+    raise SystemExit("Google Apps Script scheduler route is missing")
+if "GOOGLE_APPS_SCRIPT_SCHEDULER_ENABLED !== 'true'" not in source:
+    raise SystemExit("Google Apps Script scheduler is not fail-closed by default")
+if "GOOGLE_APPS_SCRIPT_OWNER_SUB_SHA256" not in source:
+    raise SystemExit("Google Apps Script owner-subject binding is missing")
+if "await dispatch(1)" not in source:
+    raise SystemExit("Google Apps Script dispatch is not bounded to one task")
+if "console.log(match[1]" in source or "console.log(token" in source:
+    raise SystemExit("Google bearer may be written to logs")
 
 buffer = io.BytesIO()
 with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as output:
