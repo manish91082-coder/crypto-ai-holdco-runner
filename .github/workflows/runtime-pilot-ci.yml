@@ -54,6 +54,6 @@ jobs:
           node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/root.json','utf8')); if(x.status!=='running'||x.service!=='crypto-ai-holdco-neon-runtime') process.exit(1); console.log('Application handler routing: PASS')"
           curl --fail --silent --show-error "$FUNCTION_URL/readyz" -o /tmp/ready.json
           cat /tmp/ready.json
-          node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/ready.json','utf8')); if(x.status!=='alive'||x.database!=='connected'||Number(x.runtime_schema_tables)<6) process.exit(1); console.log('Neon Function readiness + DB + schema: PASS')"
+          node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/ready.json','utf8')); if(x.status!=='alive'||x.database!=='connected'||Number(x.runtime_schema_tables)<6||x.database_role!=='crypto_holdco_function') process.exit(1); console.log('Neon Function readiness + DB + schema + least-privilege role: PASS ('+x.database_role+')')"
           curl --fail --silent --show-error "$FUNCTION_URL/.well-known/agent.json" -o /tmp/agent.json
           node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/agent.json','utf8')); if(!Array.isArray(x.skills)||x.skills.length!==7) process.exit(1); console.log('A2A agent card: PASS ('+x.skills.length+' specialist roles)')"
