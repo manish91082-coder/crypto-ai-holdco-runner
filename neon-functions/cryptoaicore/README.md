@@ -160,3 +160,13 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - Credentials expire at `2026-12-27T09:44:32.105Z`; no new token/reissue/rotation.
 - CI #69: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247; CI #70: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46017056190. Both SUCCESS.
 - Continuity v34.24; resume v2.7.5. P03.03 remains PARTIAL; scheduler disabled; Governor PAUSE_DEGRADED.
+
+
+## Deployment #14 — cron trigger provenance hardening (27-Nov-2026)
+- Deployment: **#14**, Node.js 24, region `aws-ap-southeast-1`; source SHA-256 `1ab68658535fbfa6302da18512d8c1d2d902f10def7cebeb722b3e32ef77b567`.
+- The secret-bearing `/internal/dispatch/<64-hex-secret>` path was removed from the compiled Function route. The fixed route is `POST /internal/dispatch`.
+- The handler requires `X-Neon-Trigger-Invocation-Id`, verifies the same ID in the scheduled invocation JSON envelope and pins `trigger.id` to `trigger-3b855bc5-fb48-4547-a84d-b374e56ebb71`. Neon documents that its edge strips caller-supplied `X-Neon-*` headers; the invocation ID itself is not treated as a secret.
+- Trigger path read-back is `/internal/dispatch`, **disabled**, `next_run_at=null`. No real scheduled-trigger delivery was executed, so positive provider-origin proof is still open.
+- CI #87 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655. 25/25 Node tests passed; live root/readiness/A2A checks passed; unauthenticated metrics/tasks/A2A returned 401; forged public Neon trigger header + matching body returned **401 UNAUTHORIZED**.
+- Governor remains `PAUSE_DEGRADED / work_allowed=false`; no task was dispatched and no commercial/financial action occurred.
+- P03.03 still has positive authenticated API Bearer HTTP proof and secure credential lifecycle/rotation outstanding. The pilot's 7/7 tasks are synthetic and owner-bound; task scope is `tasks:read:own`.
