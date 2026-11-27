@@ -11,13 +11,14 @@ FROM runtime.control_plane
 WHERE singleton_id IS TRUE;
 
 -- Owner has BYPASSRLS on this isolated pilot and creates a uniquely named probe.
-INSERT INTO runtime.tasks (id,task_type,status,payload,idempotency_key)
+INSERT INTO runtime.tasks (id,task_type,status,payload,idempotency_key,owner_subject)
 VALUES (
   'a1000000-0000-4000-8000-000000000004',
   'governor_recovery_probe',
   'queued',
   '{"synthetic_test":true,"purpose":"prove RUNNING path and recovery under governor"}'::jsonb,
-  'governor-recovery-probe-20261127'
+  'governor-recovery-probe-20261127',
+  'governor-test'
 );
 
 -- PAUSE_DEGRADED must hide all queued work from the Function role.
