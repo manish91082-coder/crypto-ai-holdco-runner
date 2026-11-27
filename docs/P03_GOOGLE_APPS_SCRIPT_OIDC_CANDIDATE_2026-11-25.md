@@ -40,3 +40,12 @@ Neon's Data API relies on PostgreSQL GRANT/RLS controls. No broad grants or publ
 - A separate PostgreSQL role-state discrepancy is under investigation; do not use the affected runtime role.
 
 **P03 remains IN_PROGRESS. Do not start P04.**
+
+## 28-Nov-2026 supersession notice
+**The Neon Data API route described above is REJECTED for this mission.** Neon documents that the JWT `role` claim selects the PostgreSQL execution role; without it the Data API falls back to `anonymous`. Mapping the Google `sub` claim to a custom role requires role and authenticator membership changes, which are outside the locked permission boundary. The Data API remains disabled on canonical main and isolated pilot. Do not implement the proposed `.sub` → database-role mapping.
+
+Replacement candidate, not yet approved or deployed: Google Apps Script owner-created time trigger → Google OIDC ID token → existing Neon Function `POST /internal/google/scheduler/dispatch`. It verifies Google's JWKS signature, exact issuer/audience and SHA-256 subject allowlist, uses the existing `crypto_holdco_function` identity, requires an explicit off-by-default feature flag plus the database Governor, and dispatches at most one task per tick. This source-only alternative still lacks live owner identity/audience proof, replay/idempotency guard, P03.05 budgets, live integration evidence and independent WBS acceptance. See [P03.03 Google Apps Script Function OIDC Scheduler Candidate v1.0](P03.03_GOOGLE_APPS_SCRIPT_FUNCTION_OIDC_SCHEDULER_v1.0.md).
+
+Official Neon references:
+- https://neon.com/docs/data-api/custom-authentication-providers
+- https://neon.com/docs/data-api/access-control
