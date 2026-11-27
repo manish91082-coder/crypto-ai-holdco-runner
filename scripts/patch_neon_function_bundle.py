@@ -114,6 +114,45 @@ if source.count(old_auth_gate) != 1:
     raise SystemExit("route-scope authorization patch anchor mismatch")
 source = source.replace(old_auth_gate, new_auth_gate, 1)
 
+# Bind each task and its derived messages/metrics to the authenticated token subject.
+old_demo_insert = """await sql("INSERT INTO runtime.tasks (id,task_type,status,payload) VALUES ($1,'demo_e2e','queued',$2::jsonb)", [id, JSON.stringify({ synthetic_test: true })]);"""
+new_demo_insert = """await sql("INSERT INTO runtime.tasks (id,task_type,status,payload,owner_subject) VALUES ($1,'demo_e2e','queued',$2::jsonb,$3)", [id, JSON.stringify({ synthetic_test: true }), requestSubject]);"""
+if source.count(old_demo_insert) != 1:
+    raise SystemExit("demo task ownership insertion anchor mismatch")
+source = source.replace(old_demo_insert, new_demo_insert, 1)
+
+old_task_insert = """await sql('INSERT INTO runtime.tasks (id,task_type,status,payload,idempotency_key) VALUES ($1,$2,\\'queued\\',$3::jsonb,$4)', [id, body.task_type, JSON.stringify(body), request.headers.get('idempotency-key')]);"""
+new_task_insert = """await sql('INSERT INTO runtime.tasks (id,task_type,status,payload,idempotency_key,owner_subject) VALUES ($1,$2,\\'queued\\',$3::jsonb,$4,$5)', [id, body.task_type, JSON.stringify(body), request.headers.get('idempotency-key'), requestSubject]);"""
+if source.count(old_task_insert) != 1:
+    raise SystemExit("opportunity task ownership insertion anchor mismatch")
+source = source.replace(old_task_insert, new_task_insert, 1)
+
+old_task_read = """const result = await sql('SELECT id::text AS id, task_type, status, attempt_count, payload, result, created_at, updated_at, completed_at, last_error FROM runtime.tasks WHERE id=$1::uuid', [taskMatch[1]]);"""
+new_task_read = """const result = await sql('SELECT id::text AS id, task_type, status, attempt_count, payload, result, created_at, updated_at, completed_at, last_error FROM runtime.tasks WHERE id=$1::uuid AND owner_subject=$2', [taskMatch[1], requestSubject]);"""
+if source.count(old_task_read) != 1:
+    raise SystemExit("owner-filtered task-read anchor mismatch")
+source = source.replace(old_task_read, new_task_read, 1)
+
+old_metrics = """const tasks = await sql("SELECT count(*)::int AS total,count(*) FILTER (WHERE status='queued')::int AS queued,count(*) FILTER (WHERE status='running')::int AS running,count(*) FILTER (WHERE status='completed')::int AS completed,count(*) FILTER (WHERE status='failed')::int AS failed FROM runtime.tasks");
+        const messages = await sql('SELECT count(*)::int AS count FROM runtime.agent_messages');
+        return json({ tasks: tasks.rows[0], agent_messages: Number(messages.rows[0]?.count ?? 0) });"""
+new_metrics = """const tasks = await sql("SELECT count(*)::int AS total,count(*) FILTER (WHERE status='queued')::int AS queued,count(*) FILTER (WHERE status='running')::int AS running,count(*) FILTER (WHERE status='completed')::int AS completed,count(*) FILTER (WHERE status='failed')::int AS failed FROM runtime.tasks WHERE owner_subject=$1", [requestSubject]);
+        const messages = await sql('SELECT count(*)::int AS count FROM runtime.agent_messages m JOIN runtime.tasks t ON t.id=m.task_id WHERE t.owner_subject=$1', [requestSubject]);
+        return json({ tasks: tasks.rows[0], agent_messages: Number(messages.rows[0]?.count ?? 0) });"""
+if source.count(old_metrics) != 1:
+    raise SystemExit("owner-filtered metrics anchor mismatch")
+source = source.replace(old_metrics, new_metrics, 1)
+
+old_a2a_insert = """        const id = randomUUID();
+        await sql('INSERT INTO runtime.agent_messages (id,task_id,correlation_id,from_agent,to_agent,message_type,payload) VALUES ($1,$2::uuid,$2::uuid,$3,$4,$5,$6::jsonb)', [id, body.task_id, String(body.from_agent).slice(0,100), String(body.to_agent).slice(0,100), String(body.message_type).slice(0,100), JSON.stringify(body.payload)]);"""
+new_a2a_insert = """        const taskAccess = await sql('SELECT id FROM runtime.tasks WHERE id=$1::uuid AND owner_subject=$2', [body.task_id, requestSubject]);
+        if (!taskAccess.rows[0]) return json({ error: 'TASK_NOT_FOUND' }, 404);
+        const id = randomUUID();
+        await sql('INSERT INTO runtime.agent_messages (id,task_id,correlation_id,from_agent,to_agent,message_type,payload) VALUES ($1,$2::uuid,$2::uuid,$3,$4,$5,$6::jsonb)', [id, body.task_id, String(body.from_agent).slice(0,100), String(body.to_agent).slice(0,100), String(body.message_type).slice(0,100), JSON.stringify(body.payload)]);"""
+if source.count(old_a2a_insert) != 1:
+    raise SystemExit("A2A task-owner validation anchor mismatch")
+source = source.replace(old_a2a_insert, new_a2a_insert, 1)
+
 json_helper_anchor = """function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -196,6 +235,16 @@ if "message: String(error?.message" in source:
     raise SystemExit("raw runtime error detail may leak to clients")
 if "runtime_schema_tables:" in source and "api_tokens','cron_tokens" in source:
     raise SystemExit("readiness still counts hidden credential tables")
+if "tasks:read:any" in source or "tasks:read:own" not in source:
+    raise SystemExit("legacy any-task-read scope remains or own-task scope is missing")
+if "WHERE id=$1::uuid AND owner_subject=$2" not in source:
+    raise SystemExit("task reads are not scoped to authenticated owner")
+if "FROM runtime.tasks WHERE owner_subject=$1" not in source:
+    raise SystemExit("task metrics are not scoped to authenticated owner")
+if "owner_subject) VALUES" not in source:
+    raise SystemExit("task creation does not persist authenticated owner")
+if "const taskAccess = await sql(" not in source:
+    raise SystemExit("A2A task ownership check is missing")
 
 if "task.payload?.candidate" in source or "task.payload?.receipt" in source:
     raise SystemExit("un-normalized task payload access remains")
