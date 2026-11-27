@@ -42,3 +42,5 @@ test('token or claim content is never written to logs', () => {
   assert.ok(patcher.includes("console.info('GITHUB_OIDC_METRICS_AUTH_DENIED', reason)"));
   assert.ok(patcher.includes("console.info('GITHUB_OIDC_METRICS_AUTH_ACCEPTED', 'repo:1468220353')"));
 });
+
+// This controlled push also runs the staged read-only OIDC HTTP canary after verifier deployment.
