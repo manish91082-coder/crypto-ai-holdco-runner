@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.29](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.30.md).  
-Next-chat resume: [v2.8.0](docs/NEXT_CHAT_RESUME_PROMPT_v2.8.1.md).
+Latest continuity: [v34.29](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.31.md).  
+Next-chat resume: [v2.8.0](docs/NEXT_CHAT_RESUME_PROMPT_v2.8.2.md).
 
 ## Evidence and verification
 
@@ -157,7 +157,7 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 ## 28-Nov-2026 current overlay — Google Function OIDC scheduler candidate
 - CI #131: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46053348674, SUCCESS, 58/58 tests. Candidate patched Function source hash `367ea0205d797aa8a22d78a5b5a6f1e6638460aaf76ef98a20b04f1f78604921`. Live Neon smoke was skipped.
 - Active Function remains deployment #17, source hash `d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44`. No deployment #18, Apps Script project or trigger installed.
-- Data API based Google candidate is superseded; Data API remains disabled on main and pilot. New source-only candidate is documented in [P03.03 Google Apps Script Function OIDC Scheduler v1.1](docs/P03.03_GOOGLE_APPS_SCRIPT_FUNCTION_OIDC_SCHEDULER_v1.1.md).
+- Data API based Google candidate is superseded; Data API remains disabled on main and pilot. New source-only candidate is documented in [P03.03 Google Apps Script Function OIDC Scheduler v1.1](docs/P03.03_GOOGLE_APPS_SCRIPT_FUNCTION_OIDC_SCHEDULER_v1.2.md).
 - Neon project active-time use is 87.64%, compute 79.77%, transfer 3.10% for the period ending 2026-12-01T00:00Z. Do not deploy or arm a scheduler in this quota window. Governor remains PAUSE_DEGRADED/work_allowed=false.
 - Current P03 status: P03.03 ACTIVE/PARTIAL; P03.05 PLANNED/NOT ACTIVE; P03 exit NOT PASSED; P04 NOT STARTED; realised net revenue 0.
 
@@ -173,3 +173,9 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - CI #137 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46054644565: SUCCESS, 60/60 tests. Candidate Function source SHA-256 `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`.
 - Candidate v1.1 includes a per-tick UUID and atomic SHA-256 bearer/tick replay guard design. Duplicate token or tick is designed to return 409. SQL migration and SQL test remain source-only, not applied/run in Neon. This is at-most-once admission, not exactly-once processing.
 - Live Neon smoke skipped. Active Function remains deployment #17; no Function #18, Apps Script project or trigger. Governor remains paused. Current Neon active-time usage 87.64%; no scheduler deployment/arming this quota period.
+
+
+## CI #138 replay migration source-contract checks
+- https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46055346703: SUCCESS, 62/62 tests. Static tests now pin replay migration's UUID/token-hash uniqueness, expiry/retention, atomic conflicts, SECURITY DEFINER/privilege contract and SQL rollback test clauses.
+- This is not a PostgreSQL migration execution: replay table/function remain absent in Neon, SQL regression not run. Active Function #17 unchanged; no scheduler/Apps Script trigger. Current quota active 87.64%, compute 79.77%; Governor paused.
+- Current report v5.11, continuity v34.31, resume v2.8.2, scheduler candidate v1.2.
