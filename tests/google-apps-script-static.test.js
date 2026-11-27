@@ -62,3 +62,11 @@ test('identity preflight rejects unsupported issuer, non-text subject and incomp
   assert.ok(script.includes("Number.isFinite(Number(payload.iat))"));
   assert.ok(script.includes("/^[\\\\x20-\\\\x7E]{1,255}$/"));
 });
+
+
+test('each Apps Script tick carries a fresh UUID idempotency key and classifies duplicate responses',()=>{
+  assert.ok(script.includes('const tickId = Utilities.getUuid()'));
+  assert.ok(script.includes('JSON.stringify({ tick_id: tickId })'));
+  assert.ok(script.includes("status === 409"));
+  assert.ok(script.includes("return 'DUPLICATE_TICK'"));
+});
