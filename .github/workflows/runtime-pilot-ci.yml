@@ -10,6 +10,7 @@ on:
       - 'db/migrations/pilot/**'
       - 'db/tests/pilot/**'
       - 'scripts/patch_neon_function_bundle.py'
+      - 'scripts/github_actions_oidc_auth.mjs'
       - 'tests/**'
       - '.github/workflows/runtime-pilot-ci.yml'
   pull_request:
@@ -26,6 +27,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   validate:
@@ -74,6 +76,51 @@ jobs:
           node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/ready.json','utf8')); if(x.status!=='alive'||x.database!=='connected'||x.database_role!=='crypto_holdco_function'||Number(x.runtime_schema_tables)<4||x.governor_state!=='PAUSE_DEGRADED'||x.work_allowed!==false) process.exit(1); console.log('Neon Function readiness + DB + schema + least-privilege role + fail-closed Governor: PASS ('+x.database_role+', '+x.governor_state+', work_allowed='+x.work_allowed+')')"
           curl --fail --silent --show-error "$FUNCTION_URL/.well-known/agent.json" -o /tmp/agent.json
           node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/agent.json','utf8')); if(!Array.isArray(x.skills)||x.skills.length!==7) process.exit(1); console.log('A2A agent card: PASS ('+x.skills.length+' specialist roles)')"
+          node --input-type=module <<'NODE'
+          const audience = 'https://crypto-ai-holdco.invalid/ci-metrics-read';
+          const requestUrl = process.env.ACTIONS_ID_TOKEN_REQUEST_URL;
+          const requestToken = process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
+          if (!requestUrl || !requestToken) throw new Error('GitHub OIDC request context unavailable');
+          const url = new URL(requestUrl);
+          url.searchParams.set('audience', audience);
+          const issued = await fetch(url, {
+            headers: { authorization: `Bearer ${requestToken}` },
+            redirect: 'error'
+          });
+          if (!issued.ok) throw new Error('GitHub OIDC token request failed');
+          const issuedBody = await issued.json();
+          const token = issuedBody?.value;
+          if (typeof token !== 'string' || token.length < 100) throw new Error('GitHub OIDC token response invalid');
+          const jwtParts = token.split('.');
+          if (jwtParts.length !== 3) throw new Error('GitHub OIDC JWT shape invalid');
+          const claims = JSON.parse(Buffer.from(jwtParts[1], 'base64url').toString('utf8'));
+          const checks = {
+            issuer: claims.iss === 'https://token.actions.githubusercontent.com',
+            audience: claims.aud === audience,
+            immutable_subject: claims.sub === 'repo:manish91082-coder@283637475/crypto-ai-holdco-runner@1468220353:ref:refs/heads/temporary-zero-cost-runtime-pilot',
+            repository_id: String(claims.repository_id) === '1468220353',
+            owner_id: String(claims.repository_owner_id) === '283637475',
+            workflow_ref: claims.workflow_ref === 'manish91082-coder/crypto-ai-holdco-runner/.github/workflows/runtime-pilot-ci.yml@refs/heads/temporary-zero-cost-runtime-pilot',
+            push_event: claims.event_name === 'push' && claims.ref === 'refs/heads/temporary-zero-cost-runtime-pilot',
+            trusted_actor: String(claims.actor_id) === '283637475',
+            hosted_runner: claims.runner_environment === 'github-hosted'
+          };
+          for (const [name, passed] of Object.entries(checks)) {
+            console.log(`GitHub OIDC claim ${name}: ${passed ? 'PASS' : 'FAIL'}`);
+          }
+          if (Object.values(checks).some(passed => !passed)) throw new Error('GitHub OIDC claim policy mismatch');
+          const response = await fetch(process.env.FUNCTION_URL + '/v1/metrics', {
+            method: 'GET',
+            headers: { authorization: `Bearer ${token}`, accept: 'application/json' },
+            redirect: 'error'
+          });
+          if (response.status !== 200) throw new Error(`Positive Bearer metrics canary failed: HTTP ${response.status}`);
+          const body = await response.json();
+          if (!Number.isSafeInteger(body?.tasks?.total) || !Number.isSafeInteger(body?.agent_messages)) {
+            throw new Error('Positive Bearer metrics response shape invalid');
+          }
+          console.log('Positive authenticated Bearer HTTP canary: PASS (HTTP 200; metrics:read only)');
+          NODE
           status="$(curl --silent --output /tmp/unauth-metrics.json --write-out '%{http_code}' "$FUNCTION_URL/v1/metrics")"
           test "$status" = "401"
           echo "Unauthenticated metrics: DENIED (401)"
