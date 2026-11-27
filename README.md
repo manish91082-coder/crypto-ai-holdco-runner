@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.29](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.29.md).  
-Next-chat resume: [v2.8.0](docs/NEXT_CHAT_RESUME_PROMPT_v2.8.0.md).
+Latest continuity: [v34.29](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.30.md).  
+Next-chat resume: [v2.8.0](docs/NEXT_CHAT_RESUME_PROMPT_v2.8.1.md).
 
 ## Evidence and verification
 
@@ -167,3 +167,9 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - CI #137 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46054644565: SUCCESS, 60/60 tests; candidate patched source SHA `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`. Live smoke skipped. Function deployment #17 unchanged.
 - Replay migration/test are source-only, not applied in Neon. No deployment, Apps Script project or trigger.
 - Guard is at-most-once admission, not exactly-once execution. Neon quota stop, Governor pause and P03.05 gate remain.
+
+
+## Current source hardening — CI #137 (28-Nov-2026)
+- CI #137 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46054644565: SUCCESS, 60/60 tests. Candidate Function source SHA-256 `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`.
+- Candidate v1.1 includes a per-tick UUID and atomic SHA-256 bearer/tick replay guard design. Duplicate token or tick is designed to return 409. SQL migration and SQL test remain source-only, not applied/run in Neon. This is at-most-once admission, not exactly-once processing.
+- Live Neon smoke skipped. Active Function remains deployment #17; no Function #18, Apps Script project or trigger. Governor remains paused. Current Neon active-time usage 87.64%; no scheduler deployment/arming this quota period.
