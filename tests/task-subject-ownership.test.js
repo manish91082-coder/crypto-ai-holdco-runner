@@ -32,7 +32,7 @@ test('single-operator token loses tasks:read:any and receives tasks:read:own', (
 test('API route requires the own-task scope and preserves token subject', () => {
   assert.ok(patcher.includes("return 'tasks:read:own';"));
   assert.ok(patcher.includes('requestSubject = await authorize(request, requiredScope)'));
-  assert.ok(patcher.includes("return typeof result.rows[0]?.subject === 'string'"));
+  assert.ok(patcher.includes("if (typeof result.rows[0]?.subject === 'string') return result.rows[0].subject;"));
   assert.ok(patcher.includes('if "tasks:read:any" in source'));
 });
 
