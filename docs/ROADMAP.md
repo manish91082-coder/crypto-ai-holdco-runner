@@ -335,3 +335,31 @@ Use Neon as infrastructure for our own agent services. Do not resell/white-label
 Actual custom caps remain controlling: active 129,600s (latest 94,687/73.061%); compute 36,000 CU-sec (latest 23,950/66.5278%); transfer 1,000,000,000 bytes (latest 24,860,369/2.486%); writes 268,435,456 (latest zero). Functions MTD active/waiting/invocations remain UNKNOWN on Free; scheduler disabled. Proposed 80% soft stops and app-level daily invocation budgets belong to P03.05 and are not live.
 Governor PAUSE_DEGRADED / work_allowed=false; no financial operations; realised net revenue=0.
 Docs: [P03.03 auth report](P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md), [continuity v34.22](CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md), [resume v2.7.4](NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
+
+
+## Authoritative current overlay — 27-Nov-2026 / Continuity v34.24
+This overlay supersedes older P03.03 and usage statements above where they differ.
+
+### WBS
+- P03.01 COMPLETE_WITH_KNOWN_PROVIDER_FUNCTION_METER_LIMITATION.
+- P03.02/P03.04 COMPLETE.
+- P03.03 active / PARTIAL; P03.05 later / PLANNED PARTIAL.
+- P03 IN_PROGRESS; exit NOT PASSED; P04 not started.
+- 16 COMPLETE, 1 BLOCKED, 102 PLANNED, 0 QUEUED of 119.
+
+### Runtime #12 and scoped authentication
+- Neon Function `cryptoaicore`, deployment #12, Node.js 24, Singapore; source SHA-256 `15871f3c2114ba0b0c21a3634ca9b267fb7a3802cf71aac41d4d007c596c3c87`.
+- Function role has no direct SELECT on API/cron token tables; validator EXECUTE only. Validators are SECURITY DEFINER with fixed search_path, enforce scopes/expiry/revocation and update last-used timestamps.
+- API route scopes and request-size/error sanitisation are deployed. CI #69 passed all unauthenticated route negative tests; #70 passed after docs-path filter change.
+- Positive DB validator canary passed: API metrics:read=1, wrong wallet:withdraw=0, cron dispatch:run=1; both last_used_at fields now populated. No raw token/hash read, no task inserted/dispatched.
+- No positive authenticated HTTP bearer route yet. Existing credentials expire 27-Dec-2026 09:44:32.105Z; no rotation/reissue. Task subject ownership open; `tasks:read:any` remains single-operator only.
+- Cron dispatch token is in URL path; assess request-log exposure before enabling scheduler. Keep scheduler disabled.
+
+### Latest custom project usage
+Current caps remain active 129,600s, compute 36,000 CU-sec, transfer 1,000,000,000 bytes, writes 268,435,456. Latest use: active 94,687s (73.061%), compute 23,950 CU-sec (66.528%), transfer 24,997,930 bytes (2.500%), writes 0. Functions MTD active/waiting/invocations are UNKNOWN on Free; no recurring schedule. P03.05 80% soft stops and daily invocation budgets are design-only.
+
+### Neon terms / service suitability
+The pilot may use Neon as infrastructure for our own agent service; do not resell/white-label Neon APIs/connectors or build a competing Neon backend. Customer is responsible for credentials and backup. Neon may modify/discontinue functionality; Free has no 24x7 SLA. Bounded pilot only.
+Official terms: https://d7umqicpi7263.cloudfront.net/eula/ETeCDF9JpM27sHwVLg5xdCTWvMfSD6N0ibw9OxKWt80
+
+Details: [P03.03 hardening report](P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md), [v34.24 checkpoint](CONTINUITY_CHECKPOINT_2026-11-27_v34.24.md), [resume v2.7.5](NEXT_CHAT_RESUME_PROMPT_v2.7.5.md). P03 exit remains NOT PASSED.
