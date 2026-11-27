@@ -6,6 +6,10 @@ const migration = readFileSync(
   new URL('../db/migrations/pilot/20261127_scoped_token_lifecycle.sql', import.meta.url),
   'utf8'
 );
+const canaryMigration = readFileSync(
+  new URL('../db/migrations/pilot/20261127_ci_auth_canary.sql', import.meta.url),
+  'utf8'
+);
 const patcher = readFileSync(
   new URL('../scripts/patch_neon_function_bundle.py', import.meta.url),
   'utf8'
@@ -107,5 +111,5 @@ test('CI-only canary issue and revoke use only a signed workflow-run identity', 
   assert.ok(patcher.includes('runtime.issue_ci_auth_canary($1,$2,$3)'));
   assert.ok(patcher.includes('runtime.revoke_ci_auth_canary($1,$2)'));
   assert.ok(patcher.includes('ci-auth-canary:'));
-  assert.ok(patcher.includes("ARRAY['metrics:read']"));
+  assert.ok(canaryMigration.includes("ARRAY['metrics:read']"));
 });
