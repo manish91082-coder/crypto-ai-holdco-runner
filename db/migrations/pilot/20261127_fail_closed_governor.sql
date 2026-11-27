@@ -37,6 +37,24 @@ GRANT SELECT ON runtime.control_plane TO crypto_holdco_function;
 ALTER TABLE runtime.tasks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE runtime.tasks FORCE ROW LEVEL SECURITY;
 
+-- The SELECT policy deliberately permits task reads only while the Governor is RUNNING.
+-- It must cover both queued and running rows because UPDATE ... RETURNING reads the
+-- new running tuple; restricting this policy to status='queued' blocks valid recovery.
+DROP POLICY IF EXISTS runtime_tasks_select_governor_gate ON runtime.tasks;
+CREATE POLICY runtime_tasks_select_governor_gate
+ON runtime.tasks
+FOR SELECT
+TO crypto_holdco_function
+USING (
+  EXISTS (
+    SELECT 1
+    FROM runtime.control_plane cp
+    WHERE cp.singleton_id IS TRUE
+      AND cp.governor_state='RUNNING'
+      AND cp.work_allowed IS TRUE
+  )
+);
+
 DROP POLICY IF EXISTS runtime_tasks_update_governor_gate ON runtime.tasks;
 CREATE POLICY runtime_tasks_update_governor_gate
 ON runtime.tasks
