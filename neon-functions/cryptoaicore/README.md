@@ -227,3 +227,10 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - Proposed SQL migration and test remain source-only; not applied or run in Neon. No deployment #18; current deployment #17 is unchanged.
 - CI #137 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46054644565: SUCCESS, 60/60 tests; candidate source SHA `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`; live smoke skipped.
 - At-most-once admission only. Exactly-once task execution is not claimed. Keep scheduler disabled pending actual Google identity, WBS acceptance, P03.05, replay migration review and quota gates.
+
+
+## Current scheduler candidate v1.1 — replay guard source proof
+- CI #137 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46054644565: SUCCESS, 60/60 tests; candidate source hash `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`. Live smoke skipped.
+- Candidate v1.1 sends a fresh tick UUID and uses proposed `runtime.consume_google_scheduler_tick(uuid,text,timestamptz)` to reject repeated tick UUID or repeated verified bearer SHA-256 digest with HTTP 409.
+- Migration `db/migrations/pilot/20261128_google_scheduler_replay_guard.sql` and SQL test `db/tests/pilot/verify_google_scheduler_replay_guard.sql` are source-only, not applied or executed. At-most-once admission only, not exactly-once processing.
+- Active deployment #17 remains unchanged; no deployment #18, Google Apps Script project or trigger. Keep scheduler off; quota and P03.05 gates remain open.
