@@ -36,13 +36,14 @@ export function resetGithubOidcJwksCacheForTests() {
 }
 
 export async function verifyGithubActionsOidc(token, options = {}) {
+  const deny = (code) => { try { options.onFailure?.(code); } catch {} return false; };
   try {
-    if (typeof token !== 'string' || token.length < 100 || token.length > 8192) return false;
+    if (typeof token !== 'string' || token.length < 100 || token.length > 8192) return deny('TOKEN_SHAPE');
     const parts = token.split('.');
-    if (parts.length !== 3) return false;
+    if (parts.length !== 3) return deny('JWT_SEGMENTS');
     const header = decodeJwtSegment(parts[0]);
     const claims = decodeJwtSegment(parts[1]);
-    if (header?.alg !== 'RS256' || header?.typ !== 'JWT' || typeof header?.kid !== 'string') return false;
+    if (header?.alg !== 'RS256' || header?.typ !== 'JWT' || typeof header?.kid !== 'string') return deny('JWT_HEADER');
 
     const nowSeconds = Number.isFinite(options.nowSeconds) ? options.nowSeconds : Math.floor(Date.now() / 1000);
     const audienceMatches = claims?.aud === GITHUB_OIDC_AUDIENCE;
@@ -61,18 +62,34 @@ export async function verifyGithubActionsOidc(token, options = {}) {
       && claims?.runner_environment === 'github-hosted'
       && claims?.repository_visibility === 'public'
       && String(claims?.actor_id ?? '') === '283637475';
-    if (!exactClaimsMatch) return false;
+    if (!exactClaimsMatch) {
+      if (!(claims?.iss === GITHUB_OIDC_ISSUER)) return deny('CLAIM_ISSUER');
+      if (!(claims?.aud === GITHUB_OIDC_AUDIENCE)) return deny('CLAIM_AUDIENCE');
+      if (!(claims?.sub === GITHUB_OIDC_SUBJECT)) return deny('CLAIM_SUBJECT');
+      if (!(claims?.repository === GITHUB_OIDC_REPOSITORY)) return deny('CLAIM_REPOSITORY');
+      if (!(String(claims?.repository_id ?? '') === '1468220353')) return deny('CLAIM_REPOSITORY_ID');
+      if (!(claims?.repository_owner === 'manish91082-coder')) return deny('CLAIM_OWNER');
+      if (!(String(claims?.repository_owner_id ?? '') === '283637475')) return deny('CLAIM_OWNER_ID');
+      if (!(claims?.workflow === 'Runtime Pilot CI')) return deny('CLAIM_WORKFLOW');
+      if (!(claims?.workflow_ref === GITHUB_OIDC_WORKFLOW_REF)) return deny('CLAIM_WORKFLOW_REF');
+      if (!(claims?.event_name === 'push')) return deny('CLAIM_EVENT');
+      if (!(claims?.ref === 'refs/heads/temporary-zero-cost-runtime-pilot')) return deny('CLAIM_REF');
+      if (!(claims?.runner_environment === 'github-hosted')) return deny('CLAIM_RUNNER');
+      if (!(claims?.repository_visibility === 'public')) return deny('CLAIM_VISIBILITY');
+      if (!(String(claims?.actor_id ?? '') === '283637475')) return deny('CLAIM_ACTOR');
+      return deny('CLAIM_POLICY');
+    }
 
     const exp = Number(claims.exp);
     const iat = Number(claims.iat);
     const nbf = Number(claims.nbf);
-    if (!Number.isInteger(exp) || !Number.isInteger(iat) || !Number.isInteger(nbf)) return false;
-    if (exp <= nowSeconds || exp - iat > 600 || exp - iat <= 0) return false;
-    if (iat > nowSeconds + 60 || nowSeconds - iat > 600 || nbf > nowSeconds + 60 || nbf > exp) return false;
-    if (typeof claims.jti !== 'string' || claims.jti.length < 16 || typeof claims.sha !== 'string' || !/^[a-f0-9]{40}$/i.test(claims.sha)) return false;
+    if (!Number.isInteger(exp) || !Number.isInteger(iat) || !Number.isInteger(nbf)) return deny('TIME_CLAIMS');
+    if (exp <= nowSeconds || exp - iat > 600 || exp - iat <= 0) return deny('EXPIRY_WINDOW');
+    if (iat > nowSeconds + 60 || nowSeconds - iat > 600 || nbf > nowSeconds + 60 || nbf > exp) return deny('TIME_WINDOW');
+    if (typeof claims.jti !== 'string' || claims.jti.length < 16 || typeof claims.sha !== 'string' || !/^[a-f0-9]{40}$/i.test(claims.sha)) return deny('JTI_OR_SHA');
 
     const fetchImpl = options.fetchImpl ?? globalThis.fetch;
-    if (typeof fetchImpl !== 'function') return false;
+    if (typeof fetchImpl !== 'function') return deny('FETCH_UNAVAILABLE');
     const nowMs = nowSeconds * 1000;
     let keys = await loadGithubOidcJwks(fetchImpl, nowMs);
     let jwk = keys.find((key) => key?.kid === header.kid && key?.kty === 'RSA' && (!key.use || key.use === 'sig'));
@@ -80,10 +97,10 @@ export async function verifyGithubActionsOidc(token, options = {}) {
       keys = await loadGithubOidcJwks(fetchImpl, nowMs, true);
       jwk = keys.find((key) => key?.kid === header.kid && key?.kty === 'RSA' && (!key.use || key.use === 'sig'));
     }
-    if (!jwk) return false;
+    if (!jwk) return deny('JWKS_KID_NOT_FOUND');
 
     const subtle = globalThis.crypto?.subtle;
-    if (!subtle) return false;
+    if (!subtle) return deny('CRYPTO_SUBTLE_UNAVAILABLE');
     const publicKey = await subtle.importKey(
       'jwk',
       jwk,
@@ -93,9 +110,16 @@ export async function verifyGithubActionsOidc(token, options = {}) {
     );
     const signedBytes = new TextEncoder().encode(parts[0] + '.' + parts[1]);
     const signature = Buffer.from(parts[2], 'base64url');
-    return await subtle.verify('RSASSA-PKCS1-v1_5', publicKey, signature, signedBytes);
-  } catch {
-    // Authentication must fail closed and must not log token, claims or key material.
-    return false;
+    const signatureValid = await subtle.verify('RSASSA-PKCS1-v1_5', publicKey, signature, signedBytes);
+    return signatureValid ? true : deny('SIGNATURE_INVALID');
+  } catch (error) {
+    // Emit only a coarse reason code; never log token, claims, signature or key material.
+    const code = error?.message === 'OIDC_JWKS_UNAVAILABLE' ? 'JWKS_UNAVAILABLE'
+      : error?.message === 'OIDC_JWKS_INVALID' ? 'JWKS_INVALID'
+      : error?.name === 'TypeError' ? 'NETWORK_OR_TYPE_ERROR'
+      : error?.name === 'OperationError' ? 'CRYPTO_OPERATION_ERROR'
+      : error?.name === 'DataError' ? 'JWK_IMPORT_ERROR'
+      : 'VERIFIER_EXCEPTION';
+    return deny(code);
   }
 }
