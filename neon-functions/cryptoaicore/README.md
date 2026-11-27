@@ -12,7 +12,7 @@
 - Invocation URL: `https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech/`
 - Function DB identity: Neon-managed `crypto_holdco_function`
 - Scheduler trigger: present but **disabled**. Do not restart it automatically.
-- Public GitHub CI: [run 45996257276](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/45996257276)
+- Public GitHub CI: [latest security and live smoke run 45997010798](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/45997010798)
 
 ## Source and reproducibility
 - Base archive: `neon-functions/cryptoaicore/function.zip.b64`
