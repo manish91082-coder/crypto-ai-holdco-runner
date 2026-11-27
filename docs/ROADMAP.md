@@ -299,3 +299,39 @@ Proposed internal 80% limits: active 103,680 sec; compute 28,800 CU-sec; transfe
 ### Current runtime and latest CI
 Function `cryptoaicore`, deployment #11, Node.js 24, Singapore; Governor PAUSE_DEGRADED/work_allowed=false; scheduler disabled. All five known Postgres endpoints are idle after the last audit. Run #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46012576148. Runtime CI path filters skip live Neon smoke on documentation-only commits.
 Full quota details: [P03.01 Neon telemetry](P03.01_NEON_PROJECT_QUOTA_TELEMETRY_2026-11-27.md). Continuity: [v34.21](CONTINUITY_CHECKPOINT_2026-11-27_v34.21.md). Resume: [v2.7.3](NEXT_CHAT_RESUME_PROMPT_v2.7.3.md).
+
+
+## Authoritative current overlay — 27-Nov-2026 / Continuity v34.22
+This overlay supersedes all older status statements above where they conflict. Historical assessments remain for audit provenance only.
+
+### Current WBS
+- P03.01 COMPLETE_WITH_KNOWN_PROVIDER_FUNCTION_METER_LIMITATION.
+- P03.02 and P03.04 COMPLETE.
+- P03.03 active / PARTIAL (scoped token lifecycle deployed; positive-auth, rotation and owner-isolation evidence open).
+- P03.05 PLANNED / PARTIAL, later in sequence.
+- P03 IN_PROGRESS; exit NOT PASSED; P04 not started.
+- Counts 16 COMPLETE, 1 BLOCKED, 102 PLANNED, 0 QUEUED of 119.
+- Master and WBS v2.0.0 immutable, hashes unchanged.
+
+### Runtime deployment
+- Neon project `little-violet-66887398`, plan Free v3; isolated branch `br-lively-flower-a15zb6ar`.
+- Function `cryptoaicore`, deployment #12, Node.js 24, Singapore.
+- Source SHA-256 `15871f3c2114ba0b0c21a3634ca9b267fb7a3802cf71aac41d4d007c596c3c87`.
+- Environment variable key inventory only `DATABASE_URL`; values not read.
+- Function database role `crypto_holdco_function`; NOSUPERUSER/NOCREATEDB/NOCREATEROLE/NOBYPASSRLS; no canonical holdco schema use.
+- Direct SELECT on token tables revoked; Function role has EXECUTE on fixed-search-path SECURITY DEFINER token validators only.
+
+### Scoped credentials
+API and cron token tables contain scopes, expires_at, revoked_at, rotation_group and last_used_at alongside the one-way token hash. Existing API token scopes: agents:read, demo:run, tasks:write, tasks:read:any, metrics:read, a2a:write. Cron token scope: dispatch:run. Both existing entries expire 27-Dec-2026 09:44:32 UTC. No raw token/hash read; no new credential or rotation issued.
+Validators enforce enabled, required scope, not revoked and future expiry; successful validations update last_used_at. API scopes are mapped per route. Request JSON cap 65,536 bytes, 413 for oversized, 400 for invalid JSON, sanitized generic 500.
+
+### Live negative route tests
+CI #69 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247. Unauthenticated GET /v1/metrics, POST /v1/tasks, POST /a2a/v1/messages and cron dispatch each returned 401; readiness and agent card passed; no task dispatched. Positive authenticated bearer route remains not independently verified. Token rotation and subject-bound task ownership remain open; tasks:read:any is single-operator pilot only.
+
+### Neon terms
+Use Neon as infrastructure for our own agent services. Do not resell/white-label Neon products/APIs/connectors or build a competing Neon backend. Customer is responsible for security and backup. The Free deployment is a bounded pilot candidate, not a guaranteed 24x7 production SLA.
+
+### Quota and operational guard
+Actual custom caps remain controlling: active 129,600s (latest 94,687/73.061%); compute 36,000 CU-sec (latest 23,950/66.5278%); transfer 1,000,000,000 bytes (latest 24,860,369/2.486%); writes 268,435,456 (latest zero). Functions MTD active/waiting/invocations remain UNKNOWN on Free; scheduler disabled. Proposed 80% soft stops and app-level daily invocation budgets belong to P03.05 and are not live.
+Governor PAUSE_DEGRADED / work_allowed=false; no financial operations; realised net revenue=0.
+Docs: [P03.03 auth report](P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md), [continuity v34.22](CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md), [resume v2.7.4](NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
