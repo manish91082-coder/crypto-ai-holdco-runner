@@ -124,3 +124,13 @@ test('Google Apps Script scheduler route is identity-bound, fail-closed and one-
   assert.ok(patcher.includes('await dispatch(1)'));
   assert.ok(patcher.includes('/internal/google/scheduler/dispatch'));
 });
+
+
+test('Google Apps Script scheduler consumes an atomic token-and-tick replay guard before dispatch', () => {
+  assert.ok(patcher.includes('runtime.consume_google_scheduler_tick($1::uuid,$2,$3::timestamptz)'));
+  assert.ok(patcher.includes('identity.tokenHash'));
+  assert.ok(patcher.includes('identity.tokenExpiresAt'));
+  assert.ok(patcher.includes('Object.keys(body).length !== 1'));
+  assert.ok(patcher.includes('DUPLICATE_SCHEDULER_TICK'));
+  assert.ok(patcher.includes('GOOGLE_APPS_SCRIPT_REPLAY_DENIED'));
+});
