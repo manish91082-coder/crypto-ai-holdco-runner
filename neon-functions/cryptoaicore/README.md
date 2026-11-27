@@ -5,14 +5,14 @@
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`
 - Database: `crypto_holdco`
 - Function slug: `cryptoaicore`
-- Active deployment: `14`
-- Deployed source SHA-256: `1ab68658535fbfa6302da18512d8c1d2d902f10def7cebeb722b3e32ef77b567`
+- Active deployment: `16`
+- Deployed source SHA-256: `76e31c353eacb59f1ffb5d7697d467da66b84ab93dd0de4db5b86e68b386201c`
 - Runtime: Node.js 24
 - Region: `aws-ap-southeast-1` (Singapore)
 - Invocation URL: `https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech/`
 - Function DB identity: Neon-managed `crypto_holdco_function`
 - Scheduler trigger: present but **disabled**. Do not restart it automatically.
-- Public GitHub CI: [latest runtime/security smoke run #87](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655)
+- Public GitHub CI: [latest live OIDC runtime/security smoke run #109](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043581519)
 
 ## Source and reproducibility
 - Base archive: `neon-functions/cryptoaicore/function.zip.b64`
@@ -172,7 +172,7 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - P03.03 still has positive authenticated API Bearer HTTP proof and secure credential lifecycle/rotation outstanding. The pilot's 7/7 tasks are synthetic and owner-bound; task scope is `tasks:read:own`.
 
 
-## Current deployment #14 — cron path-secret removal (27-Nov-2026)
+## Historical deployment #14 — cron path-secret removal (27-Nov-2026)
 - Deployment #14 source SHA-256: `1ab68658535fbfa6302da18512d8c1d2d902f10def7cebeb722b3e32ef77b567`.
 - The old secret-bearing dispatch path is removed. Neon trigger calls use fixed `POST /internal/dispatch` with edge-attested invocation-header/body correlation and an exact scheduled-trigger ID.
 - Existing trigger remains disabled; no provider-origin scheduled delivery test has been run.
@@ -180,3 +180,14 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - CI #87 SUCCESS: 25/25 tests; unauthenticated metrics/tasks/A2A and a forged public trigger request returned 401. Run: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655.
 - Task ownership read-back: 7/7 synthetic pilot rows owner-bound; 0 ownerless, queued or running; API scope `tasks:read:own`.
 - Governor stays `PAUSE_DEGRADED / work_allowed=false`. Positive authenticated API Bearer HTTP proof and safe API credential rotation remain open. No real buyer or revenue claim.
+
+
+## Current deployment #16 — metrics-only GitHub OIDC workload identity (27-Nov-2026)
+- Active Function deployment #16; source SHA-256 `76e31c353eacb59f1ffb5d7697d467da66b84ab93dd0de4db5b86e68b386201c`; Node.js 24, Singapore.
+- A short-lived GitHub Actions JWT is verified with RS256/JWKS and exact issuer, audience, immutable repository/owner IDs, workflow_ref, event/ref, actor and time claims.
+- OIDC is accepted only when the required API scope is exactly `metrics:read`; `GET /v1/metrics` returns HTTP 200. OIDC cannot access agents, demo, tasks (write or own-read), or A2A: every scope-escalation probe returns HTTP 401.
+- CI #109 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043581519; 40/40 tests; 15 claim checks; positive metrics HTTP 200; five OIDC scope denials; unauthenticated metrics/task/A2A and forged trigger requests denied 401. CI #110 follow-up suite SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043585428.
+- This is not the `owner-operator-pilot` app token. It is not a general API credential. No raw JWT, application token or token hash is stored in the repository or logs.
+- Existing owner API token remains enabled, with six pilot scopes and expiry `2026-12-27T09:44:32.105Z`. It was not rotated: consumers are not fully inventoried and a protected one-time delivery channel is not configured. Railway project read-back: one pilot environment, zero services, zero shared variables; `APP_API_TOKEN` is only a separate dormant scaffold setting.
+- Trigger remains disabled and Governor paused. No worker dispatch, buyer/payment, trading, transfer, signing or revenue activity.
+- Next: complete owner-token consumer mapping and protected delivery/cutover; do not rotate without those gates. Provider-positive trigger delivery remains untested.
