@@ -51,3 +51,10 @@ test('request boundary and error sanitizer do not expose raw SQL detail', () => 
   assert.ok(patcher.includes("PAYLOAD_TOO_LARGE"));
   assert.ok(patcher.includes("INVALID_JSON"));
 });
+
+
+test('patched source fails closed on legacy auth and unsafe handlers', () => {
+  assert.ok(patcher.includes('blanket token-table lookup remains after scope-aware auth patch'));
+  assert.ok(patcher.includes('unbounded request JSON parsing remains'));
+  assert.ok(patcher.includes('raw runtime error detail may leak to clients'));
+});
