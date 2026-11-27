@@ -1,0 +1,45 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+
+const script=readFileSync(new URL('../google-apps-script/Code.gs',import.meta.url),'utf8');
+const manifest=JSON.parse(readFileSync(new URL('../google-apps-script/appsscript.json',import.meta.url),'utf8'));
+const patcher=readFileSync(new URL('../scripts/patch_neon_function_bundle.py',import.meta.url),'utf8');
+const helper=readFileSync(new URL('../scripts/google_apps_script_oidc_auth.mjs',import.meta.url),'utf8');
+
+test('Apps Script scheduler is owner-triggered and requests only required OIDC/external scopes',()=>{
+  assert.ok(manifest.oauthScopes.includes('openid'));
+  assert.ok(manifest.oauthScopes.includes('https://www.googleapis.com/auth/script.external_request'));
+  assert.equal(manifest.oauthScopes.some(x=>x.includes('userinfo')),false);
+  assert.ok(script.includes('ScriptApp.getIdentityToken()'));
+  assert.ok(script.includes('everyMinutes(30)'));
+  assert.ok(script.includes('ScriptApp.getProjectTriggers()'));
+});
+
+test('Apps Script keeps ID tokens ephemeral and never writes or logs token contents',()=>{
+  assert.ok(script.includes('Authorization: \'Bearer \' + token'));
+  assert.ok(script.includes('LockService.getScriptLock()'));
+  assert.equal(/Logger\.log\([^)]*token/i.test(script),false);
+  assert.equal(/PropertiesService[\s\S]*token/i.test(script),false);
+  assert.equal(script.includes('Logger.log(JSON.stringify(result))'),true);
+});
+
+test('Neon Function Google scheduler route is fail-closed and one-task bounded',()=>{
+  assert.ok(patcher.includes('/internal/google/scheduler/dispatch'));
+  assert.ok(patcher.includes('GOOGLE_APPS_SCRIPT_CLIENT_ID'));
+  assert.ok(patcher.includes('GOOGLE_APPS_SCRIPT_OWNER_SUB_SHA256'));
+  assert.ok(patcher.includes("GOOGLE_APPS_SCRIPT_SCHEDULER_ENABLED !== 'true'"));
+  assert.ok(patcher.includes("governor_state !== 'RUNNING'"));
+  assert.ok(patcher.includes('dispatch(1)'));
+  assert.ok(helper.includes('timingSafeEqual'));
+  assert.ok(helper.includes('subjectSha256'));
+});
+
+test('Google OIDC source never accepts a token without pinned owner-sub hash and client audience',()=>{
+  assert.ok(helper.includes('typeof audience !== \'string\''));
+  assert.ok(helper.includes('typeof subjectSha256 !== \'string\''));
+  assert.ok(helper.includes('GOOGLE_OIDC_ISSUERS.has(claims?.iss)'));
+  assert.ok(helper.includes('GOOGLE_OIDC_JWKS_URL'));
+  assert.ok(helper.includes('return signatureValid ? true : deny(\'SIGNATURE_INVALID\')'));
+  assert.equal(helper.includes('console.log'),false);
+});
