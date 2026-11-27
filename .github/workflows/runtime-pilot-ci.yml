@@ -4,9 +4,23 @@ on:
   push:
     branches:
       - temporary-zero-cost-runtime-pilot
+    paths:
+      - 'neon-functions/cryptoaicore/**'
+      - 'db/migrations/pilot/**'
+      - 'db/tests/pilot/**'
+      - 'scripts/patch_neon_function_bundle.py'
+      - 'tests/**'
+      - '.github/workflows/runtime-pilot-ci.yml'
   pull_request:
     branches:
       - temporary-zero-cost-runtime-pilot
+    paths:
+      - 'neon-functions/cryptoaicore/**'
+      - 'db/migrations/pilot/**'
+      - 'db/tests/pilot/**'
+      - 'scripts/patch_neon_function_bundle.py'
+      - 'tests/**'
+      - '.github/workflows/runtime-pilot-ci.yml'
   workflow_dispatch:
 
 permissions:
