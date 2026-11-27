@@ -63,6 +63,7 @@ jobs:
           unzip -p /tmp/cryptoaicore-fixed.zip index.mjs | grep -nE 'EXPECTED_SCHEDULE_TRIGGER_ID|authorizeCron|cronMatch|internal/dispatch'
       - name: Domain and safety tests
         run: node --test
+      # Bounded canary: mint metrics-only application token, verify validator, revoke in finally.
       - name: Live Neon Function and database smoke test
         if: github.event_name == 'push' && contains(github.event.head_commit.message, 'enable-oidc-live-canary')
         env:
@@ -110,7 +111,9 @@ jobs:
             public_repository: claims.repository_visibility === 'public',
             valid_token_times: Number.isInteger(claims.iat) && Number.isInteger(claims.nbf) && Number.isInteger(claims.exp) && claims.exp > Math.floor(Date.now()/1000) && claims.exp - claims.iat <= 600,
             token_jti: typeof claims.jti === 'string' && claims.jti.length >= 16,
-            commit_sha: typeof claims.sha === 'string' && /^[a-f0-9]{40}$/i.test(claims.sha)
+            commit_sha: typeof claims.sha === 'string' && /^[a-f0-9]{40}$/i.test(claims.sha),
+            workflow_run_id: Number.isSafeInteger(Number(claims.run_id)) && Number(claims.run_id) > 0,
+            workflow_run_attempt: Number.isSafeInteger(Number(claims.run_attempt)) && Number(claims.run_attempt) > 0
           };
           for (const [name, passed] of Object.entries(checks)) {
             console.log(`GitHub OIDC claim ${name}: ${passed ? 'PASS' : 'FAIL'}`);
