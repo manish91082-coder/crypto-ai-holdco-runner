@@ -90,18 +90,6 @@ if source.count(old_returning) != 1:
     raise SystemExit("task-claim payload cast patch anchor mismatch")
 source = source.replace(old_returning, new_returning, 1)
 
-old_ready = """const result = await sql('SELECT 1 AS healthy, current_database() AS database_name');"""
-new_ready = """const result = await sql('SELECT 1 AS healthy, current_database() AS database_name, current_user AS database_role');"""
-if source.count(old_ready) != 1:
-    raise SystemExit("readiness database-role proof anchor mismatch")
-source = source.replace(old_ready, new_ready, 1)
-
-old_ready_response = """database_name: result.rows[0]?.database_name ?? null, runtime_schema_tables:"""
-new_ready_response = """database_name: result.rows[0]?.database_name ?? null, database_role: result.rows[0]?.database_role ?? null, runtime_schema_tables:"""
-if source.count(old_ready_response) != 1:
-    raise SystemExit("readiness database-role response anchor mismatch")
-source = source.replace(old_ready_response, new_ready_response, 1)
-
 if "task.payload?.candidate" in source or "task.payload?.receipt" in source:
     raise SystemExit("un-normalized task payload access remains")
 
