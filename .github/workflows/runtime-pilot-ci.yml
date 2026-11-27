@@ -1,0 +1,25 @@
+name: Runtime Pilot CI
+
+on:
+  push:
+    branches:
+      - temporary-zero-cost-runtime-pilot
+  pull_request:
+    branches:
+      - temporary-zero-cost-runtime-pilot
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax checks
+        run: node --check src/server.js && node --check src/worker.js && node --check src/pipeline.js && node --check src/model.js
+      - name: Domain and safety tests
+        run: node --test
