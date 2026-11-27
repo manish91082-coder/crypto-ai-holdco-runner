@@ -18,7 +18,7 @@ The goal is a zero-upfront, cloud-only, crypto-native AI-agent revenue ecosystem
 ## Current runtime
 
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`, database `crypto_holdco`.
-- Neon Function `cryptoaicore`, deployment #14, Node.js 24, Singapore.
+- Neon Function `cryptoaicore`, deployment #16, Node.js 24, Singapore.
 - Function database identity: `crypto_holdco_function`.
 - `/readyz` reports `governor_state=PAUSE_DEGRADED`, `work_allowed=false`.
 - Seven specialist roles appear in the A2A agent card. These are logical roles in one Function, not yet seven independent LLM instances.
@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.25](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.25.md).  
-Next-chat resume: [v2.7.6](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.6.md).
+Latest continuity: [v34.26](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.26.md).  
+Next-chat resume: [v2.7.7](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.7.md).
 
 ## Evidence and verification
 
@@ -44,8 +44,8 @@ Next-chat resume: [v2.7.6](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.6.md).
 - Database migration: `db/migrations/pilot/20261127_fail_closed_governor.sql`.
 - Static regression tests: `tests/governor-migration.test.js`.
 - Active Function documentation: [Neon Function runtime README](neon-functions/cryptoaicore/README.md).
-- Latest runtime CI #87: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655 (SUCCESS); earlier security CI #69/#70 remain historical evidence.
-- CI includes source integrity/build, domain/safety tests, Governor policy regression tests, live readiness, seven-role agent card and HTTP 401 denial for unauthenticated internal metrics.
+- Latest live OIDC runtime CI #109: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043581519 (SUCCESS); follow-up regression CI #110: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043585428 (SUCCESS); earlier security CI #69/#70 remain historical evidence.
+- CI includes source integrity/build, 40 domain/security tests, live readiness, seven-role agent card, positive OIDC Bearer metrics HTTP 200, OIDC privilege-escalation denials, unauthenticated route denials and forged-trigger HTTP 401.
 
 ## Strict boundaries
 
@@ -110,3 +110,28 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - Pilot ownership read-back: 7/7 synthetic task rows are owner-bound; 0 owner-less, 0 queued, 0 running. Pilot API scope has `tasks:read:own`, not `tasks:read:any`. This is a single-pilot boundary, not multi-tenant certification.
 - Final pilot Governor remains `PAUSE_DEGRADED / work_allowed=false`. No actual scheduler invocation, buyer work, payment, wallet action, trading or revenue is claimed.
 - P03.03 remains PARTIAL: positive authenticated API Bearer HTTP canary and safe credential issue/revoke/rotation/reissue procedure remain open. P03.05 remains PLANNED/not active; its persisted daily budget and 80% quota stops are not deployed. P03 exit remains NOT PASSED; P04 not started.
+
+
+
+## Deployment #16 — GitHub OIDC metrics-only workload identity (27-Nov-2026)
+- Active Neon Function `cryptoaicore`, deployment **#16**, Node.js 24, Singapore `aws-ap-southeast-1`.
+- Deployed source SHA-256: `76e31c353eacb59f1ffb5d7697d467da66b84ab93dd0de4db5b86e68b386201c`.
+- GitHub Actions issues a short-lived OIDC JWT for this exact repository, workflow, push branch and actor. The Function verifies RS256 signature against GitHub's JWKS, issuer, audience, immutable repository/owner IDs, exact workflow_ref, event/ref, actor, hosted-runner and token time claims. JWT/token content and raw claims are never written to logs.
+- The OIDC workload identity is accepted **only** for `GET /v1/metrics` (`metrics:read`). Live request returns HTTP 200.
+- Live scope-escalation probes for `agents:read`, `demo:run`, `tasks:write`, `tasks:read:own` and A2A all returned HTTP 401. Unauthenticated metrics/tasks/A2A and forged public Neon trigger requests also returned HTTP 401.
+- CI #109: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043581519 — SUCCESS; 40/40 tests; 15 OIDC claim checks passed; positive metrics HTTP 200; five OIDC scope-escalation denials and existing unauthenticated/forged-trigger denials passed. CI #110: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043585428 — SUCCESS (follow-up policy suite).
+- This is a CI workload identity, not the `owner-operator-pilot` application API token and not a general API credential. It does not authorize task mutation, A2A, wallet, financial, scheduler or owner operations.
+- The Neon trigger remains disabled (`/internal/dispatch`, `next_run_at=null`); Governor remains `PAUSE_DEGRADED / work_allowed=false`. No task dispatched, no buyer action, no financial action, and no revenue.
+
+## Operator API credential inventory and rotation decision
+- Current Neon app credential subject `owner-operator-pilot`: enabled, scopes `agents:read`, `demo:run`, `tasks:write`, `metrics:read`, `a2a:write`, `tasks:read:own`; expiry `2026-12-27T09:44:32.105Z`; last-used metadata `2026-11-27T14:55:00.737Z`. No raw token or hash was read.
+- The old cron credential `neon-scheduled-dispatcher` remains disabled/revoked; raw token/hash was not read.
+- The connected Railway project `Crypto Holdco Pilot` has a `pilot` environment but zero services and zero shared variables. The repository's `APP_API_TOKEN` is a separate placeholder-based legacy Node scaffold setting, not evidence of a live service consumer.
+- CI no longer needs a long-lived application bearer: its OIDC identity is short-lived and metrics-only. This does not prove the owner API token has no manual or external consumers. Its last-used timestamp is not a complete consumer inventory.
+- **Rotation decision: NO-GO until consumer mapping and protected one-time delivery are available.** Do not revoke or rotate the existing owner token prematurely. See `docs/P03.03_OPERATOR_CREDENTIAL_ROTATION_AND_CONSUMER_INVENTORY_v1.0.md` for the controlled overlap/cutover/revocation procedure.
+- No credential was created, rotated, reissued or revoked in this update. The existing token remains active and expires on 27-Dec-2026; the raw value remains undisclosed.
+
+## Current P03.03 / P03.05 status
+- P03.03 remains ACTIVE / PARTIAL. OIDC metrics-only HTTP proof and scope-denial proof are complete. The normal owner API-token HTTP path, protected token delivery/rotation, and real provider-origin trigger delivery remain open.
+- P03.05 remains PLANNED / NOT ACTIVE. Application daily budgets, custom quota enforcement, 80% fail-closed stops and durable checkpoint recovery are not yet implemented.
+- P03 exit NOT PASSED; P04 NOT STARTED. WBS counts remain 16 COMPLETE / 1 BLOCKED / 102 PLANNED / 0 QUEUED. The locked Master/WBS are unchanged.
