@@ -71,6 +71,18 @@ jobs:
           node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/ready.json','utf8')); if(x.status!=='alive'||x.database!=='connected'||x.database_role!=='crypto_holdco_function'||Number(x.runtime_schema_tables)<4||x.governor_state!=='PAUSE_DEGRADED'||x.work_allowed!==false) process.exit(1); console.log('Neon Function readiness + DB + schema + least-privilege role + fail-closed Governor: PASS ('+x.database_role+', '+x.governor_state+', work_allowed='+x.work_allowed+')')"
           curl --fail --silent --show-error "$FUNCTION_URL/.well-known/agent.json" -o /tmp/agent.json
           node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/agent.json','utf8')); if(!Array.isArray(x.skills)||x.skills.length!==7) process.exit(1); console.log('A2A agent card: PASS ('+x.skills.length+' specialist roles)')"
-          status="$(curl --silent --output /tmp/unauth.json --write-out '%{http_code}' "$FUNCTION_URL/v1/metrics")"
+          status="$(curl --silent --output /tmp/unauth-metrics.json --write-out '%{http_code}' "$FUNCTION_URL/v1/metrics")"
           test "$status" = "401"
-          echo "Unauthenticated internal metrics access: DENIED (401)"
+          echo "Unauthenticated metrics: DENIED (401)"
+
+          status="$(curl --silent --output /tmp/unauth-tasks.json --write-out '%{http_code}' -X POST "$FUNCTION_URL/v1/tasks")"
+          test "$status" = "401"
+          echo "Unauthenticated task submission: DENIED (401)"
+
+          status="$(curl --silent --output /tmp/unauth-a2a.json --write-out '%{http_code}' -X POST "$FUNCTION_URL/a2a/v1/messages")"
+          test "$status" = "401"
+          echo "Unauthenticated A2A message: DENIED (401)"
+
+          status="$(curl --silent --output /tmp/unauth-cron.json --write-out '%{http_code}' "$FUNCTION_URL/internal/dispatch/0000000000000000000000000000000000000000000000000000000000000000")"
+          test "$status" = "401"
+          echo "Unauthenticated cron dispatch: DENIED (401)"
