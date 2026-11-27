@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.26](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.27.md).  
-Next-chat resume: [v2.7.7](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.8.md).
+Latest continuity: [v34.26](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.28.md).  
+Next-chat resume: [v2.7.7](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.9.md).
 
 ## Evidence and verification
 
@@ -143,3 +143,12 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - Separate ephemeral app bearer ci-auth-canary:46046289848:1, metrics:read only, 180-second expiry: normal runtime.validate_api_token HTTP metrics request 200, wrong-scope agents request 401, finally revocation verified. DB confirms enabled=false, revoked_at/last_used_at populated; zero active canaries remain.
 - This proves the normal validator using a synthetic canary, not the owner-operator-pilot token. Owner token remains active and unchanged. Consumer census/protected delivery still block rotation.
 - Trigger disabled, Governor paused, no financial operations or revenue. P03.03 remains partial.
+
+
+## v34.28 — current Neon role-password bootstrap blocker, 27-Nov-2026
+- Read-only PostgreSQL catalog on both canonical main branch br-calm-block-a1fbdnnj and isolated pilot br-lively-flower-a15zb6ar confirms existing holdco_runtime is NOLOGIN, has no password, and has no superuser/createdb/createrole/replication/bypass-RLS attributes; zero active sessions on both.
+- This fresh observation supersedes the contradictory 25-Nov role-reconciliation note for current state only; the older record remains historical. No role, membership, password or ACL mutation was made.
+- Neon public SDK source shows reset-password refuses a passwordless role; its new scoped-role bootstrap uses a plaintext password literal and warns statement logging may record it. That path creates a new role and is not an admissible initializer for the existing role.
+- Neon issues #12984 and #12986 remain OPEN in the latest retrieved status; no maintainer-confirmed supported first-password route was found in retrieved comments. No plaintext SQL/password workaround, role recreation or neon_superuser grant is permitted.
+- Research: [P03.03 role password bootstrap v1.2](docs/P03.03_ROLE_PASSWORD_BOOTSTRAP_RESEARCH_v1.2.md). Read-only reconciliation: [Runtime Role Reconciliation v2.0](docs/P03_RUNTIME_ROLE_RECONCILIATION_v2.0.md). Latest P03 report: [v5.8](docs/P03_PHASE_EXECUTION_REPORT_v5.8.md).
+- P03.03 remains ACTIVE/PARTIAL, P03.05 NOT ACTIVE, Governor PAUSE_DEGRADED/work_allowed=false, trigger disabled. No revenue or phase completion claim.
