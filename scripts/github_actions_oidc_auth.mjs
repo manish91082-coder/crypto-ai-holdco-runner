@@ -61,7 +61,9 @@ export async function verifyGithubActionsOidc(token, options = {}) {
       && claims?.ref === 'refs/heads/temporary-zero-cost-runtime-pilot'
       && claims?.runner_environment === 'github-hosted'
       && claims?.repository_visibility === 'public'
-      && String(claims?.actor_id ?? '') === '283637475';
+      && String(claims?.actor_id ?? '') === '283637475'
+      && Number.isSafeInteger(Number(claims?.run_id)) && Number(claims.run_id) > 0
+      && Number.isSafeInteger(Number(claims?.run_attempt)) && Number(claims.run_attempt) > 0;
     if (!exactClaimsMatch) {
       if (!(claims?.iss === GITHUB_OIDC_ISSUER)) return deny('CLAIM_ISSUER');
       if (!(claims?.aud === GITHUB_OIDC_AUDIENCE)) return deny('CLAIM_AUDIENCE');
@@ -77,6 +79,8 @@ export async function verifyGithubActionsOidc(token, options = {}) {
       if (!(claims?.runner_environment === 'github-hosted')) return deny('CLAIM_RUNNER');
       if (!(claims?.repository_visibility === 'public')) return deny('CLAIM_VISIBILITY');
       if (!(String(claims?.actor_id ?? '') === '283637475')) return deny('CLAIM_ACTOR');
+      if (!(Number.isSafeInteger(Number(claims?.run_id)) && Number(claims.run_id) > 0)) return deny('CLAIM_RUN_ID');
+      if (!(Number.isSafeInteger(Number(claims?.run_attempt)) && Number(claims.run_attempt) > 0)) return deny('CLAIM_RUN_ATTEMPT');
       return deny('CLAIM_POLICY');
     }
 
