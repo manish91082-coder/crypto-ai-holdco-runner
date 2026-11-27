@@ -69,3 +69,21 @@ test('OIDC metrics identity cannot read agents, run demos, read tasks or write A
   assert.ok(workflow.includes('OIDC demo:run escalation should be denied'));
   assert.ok(workflow.includes('OIDC tasks:read:own escalation should be denied'));
 });
+
+
+test('OIDC verifier binds canary identity to signed run_id and run_attempt claims', () => {
+  assert.ok(verifier.includes('claims?.run_id'));
+  assert.ok(verifier.includes('claims?.run_attempt'));
+  assert.ok(verifier.includes('CLAIM_RUN_ID'));
+  assert.ok(verifier.includes('CLAIM_RUN_ATTEMPT'));
+  assert.ok(patcher.includes('/internal/ci/auth-canary/issue'));
+  assert.ok(patcher.includes('/internal/ci/auth-canary/revoke'));
+});
+
+test('workflow proves the standard app-token validator over HTTP and revokes its canary', () => {
+  assert.ok(workflow.includes("process.env.FUNCTION_URL + '/internal/ci/auth-canary/issue'"));
+  assert.ok(workflow.includes("process.env.FUNCTION_URL + '/internal/ci/auth-canary/revoke'"));
+  assert.ok(workflow.includes('runtime API token canary HTTP 200'));
+  assert.ok(workflow.includes('runtime API canary revocation verified'));
+  assert.equal(workflow.includes('console.log(appToken'), false);
+});
