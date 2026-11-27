@@ -92,3 +92,10 @@ test('Neon scheduled dispatch uses edge-attested invocation envelope, never a UR
   assert.ok(patcher.includes("authorizeCron(request)"));
   assert.ok(patcher.includes("secret-bearing dispatch URL path remains"));
 });
+
+test('GitHub Actions OIDC is a metrics-read-only identity, not a general API bearer', () => {
+  assert.ok(patcher.includes('verifyGithubActionsOidc(match[1])'));
+  assert.ok(patcher.includes("requiredScope === 'metrics:read'"));
+  assert.ok(patcher.includes("'github-actions:repo:1468220353'"));
+  assert.ok(patcher.includes('runtime.validate_api_token($1,$2)'));
+});
