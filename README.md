@@ -1,34 +1,61 @@
-# Crypto AI Holdings — Manual Runner Scaffold
+# Crypto AI Holdings — Autonomous Crypto Revenue Ecosystem
 
-This is a **public, non-production scaffold** for a narrowly controlled manual preflight runner.
+**Current status (27-Nov-2026): isolated zero-upfront runtime pilot deployed, Governor paused, no live revenue operations.**
 
-## Project guardrails
+This repository is the engineering source and audit trail for the Crypto AI Holdings mission. It is public source control, not the production database or an always-on scheduler. The canonical mission ledger remains Neon.
 
-- Follow [Execution Control Protocol](docs/EXECUTION_CONTROL_PROTOCOL.md) for project identity, phase sequencing, cross-chat recovery and no-drift controls.
-- Read the [latest continuity checkpoint](docs/CONTINUITY_CHECKPOINT_2026-11-23.md) before any continuation.
-- For account evidence, use [OCI Tenancy Read-Only Evidence Checklist v1.1](docs/P03.03_OCI_TENANCY_READONLY_EVIDENCE_CHECKLIST_v1.1.md). It includes Home Region, quotas, existing VCN/IPv6 prefix, gateways, routes and security-rule inspection. No provisioning.
-- See [P03.03 Secret-Safe Runtime Assurance v1.3](docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.3.md) for the IPv6-first egress feasibility review.
-- See [P03.03 HSM/RS256 baseline v1.2](docs/P03.03_SECRET_SAFE_RUNTIME_ASSURANCE_v1.2.md) for key-protection assurance and signing controls.
-- See [Security Boundaries](docs/SECURITY_BOUNDARIES.md) and [Change Control](docs/CHANGE_CONTROL.md).
+## Mission and locked controls
 
-## Current purpose
+- Mission key: `crypto-ai-holdco-master`
+- Canonical Neon project/database/schema: `little-violet-66887398` / `crypto_holdco` / `holdco`
+- Canonical branch: `br-calm-block-a1fbdnnj`
+- Master Constitution v2.0.0 SHA-256: `ae2086956bdcce1ba8f0086f4a44ffffbb315291c9e7cab6970654391e6fd803`
+- WBS v2.0.0 SHA-256: `7e8fa46de0d1348dd3bda6f266f9afffad9116dd1d814a2bf5f653c74f39a2e2`
+- Both locked documents remain unchanged.
 
-- Maintain a clean public source-control boundary for the Crypto AI Holdings engineering workstream.
-- Provide one manual-only GitHub Actions workflow on `ubuntu-24.04`.
-- Keep the workflow inert with respect to Neon, databases, secrets, wallets, trading and financial actions.
+The goal is a zero-upfront, cloud-only, crypto-native AI-agent revenue ecosystem with A2A coordination, funded opportunity qualification, engineering delivery and independently verified positive net revenue. Synthetic tests, proposals and unaccepted work are not revenue.
 
-## What this repository does not do
+## Current runtime
 
-- It does not connect to Neon or any other database.
-- It does not deploy Functions, provision Data API, run SQL, create branches or configure triggers.
-- It does not generate, store, read or transmit private keys, tokens, passwords or wallet material.
-- It does not run on pushes, pull requests, schedules or external dispatch events.
-- It does not implement live crypto execution, custody, trading, staking, MEV or flash-loan execution.
+- Isolated pilot branch: `br-lively-flower-a15zb6ar`, database `crypto_holdco`.
+- Neon Function `cryptoaicore`, deployment #11, Node.js 24, Singapore.
+- Function database identity: `crypto_holdco_function`.
+- `/readyz` reports `governor_state=PAUSE_DEGRADED`, `work_allowed=false`.
+- Seven specialist roles appear in the A2A agent card. These are logical roles in one Function, not yet seven independent LLM instances.
+- Neon scheduler trigger exists but is **disabled**. No recurring polling or autonomous dispatch is running.
+- All five known PostgreSQL endpoints are idle after the latest audit.
 
-## Manual preflight workflow
+## Current four-gate release policy
 
-`.github/workflows/manual-preflight.yml` is triggered only by `workflow_dispatch`, guarded to the `main` branch, uses one standard `ubuntu-24.04` runner and `contents: read`, and runs a harmless static message. It is not dispatched. This repository is approved as public source control only, not as an operational runtime. Cloudflare remains excluded.
+The four pre-production checks are separated by the release they protect. They are not all blockers to engineering.
 
-## Status
+1. **Functions MTD usage:** exact active/waiting Capacity-Hours and MTD invocations remain UNKNOWN because the Free-plan consumption API returns HTTP 403. This does not block engineering or bounded on-demand synthetic work while the scheduler is disabled. It is required before recurring scheduling or sustained autonomous dispatch.
+2. **Billed storage:** exact Console billing meter is not a development blocker on confirmed Free v3. Published caps are 1GB PostgreSQL/project and 5GB Object Storage/project. Monitor size; logical database/branch size is not invoice storage. No paid snapshots or upgrades.
+3. **Private canonical backup:** mandatory before first real buyer contract, accepted delivery, settled receipt or treasury/revenue ledger write. It does not block isolated synthetic engineering or public read-only discovery. Private canonical ledger data must never be stored in this public repository.
+4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
-`SCAFFOLD_ONLY — NO SECRET PROVISIONING — NO NEON DEPLOYMENT — NO PRODUCTION WORKLOADS`
+Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
+Latest continuity: [v34.20](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.20.md).  
+Next-chat resume: [v2.7.2](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.2.md).
+
+## Evidence and verification
+
+- Reproducible Governor test: `db/tests/pilot/verify_governor_pause_running_recovery.sql`.
+- Database migration: `db/migrations/pilot/20261127_fail_closed_governor.sql`.
+- Static regression tests: `tests/governor-migration.test.js`.
+- Active Function documentation: [Neon Function runtime README](neon-functions/cryptoaicore/README.md).
+- Latest CI run #51: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46010612368 (SUCCESS).
+- CI includes source integrity/build, domain/safety tests, Governor policy regression tests, live readiness, seven-role agent card and HTTP 401 denial for unauthenticated internal metrics.
+
+## Strict boundaries
+
+- No paid fallback, upgrade, paid snapshot, top-up or owner-funded gas.
+- No live trading, wallet signing, token transfers, payments, external submissions or production key handling.
+- No scheduler activation while Functions MTD headroom is unknown.
+- No real buyer/financial ledger record until the private canonical backup/restore release gate passes.
+- Synthetic pilot opportunity fixtures are not real buyers or funded work.
+- Realised net revenue remains zero; no revenue claim is made.
+
+## Roadmap
+
+The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs/ROADMAP.md). Older status statements in that history are explicitly superseded by the 27-Nov-2026 current overlay; they are retained for audit history.
