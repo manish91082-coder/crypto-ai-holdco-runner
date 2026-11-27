@@ -14,8 +14,10 @@ function inspectGoogleIdentityBinding() {
   const payload = JSON.parse(
     Utilities.newBlob(Utilities.base64DecodeWebSafe(parts[1])).getDataAsString()
   );
-  if (typeof payload.iss !== 'string' || typeof payload.aud !== 'string'
-      || typeof payload.sub !== 'string' || !Number.isFinite(Number(payload.exp))) {
+  const validIssuer = payload.iss === 'https://accounts.google.com' || payload.iss === 'accounts.google.com';
+  if (!validIssuer || typeof payload.aud !== 'string' || payload.aud.length < 10
+      || typeof payload.sub !== 'string' || !/^[\\x20-\\x7E]{1,255}$/.test(payload.sub)
+      || !Number.isFinite(Number(payload.exp)) || !Number.isFinite(Number(payload.iat))) {
     throw new Error('GOOGLE_IDENTITY_CLAIMS_INCOMPLETE');
   }
   const bytes = Utilities.computeDigest(
@@ -41,11 +43,17 @@ function inspectGoogleIdentityBinding() {
  * scheduler approval have passed.
  */
 function installSchedulerTrigger() {
-  const existing = ScriptApp.getProjectTriggers()
-    .filter(trigger => trigger.getHandlerFunction() === SCHEDULER_HANDLER);
-  if (existing.length > 0) return 'ALREADY_INSTALLED';
-  ScriptApp.newTrigger(SCHEDULER_HANDLER).timeBased().everyMinutes(30).create();
-  return 'INSTALLED_30_MINUTE_TRIGGER';
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) return 'INSTALL_LOCK_BUSY';
+  try {
+    const existing = ScriptApp.getProjectTriggers()
+      .filter(trigger => trigger.getHandlerFunction() === SCHEDULER_HANDLER);
+    if (existing.length > 0) return 'ALREADY_INSTALLED';
+    ScriptApp.newTrigger(SCHEDULER_HANDLER).timeBased().everyMinutes(30).create();
+    return 'INSTALLED_30_MINUTE_TRIGGER';
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 /** Removes only this project's schedulerTick triggers. */
@@ -81,10 +89,19 @@ function schedulerTick() {
       }
     );
     const status = response.getResponseCode();
+    let responseState = 'UNKNOWN';
+    try {
+      const body = JSON.parse(response.getContentText());
+      if (body && typeof body.status === 'string') responseState = body.status;
+    } catch {
+      responseState = 'INVALID_JSON';
+    }
     Logger.log('NEON_SCHEDULER_HTTP_STATUS=' + status);
-    if (status === 200) return 'HTTP_200';
+    Logger.log('NEON_SCHEDULER_STATE=' + responseState);
+    if (status === 200 && responseState === 'PAUSED') return 'SCHEDULER_PAUSED';
+    if (status === 200 && responseState === 'DISPATCH_COMPLETE') return 'DISPATCH_ACK';
     if (status === 401) return 'AUTH_DENIED';
-    if (status === 503) return 'SCHEDULER_PAUSED';
+    if (status === 503) return 'SCHEDULER_UNAVAILABLE';
     return 'HTTP_' + status;
   } finally {
     lock.releaseLock();
