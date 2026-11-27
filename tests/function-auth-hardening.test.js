@@ -71,7 +71,7 @@ test('Function patcher returns authenticated subjects and removes any-task-read'
   assert.ok(patcher.includes('requestSubject = await authorize(request, requiredScope)'));
   assert.ok(patcher.includes("return typeof result.rows[0]?.subject === 'string'"));
   assert.ok(patcher.includes("'tasks:read:own'"));
-  assert.ok(patcher.includes("tasks:read:any' in source"));
+  assert.ok(patcher.includes('if "tasks:read:any" in source'));
 });
 
 test('task and A2A reads are bound to the authenticated subject', () => {
