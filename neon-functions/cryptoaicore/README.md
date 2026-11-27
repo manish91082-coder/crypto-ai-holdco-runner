@@ -5,25 +5,25 @@
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`
 - Database: `crypto_holdco`
 - Function slug: `cryptoaicore`
-- Active deployment: `11`
-- Deployed source SHA-256: `931c4635c038ec9855db1137df5b7822e0313020b59fdaaae9f4b1b5b0d29741`
+- Active deployment: `12`
+- Deployed source SHA-256: `15871f3c2114ba0b0c21a3634ca9b267fb7a3802cf71aac41d4d007c596c3c87`
 - Runtime: Node.js 24
 - Region: `aws-ap-southeast-1` (Singapore)
 - Invocation URL: `https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech/`
 - Function DB identity: Neon-managed `crypto_holdco_function`
 - Scheduler trigger: present but **disabled**. Do not restart it automatically.
-- Public GitHub CI: [latest runtime smoke run #55](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46012576148)
+- Public GitHub CI: [latest security runtime smoke run #69](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247)
 
 ## Source and reproducibility
 - Base archive: `neon-functions/cryptoaicore/function.zip.b64`
 - Base archive source hash: `neon-functions/cryptoaicore/index.mjs.sha256`
 - Deterministic build patch: `scripts/patch_neon_function_bundle.py`
-- CI verifies the base archive, patches it, checks the resulting JavaScript syntax, runs five unit/safety tests, then invokes the live endpoint.
-- Deployment 11 uses the corrected JSONB/UTF-8 task-payload decoder, returns the active database role, and reports the live Governor state plus `work_allowed` from `/readyz`.
+- CI verifies the base archive, deterministically patches the Function, checks JavaScript syntax, runs domain/security regression tests, then invokes the live endpoint.
+- Deployment 12 adds route-specific API/cron token scopes, expiry/revocation checks, 65,536-byte JSON body limit, sanitized internal errors, and Governor-aware readiness with the active database role. The deterministic patcher rejects the legacy blanket-token lookup and unbounded JSON parser.
 
 ## Routes
 - `GET /`: service identity and version
-- `GET /readyz`: live database readiness, database name, active DB role, six critical runtime-table checks, Governor state and `work_allowed`
+- `GET /readyz`: live database readiness, database name, active DB role, four Function-visible operational runtime-table checks, Governor state and `work_allowed`
 - `GET /.well-known/agent.json`: seven specialist role card
 - `GET|POST /internal/dispatch/<64-hex-secret>`: private scheduled/manual dispatcher; route secret is stored only in the Neon trigger configuration and its SHA-256 digest in `runtime.cron_tokens`
 - `POST /v1/demo`: authenticated synthetic E2E
@@ -37,7 +37,7 @@ The live SQL catalog read-back confirms Neon-managed `crypto_holdco_function`:
 - `NOSUPERUSER`, `NOCREATEDB`, `NOCREATEROLE`, `NOBYPASSRLS`
 - `USAGE` on `runtime`, no `USAGE` on canonical `holdco`
 - Read/write on the pilot task, message, audit, and candidate tables
-- Read-only access to pilot API/cron token hash tables
+- No direct SELECT on API/cron token tables; EXECUTE only on fixed-search-path `SECURITY DEFINER` token validators
 
 The CI run asserts that the live `/readyz` response identifies `crypto_holdco_function`.
 
@@ -139,3 +139,15 @@ Proposed 80% thresholds (design only, not deployed): active 103,680 sec; compute
 WBS: P03.01 COMPLETE_WITH_KNOWN_PROVIDER_FUNCTION_METER_LIMITATION; next P03.03. P03 remains IN_PROGRESS / exit NOT PASSED. Full evidence: `docs/P03.01_NEON_PROJECT_QUOTA_TELEMETRY_2026-11-27.md`; continuity v34.21; resume prompt v2.7.3.
 
 Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46012576148. The workflow now path-filters runtime/migration/test files; documentation-only changes do not run live Neon checks.
+
+
+## Deployment 12 — scoped credential lifecycle and bounded request boundary (27-Nov-2026)
+- Function #12, Node.js 24, Singapore; source SHA-256 `15871f3c2114ba0b0c21a3634ca9b267fb7a3802cf71aac41d4d007c596c3c87`.
+- Credential schema includes one-way hash, subject, enabled, created_at, scopes, expires_at, revoked_at, rotation_group and last_used_at.
+- API scopes: agents:read, demo:run, tasks:write, tasks:read:any, metrics:read, a2a:write. Cron: dispatch:run only.
+- Existing credentials expire 27-Dec-2026 09:44:32 UTC. No raw token/hash read, no replacement issued, no rotation performed.
+- Fixed-search-path SECURITY DEFINER validators check enabled, scope, expiry and revocation; successful validation records last_used_at. Function role has validator EXECUTE, no direct credential-table SELECT.
+- Route mapping is scope-aware; request JSON body is capped at 65,536 bytes; oversized=413, invalid JSON=400; generic 500 does not disclose SQL/DB messages.
+- CI #69 live negative smoke: unauthenticated metrics/tasks/A2A/cron all return 401. Positive bearer canary and valid-authenticated route remain unverified; no token-rotation runbook; task reads use privileged tasks:read:any for the single operator only.
+- Scheduler disabled; Governor PAUSE_DEGRADED / work_allowed=false. Seven roles remain logical in one deterministic pipeline, not independent LLMs.
+- Full security report: [P03.03 auth hardening](../../docs/P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md); continuity [v34.22](../../docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md); resume [v2.7.4](../../docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
