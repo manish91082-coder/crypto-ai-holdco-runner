@@ -5,14 +5,14 @@
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`
 - Database: `crypto_holdco`
 - Function slug: `cryptoaicore`
-- Active deployment: `16`
-- Deployed source SHA-256: `76e31c353eacb59f1ffb5d7697d467da66b84ab93dd0de4db5b86e68b386201c`
+- Active deployment: `17`
+- Deployed source SHA-256: `d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44`
 - Runtime: Node.js 24
 - Region: `aws-ap-southeast-1` (Singapore)
 - Invocation URL: `https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech/`
 - Function DB identity: Neon-managed `crypto_holdco_function`
 - Scheduler trigger: present but **disabled**. Do not restart it automatically.
-- Public GitHub CI: [latest live OIDC runtime/security smoke run #109](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46043581519)
+- Public GitHub CI: [latest live OIDC + app-token canary smoke run #121](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46046289848)
 
 ## Source and reproducibility
 - Base archive: `neon-functions/cryptoaicore/function.zip.b64`
@@ -191,3 +191,13 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - Existing owner API token remains enabled, with six pilot scopes and expiry `2026-12-27T09:44:32.105Z`. It was not rotated: consumers are not fully inventoried and a protected one-time delivery channel is not configured. Railway project read-back: one pilot environment, zero services, zero shared variables; `APP_API_TOKEN` is only a separate dormant scaffold setting.
 - Trigger remains disabled and Governor paused. No worker dispatch, buyer/payment, trading, transfer, signing or revenue activity.
 - Next: complete owner-token consumer mapping and protected delivery/cutover; do not rotate without those gates. Provider-positive trigger delivery remains untested.
+
+
+## Current deployment #17 — standard application-token validator canary (27-Nov-2026)
+- Source SHA-256 d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44; Node.js24, Singapore.
+- CI #121 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46046289848: SUCCESS; 44/44 tests; 17 signed run claims.
+- A signed-run-bound synthetic app bearer ci-auth-canary:46046289848:1, metrics:read only, expiry 180 seconds, was accepted by standard runtime.validate_api_token over HTTP (GET /v1/metrics 200); wrong scope GET /v1/agents returned 401.
+- finally revoke succeeded. DB metadata confirms enabled=false, revoked_at and last_used_at populated; no active canary remains. No raw token/hash logged or selected.
+- This is not the owner-operator-pilot token. Owner token remains unchanged and rotation remains gated by consumer census and protected delivery.
+- New issue/revoke functions are SECURITY DEFINER, tightly scoped; Function role retains no direct api_tokens SELECT/INSERT/UPDATE/DELETE privileges.
+- Trigger disabled; Governor PAUSE_DEGRADED/work_allowed=false; no task dispatch or financial activity.
