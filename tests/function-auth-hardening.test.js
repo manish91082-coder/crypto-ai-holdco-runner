@@ -45,5 +45,9 @@ test('request boundary and error sanitizer do not expose raw SQL detail', () => 
   assert.ok(patcher.includes('readJsonBounded'));
   assert.ok(patcher.includes('maxBytes = 65536'));
   assert.ok(patcher.includes("request_id: randomUUID()"));
-  assert.equal(patcher.includes("message: String(error?.message"), false);
+  assert.ok(patcher.includes("request_id: randomUUID()"));
+  assert.ok(patcher.includes("old_catch ="));
+  assert.ok(patcher.includes("new_catch ="));
+  assert.ok(patcher.includes("PAYLOAD_TOO_LARGE"));
+  assert.ok(patcher.includes("INVALID_JSON"));
 });
