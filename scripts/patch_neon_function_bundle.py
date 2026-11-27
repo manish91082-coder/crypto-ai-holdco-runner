@@ -55,10 +55,18 @@ helper = """function parseObject(value) {
 
 """
 
+oidc_helper_path = pathlib.Path(__file__).with_name("github_actions_oidc_auth.mjs")
+if not oidc_helper_path.is_file():
+    raise SystemExit("missing GitHub Actions OIDC verifier source")
+oidc_helper = oidc_helper_path.read_text(encoding="utf-8")
+if "GITHUB_OIDC_SUBJECT" not in oidc_helper or "verifyGithubActionsOidc" not in oidc_helper:
+    raise SystemExit("unexpected GitHub Actions OIDC verifier source")
+oidc_helper = oidc_helper.replace("export async function ", "async function ").replace("export function ", "function ")
+
 anchor = "function syntheticCandidate() {"
 if source.count(anchor) != 1:
     raise SystemExit("expected one syntheticCandidate anchor")
-source = source.replace(anchor, helper + anchor, 1)
+source = source.replace(anchor, oidc_helper + "\\n" + helper + anchor, 1)
 
 
 auth_old = """async function authorize(request) {
@@ -81,7 +89,12 @@ auth_new = """async function authorize(request, requiredScope) {
   if (!match) return null;
   const tokenHash = digest(match[1]);
   const result = await sql('SELECT subject FROM runtime.validate_api_token($1,$2)', [tokenHash, requiredScope]);
-  return typeof result.rows[0]?.subject === 'string' ? result.rows[0].subject : null;
+  if (typeof result.rows[0]?.subject === 'string') return result.rows[0].subject;
+  // A GitHub Actions workload identity is accepted only for this read-only CI metrics canary.
+  if (requiredScope === 'metrics:read' && await verifyGithubActionsOidc(match[1])) {
+    return 'github-actions:repo:1468220353';
+  }
+  return null;
 }
 
 // Neon strips caller-supplied x-neon-* headers at its Functions edge.
