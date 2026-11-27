@@ -10,6 +10,14 @@ const canaryMigration = readFileSync(
   new URL('../db/migrations/pilot/20261127_ci_auth_canary.sql', import.meta.url),
   'utf8'
 );
+const googleReplayMigration = readFileSync(
+  new URL('../db/migrations/pilot/20261128_google_scheduler_replay_guard.sql', import.meta.url),
+  'utf8'
+);
+const googleReplaySqlTest = readFileSync(
+  new URL('../db/tests/pilot/verify_google_scheduler_replay_guard.sql', import.meta.url),
+  'utf8'
+);
 const patcher = readFileSync(
   new URL('../scripts/patch_neon_function_bundle.py', import.meta.url),
   'utf8'
@@ -133,4 +141,35 @@ test('Google Apps Script scheduler consumes an atomic token-and-tick replay guar
   assert.ok(patcher.includes('Object.keys(body).length !== 1'));
   assert.ok(patcher.includes('DUPLICATE_SCHEDULER_TICK'));
   assert.ok(patcher.includes('GOOGLE_APPS_SCRIPT_REPLAY_DENIED'));
+});
+
+
+test('Google scheduler replay migration enforces unique tick and bearer hash with a short replay retention window', () => {
+  assert.ok(googleReplayMigration.includes('CREATE TABLE IF NOT EXISTS runtime.google_scheduler_replay_guard'));
+  assert.ok(googleReplayMigration.includes('tick_id uuid PRIMARY KEY'));
+  assert.ok(googleReplayMigration.includes('token_hash text NOT NULL UNIQUE'));
+  assert.ok(googleReplayMigration.includes("token_hash ~ '^[0-9a-f]{64}$'"));
+  assert.ok(googleReplayMigration.includes("p_token_expires_at <= statement_timestamp()"));
+  assert.ok(googleReplayMigration.includes("p_token_expires_at > statement_timestamp() + interval '62 minutes'"));
+  assert.ok(googleReplayMigration.includes("token_expires_at < statement_timestamp() - interval '24 hours'"));
+  assert.ok(googleReplayMigration.includes('ON CONFLICT DO NOTHING'));
+  assert.ok(googleReplayMigration.includes('SECURITY DEFINER'));
+  assert.ok(googleReplayMigration.includes("SET search_path=pg_catalog,runtime"));
+  assert.ok(googleReplayMigration.includes('ALTER FUNCTION runtime.consume_google_scheduler_tick(uuid,text,timestamptz) OWNER TO crypto_holdco_owner'));
+  assert.ok(googleReplayMigration.includes('REVOKE ALL ON runtime.google_scheduler_replay_guard FROM PUBLIC'));
+  assert.ok(googleReplayMigration.includes('REVOKE ALL ON runtime.google_scheduler_replay_guard FROM crypto_holdco_function'));
+  assert.ok(googleReplayMigration.includes('REVOKE ALL ON FUNCTION runtime.consume_google_scheduler_tick(uuid,text,timestamptz) FROM PUBLIC'));
+  assert.ok(googleReplayMigration.includes('GRANT EXECUTE ON FUNCTION runtime.consume_google_scheduler_tick(uuid,text,timestamptz) TO crypto_holdco_function'));
+  assert.ok(googleReplayMigration.includes('RETURN v_count = 1'));
+});
+
+test('Google scheduler SQL regression specifies token replay, tick replay, expiry and rollback checks', () => {
+  assert.ok(googleReplaySqlTest.includes('FIRST_SCHEDULER_TICK_NOT_ACCEPTED'));
+  assert.ok(googleReplaySqlTest.includes('SAME_TICK_AND_TOKEN_REPLAY_ACCEPTED'));
+  assert.ok(googleReplaySqlTest.includes('SAME_BEARER_NEW_TICK_REPLAY_ACCEPTED'));
+  assert.ok(googleReplaySqlTest.includes('SAME_TICK_NEW_BEARER_REPLAY_ACCEPTED'));
+  assert.ok(googleReplaySqlTest.includes('EXPIRED_BEARER_ACCEPTED'));
+  assert.ok(googleReplaySqlTest.includes('FUNCTION_ROLE_HAS_DIRECT_REPLAY_TABLE_PRIVILEGE'));
+  assert.ok(googleReplaySqlTest.includes('FUNCTION_ROLE_REPLAY_EXECUTE_GRANT_MISSING'));
+  assert.ok(googleReplaySqlTest.trimEnd().endsWith('ROLLBACK;'));
 });
