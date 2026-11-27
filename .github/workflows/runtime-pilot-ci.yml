@@ -64,6 +64,7 @@ jobs:
       - name: Domain and safety tests
         run: node --test
       - name: Live Neon Function and database smoke test
+          if: github.event_name == 'push' && contains(github.event.head_commit.message, 'enable-oidc-live-canary')
         env:
           FUNCTION_URL: https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech
         run: |
@@ -102,7 +103,7 @@ jobs:
             owner_id: String(claims.repository_owner_id) === '283637475',
             repository_name: claims.repository === 'manish91082-coder/crypto-ai-holdco-runner',
             workflow_name: claims.workflow === 'Runtime Pilot CI',
-            workflow_ref: claims.workflow_ref === 'manish91082/crypto-ai-holdco-runner/.github/workflows/runtime-pilot-ci.yml@refs/heads/temporary-zero-cost-runtime-pilot',
+            workflow_ref: claims.workflow_ref === 'manish91082-coder/crypto-ai-holdco-runner/.github/workflows/runtime-pilot-ci.yml@refs/heads/temporary-zero-cost-runtime-pilot',
             push_event: claims.event_name === 'push' && claims.ref === 'refs/heads/temporary-zero-cost-runtime-pilot',
             trusted_actor: String(claims.actor_id) === '283637475',
             hosted_runner: claims.runner_environment === 'github-hosted',
