@@ -219,3 +219,51 @@ Quota Governor v0.2.1 remains offline-only with 33/33 tests passing. Global gove
 Public continuity: [CONTINUITY_CHECKPOINT_2026-11-25_v34.18.md](CONTINUITY_CHECKPOINT_2026-11-25_v34.18.md). Role audit: [P03_RUNTIME_ROLE_NOLOGIN_ALIGNMENT_2026-11-25.md](P03_RUNTIME_ROLE_NOLOGIN_ALIGNMENT_2026-11-25.md).
 
 **P03 exit: NOT PASSED. Do not begin P04.**
+
+
+## Current authoritative overlay — 27-Nov-2026 / Continuity v34.20
+This section supersedes earlier status statements above wherever they conflict. Historical overlays remain for audit provenance; do not use them as current live status.
+
+### Canonical status
+- Mission: `crypto-ai-holdco-master`; current phase P03 Cloud Runtime & Resilience.
+- Active WBS task: `CRYPTO-HOLDCO-V2-P03-01`, PLANNED / progress PARTIAL.
+- P03.02 and P03.04 COMPLETE. P03.03/P03.05 remain subject to goal-first re-assessment. P03 exit NOT PASSED; P04 not started.
+- Master Constitution v2.0.0 and WBS v2.0.0 hashes remain unchanged.
+- Mission status: `P03_GOAL_FIRST_GATES_RECLASSIFIED_BOUNDED_ON_DEMAND_ONLY`.
+- Continuity v34.20; audit round 43; canonical snapshot sequence 60.
+
+### Goal-first gate interpretation
+- Functions exact MTD usage is unknown on Free because the consumption API returns 403. It is not a blocker to engineering/on-demand synthetic tasks while the scheduler stays disabled; it is required before recurring scheduling or sustained autonomous dispatch.
+- Exact billed storage Console meter is not a development blocker while the project remains on confirmed Free v3 and within published limits. Logical database/branch size is not invoice storage. Do not buy snapshots or upgrade.
+- Private external backup/restore of canonical holdco is mandatory before the first real buyer contract, accepted delivery, settled receipt or treasury/revenue ledger write. It does not block isolated engineering or public read-only discovery.
+- Governor pause/recovery remains mandatory before workers activate. On the isolated pilot, PAUSE sees zero queued rows; RUNNING allows the exact dispatcher CTE to claim one synthetic row (attempt_count=1); Governor re-paused; probe deleted; final queued/running counts zero.
+
+### Live runtime
+- Neon project `little-violet-66887398`, plan `free_v3`.
+- Isolated pilot branch `br-lively-flower-a15zb6ar`; Function `cryptoaicore`, deployment #11, Node.js 24, Singapore.
+- Function DB role `crypto_holdco_function`; `/readyz` reports `PAUSE_DEGRADED` and `work_allowed=false`.
+- Seven logical specialist roles are in one Function, not seven independent concurrently running models.
+- Scheduler trigger is disabled; all five known Postgres endpoints were returned to idle.
+- No live trading, signing, transfer, payment or external submission. Realised net revenue=0.
+
+### Latest observed project telemetry
+- Provider project snapshot: compute_time_seconds=22,622 = 6.2838889 CU-hours; active_time_seconds=89,443; public transfer=24,068,418 bytes (~0.481% of 5GB).
+- Pilot pg_database_size=16,097,280 bytes; branch logical-size proxy=40,124,416 bytes. Neither is invoice-grade storage.
+- Exact Functions MTD active/waiting/invocation usage remains UNKNOWN, not zero.
+- Published Neon Free values: 100 CU-hours/project/month, 1GB PostgreSQL/project, 10 branches/project, 5GB public transfer/project/month, 5GB Object Storage/project, Functions 1M invocations, 10 active and 400 waiting Capacity-Hours/project/month.
+Sources:
+https://neon.com/blog/neon-free-plan-1-gb-per-project
+https://neon.com/blog/neon-backend-is-ga
+
+### Current evidence / continuity / CI
+- Goal-first gate review: `docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md`
+- Continuity checkpoint: `docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.20.md`
+- Resume prompt: `docs/NEXT_CHAT_RESUME_PROMPT_v2.7.2.md`
+- Function runtime report: `neon-functions/cryptoaicore/README.md`
+- Governor migration: `db/migrations/pilot/20261127_fail_closed_governor.sql`
+- Reproducible two-state test: `db/tests/pilot/verify_governor_pause_running_recovery.sql`
+- Static Governor regression tests: `tests/governor-migration.test.js`
+- Latest CI run #51 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46010612368
+
+### Next execution policy
+Continue bounded on-demand engineering; do not repeat OCI or Apps Script account audits because neither is selected as a runtime dependency. Keep recurring scheduling behind Functions MTD evidence and first real financial data behind private canonical backup/restore. Keep Governor PAUSE outside controlled tests. Do not change locked Master/WBS or claim revenue.
