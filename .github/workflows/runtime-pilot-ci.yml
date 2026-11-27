@@ -152,6 +152,32 @@ jobs:
           });
           if (a2aWrite.status !== 401) throw new Error(`OIDC A2A escalation should be denied: HTTP ${a2aWrite.status}`);
           console.log('OIDC A2A escalation denied: HTTP 401');
+          const agentsRead = await fetch(process.env.FUNCTION_URL + '/v1/agents', {
+            method: 'GET',
+            headers: { authorization: `Bearer ${token}`, accept: 'application/json' },
+            redirect: 'error'
+          });
+          if (agentsRead.status !== 401) throw new Error(`OIDC agents:read escalation should be denied: HTTP ${agentsRead.status}`);
+          console.log('OIDC agents:read escalation denied: HTTP 401');
+          const demoWrite = await fetch(process.env.FUNCTION_URL + '/v1/demo', {
+            method: 'POST',
+            headers: {
+              authorization: `Bearer ${token}`,
+              'content-type': 'application/json',
+              accept: 'application/json'
+            },
+            body: JSON.stringify({ synthetic_test: true }),
+            redirect: 'error'
+          });
+          if (demoWrite.status !== 401) throw new Error(`OIDC demo:run escalation should be denied: HTTP ${demoWrite.status}`);
+          console.log('OIDC demo:run escalation denied: HTTP 401');
+          const taskRead = await fetch(process.env.FUNCTION_URL + '/v1/tasks/00000000-0000-4000-8000-000000000000', {
+            method: 'GET',
+            headers: { authorization: `Bearer ${token}`, accept: 'application/json' },
+            redirect: 'error'
+          });
+          if (taskRead.status !== 401) throw new Error(`OIDC tasks:read:own escalation should be denied: HTTP ${taskRead.status}`);
+          console.log('OIDC tasks:read:own escalation denied: HTTP 401');
           NODE
           status="$(curl --silent --output /tmp/unauth-metrics.json --write-out '%{http_code}' "$FUNCTION_URL/v1/metrics")"
           test "$status" = "401"
