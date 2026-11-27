@@ -59,6 +59,98 @@ if source.count(anchor) != 1:
     raise SystemExit("expected one syntheticCandidate anchor")
 source = source.replace(anchor, helper + anchor, 1)
 
+
+auth_old = """async function authorize(request) {
+  const header = request.headers.get('authorization') ?? '';
+  const match = header.match(/^Bearer\\s+(.+)$/i);
+  if (!match) return false;
+  const tokenHash = digest(match[1]);
+  const result = await sql('SELECT 1 AS ok FROM runtime.api_tokens WHERE token_hash=$1 AND enabled=true LIMIT 1', [tokenHash]);
+  return result.rows.length === 1;
+}
+
+async function authorizeCron(secret) {
+  const result = await sql('SELECT 1 AS ok FROM runtime.cron_tokens WHERE token_hash=$1 AND enabled=true LIMIT 1', [digest(secret)]);
+  return result.rows.length === 1;
+}
+"""
+auth_new = """async function authorize(request, requiredScope) {
+  const header = request.headers.get('authorization') ?? '';
+  const match = header.match(/^Bearer\\s+(.+)$/i);
+  if (!match) return false;
+  const tokenHash = digest(match[1]);
+  const result = await sql('SELECT subject FROM runtime.validate_api_token($1,$2)', [tokenHash, requiredScope]);
+  return result.rows.length === 1;
+}
+
+async function authorizeCron(secret) {
+  const result = await sql('SELECT subject FROM runtime.validate_cron_token($1,$2)', [digest(secret), 'dispatch:run']);
+  return result.rows.length === 1;
+}
+
+function requiredApiScope(request, pathname) {
+  if (request.method === 'GET' && pathname === '/v1/agents') return 'agents:read';
+  if (request.method === 'POST' && pathname === '/v1/demo') return 'demo:run';
+  if (request.method === 'POST' && pathname === '/v1/tasks') return 'tasks:write';
+  if (request.method === 'GET' && pathname === '/v1/metrics') return 'metrics:read';
+  if (request.method === 'GET' && /^\\/v1\\/tasks\\/[0-9a-f-]{36}$/i.test(pathname)) return 'tasks:read:any';
+  if (request.method === 'POST' && pathname === '/a2a/v1/messages') return 'a2a:write';
+  return null;
+}
+"""
+if source.count(auth_old) != 1:
+    raise SystemExit("token authorization patch anchor mismatch")
+source = source.replace(auth_old, auth_new, 1)
+
+old_auth_gate = """      if (url.pathname.startsWith('/v1/') || url.pathname.startsWith('/a2a/')) {
+        if (!await authorize(request)) return json({ error: 'UNAUTHORIZED' }, 401);
+      }"""
+new_auth_gate = """      if (url.pathname.startsWith('/v1/') || url.pathname.startsWith('/a2a/')) {
+        const requiredScope = requiredApiScope(request, url.pathname);
+        if (!requiredScope) return json({ error: 'NOT_FOUND' }, 404);
+        if (!await authorize(request, requiredScope)) return json({ error: 'UNAUTHORIZED' }, 401);
+      }"""
+if source.count(old_auth_gate) != 1:
+    raise SystemExit("route-scope authorization patch anchor mismatch")
+source = source.replace(old_auth_gate, new_auth_gate, 1)
+
+json_helper_anchor = """function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }
+  });
+}
+"""
+json_helper_new = json_helper_anchor + """
+async function readJsonBounded(request) {
+  const maxBytes = 65536;
+  const declaredLength = Number(request.headers.get('content-length') ?? 0);
+  if (declaredLength > maxBytes) throw new Error('REQUEST_BODY_TOO_LARGE');
+  const raw = await request.text();
+  if (new TextEncoder().encode(raw).byteLength > maxBytes) throw new Error('REQUEST_BODY_TOO_LARGE');
+  try { return JSON.parse(raw); } catch { throw new Error('INVALID_JSON'); }
+}
+"""
+if source.count(json_helper_anchor) != 1:
+    raise SystemExit("bounded JSON helper anchor mismatch")
+source = source.replace(json_helper_anchor, json_helper_new, 1)
+
+if source.count("const body = await request.json();") != 2:
+    raise SystemExit("expected exactly two JSON request parsing sites")
+source = source.replace("const body = await request.json();", "const body = await readJsonBounded(request);")
+
+old_catch = """    } catch (error) {
+      return json({ error: 'RUNTIME_ERROR', message: String(error?.message ?? 'UNKNOWN').slice(0, 400) }, 500);
+    }"""
+new_catch = """    } catch (error) {
+      if (error?.message === 'REQUEST_BODY_TOO_LARGE') return json({ error: 'PAYLOAD_TOO_LARGE' }, 413);
+      if (error?.message === 'INVALID_JSON') return json({ error: 'INVALID_JSON' }, 400);
+      return json({ error: 'RUNTIME_ERROR', request_id: randomUUID() }, 500);
+    }"""
+if source.count(old_catch) != 1:
+    raise SystemExit("error sanitization patch anchor mismatch")
+source = source.replace(old_catch, new_catch, 1)
+
 old_candidate = """  const candidate = task.task_type === 'demo_e2e' ? syntheticCandidate() : (task.payload?.candidate ?? {});"""
 new_candidate = """  const taskPayload = parseObject(task.payload);
   const candidate = task.task_type === 'demo_e2e' ? syntheticCandidate() : (parseObject(taskPayload.candidate));"""
