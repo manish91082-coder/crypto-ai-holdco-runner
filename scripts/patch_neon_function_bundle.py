@@ -77,10 +77,10 @@ async function authorizeCron(secret) {
 auth_new = """async function authorize(request, requiredScope) {
   const header = request.headers.get('authorization') ?? '';
   const match = header.match(/^Bearer\\s+(.+)$/i);
-  if (!match) return false;
+  if (!match) return null;
   const tokenHash = digest(match[1]);
   const result = await sql('SELECT subject FROM runtime.validate_api_token($1,$2)', [tokenHash, requiredScope]);
-  return result.rows.length === 1;
+  return typeof result.rows[0]?.subject === 'string' ? result.rows[0].subject : null;
 }
 
 async function authorizeCron(secret) {
@@ -93,7 +93,7 @@ function requiredApiScope(request, pathname) {
   if (request.method === 'POST' && pathname === '/v1/demo') return 'demo:run';
   if (request.method === 'POST' && pathname === '/v1/tasks') return 'tasks:write';
   if (request.method === 'GET' && pathname === '/v1/metrics') return 'metrics:read';
-  if (request.method === 'GET' && /^\\/v1\\/tasks\\/[0-9a-f-]{36}$/i.test(pathname)) return 'tasks:read:any';
+  if (request.method === 'GET' && /^\\/v1\\/tasks\\/[0-9a-f-]{36}$/i.test(pathname)) return 'tasks:read:own';
   if (request.method === 'POST' && pathname === '/a2a/v1/messages') return 'a2a:write';
   return null;
 }
@@ -105,10 +105,12 @@ source = source.replace(auth_old, auth_new, 1)
 old_auth_gate = """      if (url.pathname.startsWith('/v1/') || url.pathname.startsWith('/a2a/')) {
         if (!await authorize(request)) return json({ error: 'UNAUTHORIZED' }, 401);
       }"""
-new_auth_gate = """      if (url.pathname.startsWith('/v1/') || url.pathname.startsWith('/a2a/')) {
+new_auth_gate = """      let requestSubject = null;
+      if (url.pathname.startsWith('/v1/') || url.pathname.startsWith('/a2a/')) {
         const requiredScope = requiredApiScope(request, url.pathname);
         if (!requiredScope) return json({ error: 'NOT_FOUND' }, 404);
-        if (!await authorize(request, requiredScope)) return json({ error: 'UNAUTHORIZED' }, 401);
+        requestSubject = await authorize(request, requiredScope);
+        if (!requestSubject) return json({ error: 'UNAUTHORIZED' }, 401);
       }"""
 if source.count(old_auth_gate) != 1:
     raise SystemExit("route-scope authorization patch anchor mismatch")
