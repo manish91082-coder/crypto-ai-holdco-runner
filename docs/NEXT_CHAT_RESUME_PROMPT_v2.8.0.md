@@ -1,5 +1,5 @@
-# Canonical Next Chat Resume Prompt v2.7.9 — Crypto AI Holdings Only
-Observed: 27-Nov-2026
+# Canonical Next Chat Resume Prompt v2.8.0 — Crypto AI Holdings Only
+Observed: 28-Nov-2026
 Mission key: crypto-ai-holdco-master
 
 Continue ONLY Crypto AI Holdings — Autonomous Crypto Revenue Ecosystem. No other project, A2A mission, ZAGRE, Ghost Hunter or unrelated trading bot.
