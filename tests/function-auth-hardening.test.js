@@ -33,12 +33,13 @@ test('Function role receives only validator execution, not token-table SELECT', 
   assert.ok(migration.includes('GRANT EXECUTE ON FUNCTION runtime.validate_cron_token(text,text) TO crypto_holdco_function'));
 });
 
-test('deterministic Function bundle patcher uses scope-aware DB validators', () => {
+test('deterministic Function bundle patcher uses scoped API validators and Neon trigger provenance', () => {
   assert.ok(patcher.includes('runtime.validate_api_token($1,$2)'));
-  assert.ok(patcher.includes('runtime.validate_cron_token($1,$2)'));
   assert.ok(patcher.includes('requiredApiScope'));
   assert.ok(patcher.includes('tasks:read:own'));
-  assert.ok(patcher.includes('dispatch:run'));
+  assert.ok(patcher.includes('x-neon-trigger-invocation-id'));
+  assert.ok(patcher.includes('body?.invocation_id === invocationId'));
+  assert.ok(patcher.includes("body?.trigger?.type === 'schedule'"));
 });
 
 test('request boundary and error sanitizer do not expose raw SQL detail', () => {
