@@ -18,7 +18,7 @@ The goal is a zero-upfront, cloud-only, crypto-native AI-agent revenue ecosystem
 ## Current runtime
 
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`, database `crypto_holdco`.
-- Neon Function `cryptoaicore`, deployment #16, Node.js 24, Singapore.
+- Neon Function `cryptoaicore`, deployment #17, Node.js 24, Singapore.
 - Function database identity: `crypto_holdco_function`.
 - `/readyz` reports `governor_state=PAUSE_DEGRADED`, `work_allowed=false`.
 - Seven specialist roles appear in the A2A agent card. These are logical roles in one Function, not yet seven independent LLM instances.
@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.26](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.26.md).  
-Next-chat resume: [v2.7.7](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.7.md).
+Latest continuity: [v34.26](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.27.md).  
+Next-chat resume: [v2.7.7](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.8.md).
 
 ## Evidence and verification
 
@@ -115,7 +115,7 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 
 ## Deployment #16 — GitHub OIDC metrics-only workload identity (27-Nov-2026)
 - Active Neon Function `cryptoaicore`, deployment **#16**, Node.js 24, Singapore `aws-ap-southeast-1`.
-- Deployed source SHA-256: `76e31c353eacb59f1ffb5d7697d467da66b84ab93dd0de4db5b86e68b386201c`.
+- Deployed source SHA-256: `d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44`.
 - GitHub Actions issues a short-lived OIDC JWT for this exact repository, workflow, push branch and actor. The Function verifies RS256 signature against GitHub's JWKS, issuer, audience, immutable repository/owner IDs, exact workflow_ref, event/ref, actor, hosted-runner and token time claims. JWT/token content and raw claims are never written to logs.
 - The OIDC workload identity is accepted **only** for `GET /v1/metrics` (`metrics:read`). Live request returns HTTP 200.
 - Live scope-escalation probes for `agents:read`, `demo:run`, `tasks:write`, `tasks:read:own` and A2A all returned HTTP 401. Unauthenticated metrics/tasks/A2A and forged public Neon trigger requests also returned HTTP 401.
@@ -135,3 +135,11 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - P03.03 remains ACTIVE / PARTIAL. OIDC metrics-only HTTP proof and scope-denial proof are complete. The normal owner API-token HTTP path, protected token delivery/rotation, and real provider-origin trigger delivery remain open.
 - P03.05 remains PLANNED / NOT ACTIVE. Application daily budgets, custom quota enforcement, 80% fail-closed stops and durable checkpoint recovery are not yet implemented.
 - P03 exit NOT PASSED; P04 NOT STARTED. WBS counts remain 16 COMPLETE / 1 BLOCKED / 102 PLANNED / 0 QUEUED. The locked Master/WBS are unchanged.
+
+
+## v34.27 — synthetic app-token validator canary, 27-Nov-2026
+- Function deployment #17, source SHA-256 d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44.
+- CI #121 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46046289848: SUCCESS, 44/44 tests. Seventeen signed OIDC claims passed.
+- Separate ephemeral app bearer ci-auth-canary:46046289848:1, metrics:read only, 180-second expiry: normal runtime.validate_api_token HTTP metrics request 200, wrong-scope agents request 401, finally revocation verified. DB confirms enabled=false, revoked_at/last_used_at populated; zero active canaries remain.
+- This proves the normal validator using a synthetic canary, not the owner-operator-pilot token. Owner token remains active and unchanged. Consumer census/protected delivery still block rotation.
+- Trigger disabled, Governor paused, no financial operations or revenue. P03.03 remains partial.
