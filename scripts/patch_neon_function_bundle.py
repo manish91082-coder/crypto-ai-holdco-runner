@@ -66,7 +66,7 @@ oidc_helper = oidc_helper.replace("export async function ", "async function ").r
 anchor = "function syntheticCandidate() {"
 if source.count(anchor) != 1:
     raise SystemExit("expected one syntheticCandidate anchor")
-source = source.replace(anchor, oidc_helper + "\\n" + helper + anchor, 1)
+source = source.replace(anchor, oidc_helper + "\n" + helper + anchor, 1)
 
 
 auth_old = """async function authorize(request) {
