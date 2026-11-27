@@ -23,3 +23,12 @@ jobs:
         run: node --check src/server.js && node --check src/worker.js && node --check src/pipeline.js && node --check src/model.js
       - name: Domain and safety tests
         run: node --test
+      - name: Live Neon Function and database smoke test
+        env:
+          FUNCTION_URL: https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 5 "$FUNCTION_URL/healthz" -o /tmp/health.json
+          node -e "const x=require('/tmp/health.json'); if(x.status!=='alive'||x.database!=='connected') process.exit(1); console.log('Neon Function health and database: PASS')"
+          curl --fail --silent --show-error "$FUNCTION_URL/.well-known/agent.json" -o /tmp/agent.json
+          node -e "const x=require('/tmp/agent.json'); if(!Array.isArray(x.skills)||x.skills.length!==7) process.exit(1); console.log('A2A agent card: PASS ('+x.skills.length+' specialist roles)')"
