@@ -114,6 +114,13 @@ if source.count(old_auth_gate) != 1:
     raise SystemExit("route-scope authorization patch anchor mismatch")
 source = source.replace(old_auth_gate, new_auth_gate, 1)
 
+if "FROM runtime.api_tokens WHERE token_hash" in source or "FROM runtime.cron_tokens WHERE token_hash" in source:
+    raise SystemExit("blanket token-table lookup remains after scope-aware auth patch")
+if "request.json()" in source:
+    raise SystemExit("unbounded request JSON parsing remains")
+if "message: String(error?.message" in source:
+    raise SystemExit("raw runtime error detail may leak to clients")
+
 json_helper_anchor = """function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
