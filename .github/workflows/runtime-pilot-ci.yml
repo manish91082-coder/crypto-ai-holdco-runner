@@ -100,10 +100,16 @@ jobs:
             immutable_subject: claims.sub === 'repo:manish91082-coder@283637475/crypto-ai-holdco-runner@1468220353:ref:refs/heads/temporary-zero-cost-runtime-pilot',
             repository_id: String(claims.repository_id) === '1468220353',
             owner_id: String(claims.repository_owner_id) === '283637475',
-            workflow_ref: claims.workflow_ref === 'manish91082-coder/crypto-ai-holdco-runner/.github/workflows/runtime-pilot-ci.yml@refs/heads/temporary-zero-cost-runtime-pilot',
+            repository_name: claims.repository === 'manish91082-coder/crypto-ai-holdco-runner',
+            workflow_name: claims.workflow === 'Runtime Pilot CI',
+            workflow_ref: claims.workflow_ref === 'manish91082/crypto-ai-holdco-runner/.github/workflows/runtime-pilot-ci.yml@refs/heads/temporary-zero-cost-runtime-pilot',
             push_event: claims.event_name === 'push' && claims.ref === 'refs/heads/temporary-zero-cost-runtime-pilot',
             trusted_actor: String(claims.actor_id) === '283637475',
-            hosted_runner: claims.runner_environment === 'github-hosted'
+            hosted_runner: claims.runner_environment === 'github-hosted',
+            public_repository: claims.repository_visibility === 'public',
+            valid_token_times: Number.isInteger(claims.iat) && Number.isInteger(claims.nbf) && Number.isInteger(claims.exp) && claims.exp > Math.floor(Date.now()/1000) && claims.exp - claims.iat <= 600,
+            token_jti: typeof claims.jti === 'string' && claims.jti.length >= 16,
+            commit_sha: typeof claims.sha === 'string' && /^[a-f0-9]{40}$/i.test(claims.sha)
           };
           for (const [name, passed] of Object.entries(checks)) {
             console.log(`GitHub OIDC claim ${name}: ${passed ? 'PASS' : 'FAIL'}`);
