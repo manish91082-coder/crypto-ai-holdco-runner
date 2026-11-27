@@ -39,7 +39,7 @@
 
 ## Safety and operational boundaries
 - Pilot branch only. Canonical main branch, Master Constitution v2.0.0, WBS v2.0.0 and P01/P02 task statuses were not changed.
-- Scheduled trigger is enabled at five-minute cadence and dispatches at most three queued tasks per invocation.
+- Scheduled trigger is configured for five-minute cadence but is currently **DISABLED** after synthetic acceptance. It will remain disabled until Functions capacity usage and the locked Governor gate are verified.
 - The runtime can accept and process supplied qualification tasks. It does not yet run a verified live public opportunity-source scanner, independently confirm sponsor funding, or autonomously submit work to buyers.
 - Live submissions, wallet signing, trading, transfers and payments are disabled.
 - The function uses a dedicated `crypto_holdco_function` login, supplied only as Neon deployment environment `DATABASE_URL`. It is scoped to database `crypto_holdco` and schema `runtime`; table grants are restricted to SELECT on token tables, SELECT/INSERT/UPDATE on tasks, and SELECT/INSERT on messages/audit/opportunity tables. DELETE, schema CREATE, BYPASSRLS, CREATEROLE, CREATEDB and neon_superuser membership are absent. No credential is committed to source control.
@@ -55,8 +55,13 @@
 - Logical size is not billed physical storage. Neon Free-plan Functions active/waiting capacity and billed storage are not exposed by the v3 consumption API used here (HTTP 403); usage remains UNKNOWN. Provider request logs give only an observed invocation lower bound, not the billing meter.
 - No paid upgrade, top-up or automatic paid fallback is enabled. Keep dispatch bounded and stop it if any free-capacity indicator approaches its limit.
 
+## Current role and scheduler read-back
+- Live `/readyz` returns `database_role=crypto_holdco_function`; GitHub Actions run 45994079181 asserted this identity, DB connectivity and six runtime tables.
+- Neon role catalog read-back confirms no SUPERUSER, CREATEROLE, CREATEDB, BYPASSRLS, `neon_superuser` membership, or schema CREATE privilege; DELETE is not granted. Required runtime tables alone have limited grants.
+- Trigger `trigger-3b855bc5-fb48-4547-a84d-b374e56ebb71` was read back `enabled=false` after tests. The main branch and project ledger remain unchanged.
+
 ## Acceptance evidence
-- CI run with least-privilege identity verification: pending final push
+- CI run with least-privilege identity verification: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/45994079181
 - Deployment 9 source SHA-256: `1fda8626e5ddb092586b9bf0beca1643ebda4a17cdd79559c3ca16791eb2642c`
 - Canonical pilot evidence IDs and audit IDs are recorded in the Neon `holdco` ledger under the P03 temporary-runtime pilot addendum.
 - This is technical pilot evidence only. It is not P03 exit, production certification or commercial success.
