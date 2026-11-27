@@ -70,7 +70,7 @@ test('successful validators persist last-used timestamps', () => {
 
 test('Function patcher returns authenticated subjects and removes any-task-read', () => {
   assert.ok(patcher.includes('requestSubject = await authorize(request, requiredScope)'));
-  assert.ok(patcher.includes("return typeof result.rows[0]?.subject === 'string'"));
+  assert.ok(patcher.includes("if (typeof result.rows[0]?.subject === 'string') return result.rows[0].subject;"));
   assert.ok(patcher.includes("'tasks:read:own'"));
   assert.ok(patcher.includes('if "tasks:read:any" in source'));
 });
