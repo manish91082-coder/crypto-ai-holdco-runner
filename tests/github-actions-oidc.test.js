@@ -37,6 +37,8 @@ function claims(overrides = {}) {
     runner_environment: 'github-hosted',
     repository_visibility: 'public',
     actor_id: '283637475',
+    run_id: '46000000001',
+    run_attempt: '1',
     sha: 'a'.repeat(40),
     jti: 'test-jti-0123456789abcdef0123456789',
     iat: NOW - 10,
