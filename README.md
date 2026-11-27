@@ -157,6 +157,13 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 ## 28-Nov-2026 current overlay — Google Function OIDC scheduler candidate
 - CI #131: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46053348674, SUCCESS, 58/58 tests. Candidate patched Function source hash `367ea0205d797aa8a22d78a5b5a6f1e6638460aaf76ef98a20b04f1f78604921`. Live Neon smoke was skipped.
 - Active Function remains deployment #17, source hash `d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44`. No deployment #18, Apps Script project or trigger installed.
-- Data API based Google candidate is superseded; Data API remains disabled on main and pilot. New source-only candidate is documented in [P03.03 Google Apps Script Function OIDC Scheduler v1.0](docs/P03.03_GOOGLE_APPS_SCRIPT_FUNCTION_OIDC_SCHEDULER_v1.0.md).
+- Data API based Google candidate is superseded; Data API remains disabled on main and pilot. New source-only candidate is documented in [P03.03 Google Apps Script Function OIDC Scheduler v1.1](docs/P03.03_GOOGLE_APPS_SCRIPT_FUNCTION_OIDC_SCHEDULER_v1.1.md).
 - Neon project active-time use is 87.64%, compute 79.77%, transfer 3.10% for the period ending 2026-12-01T00:00Z. Do not deploy or arm a scheduler in this quota window. Governor remains PAUSE_DEGRADED/work_allowed=false.
 - Current P03 status: P03.03 ACTIVE/PARTIAL; P03.05 PLANNED/NOT ACTIVE; P03 exit NOT PASSED; P04 NOT STARTED; realised net revenue 0.
+
+
+## 28-Nov-2026 source hardening — replay guard
+- Google scheduler candidate v1.1 adds a per-tick UUID plus an atomic DB replay guard keyed by tick UUID and SHA-256 token digest. Duplicate token/tick returns HTTP 409.
+- CI #137 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46054644565: SUCCESS, 60/60 tests; candidate patched source SHA `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`. Live smoke skipped. Function deployment #17 unchanged.
+- Replay migration/test are source-only, not applied in Neon. No deployment, Apps Script project or trigger.
+- Guard is at-most-once admission, not exactly-once execution. Neon quota stop, Governor pause and P03.05 gate remain.
