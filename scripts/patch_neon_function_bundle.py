@@ -88,7 +88,7 @@ canary_identity = """async function verifiedCiAuthCanaryRun(request) {
 """
 if source.count("function syntheticCandidate() {") != 1:
     raise SystemExit("expected one syntheticCandidate helper anchor for canary identity")
-source = source.replace("function syntheticCandidate() {", canary_identity + "\\nfunction syntheticCandidate() {", 1)
+source = source.replace("function syntheticCandidate() {", canary_identity + "\nfunction syntheticCandidate() {", 1)
 
 
 
@@ -183,7 +183,7 @@ canary_routes = """      if (request.method === 'POST' && url.pathname === '/int
         return json({ revoked_count: count }, 200);
       }
 """
-dispatch_marker = r"      const cronMatch = url.pathname.match(/^\\/internal\\/dispatch\\/([a-f0-9]{64})$/);"
+dispatch_marker = r"      const cronMatch = url.pathname.match(/^\/internal\/dispatch\/([a-f0-9]{64})$/);"
 if source.count(dispatch_marker) != 1:
     raise SystemExit("expected one legacy dispatch route anchor for canary endpoints")
 source = source.replace(dispatch_marker, canary_routes + dispatch_marker, 1)
