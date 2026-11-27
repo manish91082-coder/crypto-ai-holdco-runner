@@ -12,6 +12,7 @@ import base64
 import hashlib
 import io
 import pathlib
+import re
 import sys
 import zipfile
 
@@ -83,9 +84,18 @@ auth_new = """async function authorize(request, requiredScope) {
   return typeof result.rows[0]?.subject === 'string' ? result.rows[0].subject : null;
 }
 
-async function authorizeCron(secret) {
-  const result = await sql('SELECT subject FROM runtime.validate_cron_token($1,$2)', [digest(secret), 'dispatch:run']);
-  return result.rows.length === 1;
+// Neon strips caller-supplied x-neon-* headers at its Functions edge.
+const EXPECTED_SCHEDULE_TRIGGER_ID = 'trigger-3b855bc5-fb48-4547-a84d-b374e56ebb71';
+
+async function authorizeCron(request) {
+  const invocationId = request.headers.get('x-neon-trigger-invocation-id') ?? '';
+  if (request.method !== 'POST' || !/^[A-Za-z0-9_-]{16,128}$/.test(invocationId)) return false;
+  let body;
+  try { body = await request.clone().json(); } catch { return false; }
+  return body?.version === 1
+    && body?.invocation_id === invocationId
+    && body?.trigger?.type === 'schedule'
+    && body?.trigger?.id === EXPECTED_SCHEDULE_TRIGGER_ID;
 }
 
 function requiredApiScope(request, pathname) {
@@ -101,6 +111,25 @@ function requiredApiScope(request, pathname) {
 if source.count(auth_old) != 1:
     raise SystemExit("token authorization patch anchor mismatch")
 source = source.replace(auth_old, auth_new, 1)
+
+# Replace the secret-bearing path with a fixed Neon-trigger-only route.
+# The request is authenticated by Neon's edge-stripped x-neon header and body correlation.
+source, dispatch_path_matches = re.subn(
+    r"url\\.pathname\\.match\\(\\s*/[^;\\n]*internal[^;\\n]*dispatch[^;\\n]*\\)",
+    "url.pathname === '/internal/dispatch'",
+    source,
+    count=1,
+)
+if dispatch_path_matches != 1:
+    raise SystemExit("expected exactly one secret-bearing internal dispatch path matcher")
+source, cron_call_matches = re.subn(
+    r"authorizeCron\\(\\s*dispatchMatch\\[1\\]\\s*\\)",
+    "authorizeCron(request)",
+    source,
+    count=1,
+)
+if cron_call_matches != 1:
+    raise SystemExit("expected one secret-bearing cron authorization call")
 
 old_auth_gate = """      if (url.pathname.startsWith('/v1/') || url.pathname.startsWith('/a2a/')) {
         if (!await authorize(request)) return json({ error: 'UNAUTHORIZED' }, 401);
@@ -248,6 +277,10 @@ if "owner_subject) VALUES" not in source:
 if "const taskAccess = await sql(" not in source:
     raise SystemExit("A2A task ownership check is missing")
 
+if "dispatchMatch[1]" in source or "/internal/dispatch/" in source:
+    raise SystemExit("secret-bearing dispatch URL path remains")
+if "authorizeCron(request)" not in source:
+    raise SystemExit("Neon trigger provenance validation is not wired to dispatch")
 if "task.payload?.candidate" in source or "task.payload?.receipt" in source:
     raise SystemExit("un-normalized task payload access remains")
 
