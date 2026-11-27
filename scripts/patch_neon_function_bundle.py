@@ -73,15 +73,15 @@ if source.count(old_receipt) != 1:
 source = source.replace(old_receipt, new_receipt, 1)
 
 old_ready = """const result = await sql('SELECT 1 AS healthy, current_database() AS database_name');"""
-new_ready = """const result = await sql('SELECT 1 AS healthy, current_database() AS database_name, current_user AS database_role');"""
+new_ready = """const result = await sql('SELECT 1 AS healthy, current_database() AS database_name, current_user AS database_role, cp.governor_state, cp.work_allowed FROM runtime.control_plane cp WHERE cp.singleton_id IS TRUE');"""
 if source.count(old_ready) != 1:
     raise SystemExit("readiness role identity patch anchor mismatch")
 source = source.replace(old_ready, new_ready, 1)
 
 old_ready_json = """database_name: result.rows[0]?.database_name ?? null, runtime_schema_tables:"""
-new_ready_json = """database_name: result.rows[0]?.database_name ?? null, database_role: result.rows[0]?.database_role ?? null, runtime_schema_tables:"""
+new_ready_json = """database_name: result.rows[0]?.database_name ?? null, database_role: result.rows[0]?.database_role ?? null, governor_state: result.rows[0]?.governor_state ?? 'UNKNOWN', work_allowed: result.rows[0]?.work_allowed === true, runtime_schema_tables:"""
 if source.count(old_ready_json) != 1:
-    raise SystemExit("readiness role JSON patch anchor mismatch")
+    raise SystemExit("readiness Governor JSON patch anchor mismatch")
 source = source.replace(old_ready_json, new_ready_json, 1)
 
 old_returning = """RETURNING t.id::text AS id, t.task_type, t.payload, t.attempt_count, t.max_attempts"""
