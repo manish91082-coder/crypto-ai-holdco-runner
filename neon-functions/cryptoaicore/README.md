@@ -38,6 +38,14 @@
 - The function currently uses Neon-injected `DATABASE_URL`; least-privilege runtime role adoption and independent backup/restore are still open P03 controls.
 - Neon Functions Free allowances are limited and enforced both per project and account-wide. Stop/reduce dispatch if capacity approaches the free ceiling; do not upgrade or enable paid fallback.
 
+
+## Zero-cost hard quota guard
+- Neon project quotas (read back 2026-11-27): 36 active hours, 10 CU-hours, 1 GB proxy egress, 512 MB logical size per branch, 256 MB written data per billing period.
+- Defaults: fixed 0.25 CU minimum/maximum; suspend timeout 0 seconds.
+- At configuration: 22.36 / 36 active hours, 5.6611 / 10 CU-hours, 22.37 MB / 1 GB egress, 0 / 256 MB writes.
+- These are project-level Postgres resource caps, below published Free-plan maxima. They do not reveal or replace the separate Neon Functions active/waiting capacity usage meter.
+- Function usage and billed physical storage remain unknown because the Free-plan consumption endpoint returns HTTP 403. No paid upgrade was made.
+
 ## Acceptance evidence
 GitHub Actions: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/45977582468
 Canonical Neon evidence: `ev.holdco.p03.neon-temporary-runtime-synthetic-e2e.20261127`
