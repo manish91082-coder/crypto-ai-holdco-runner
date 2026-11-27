@@ -64,3 +64,17 @@ Runtime audit event: `GOVERNOR_PAUSE_RUNNING_RECOVERY_TEST_PASS`.
 Continue bounded on-demand engineering and synthetic validation. Do not enable recurring automation while the Functions MTD meter is unknown. Do not write real buyer/receipt/treasury records before the private canonical backup/restore gate. Keep Governor PAUSE_DEGRADED until the next bounded test is explicitly executed.
 
 P03.01 remains PARTIAL and P03 exit remains NOT PASSED. P03.03/P03.05 must be re-assessed against the new release tiers without repeating already completed work. No P04 claim until P03 exit evidence is reconciled.
+
+
+## 27-Nov-2026 quota telemetry and P03.01 closure addendum
+The project-specific Neon API read-back exposes custom caps narrower than Free defaults:
+- active_time_seconds 129,600; current 94,687 (73.061%).
+- compute_time_seconds 36,000 CU-sec (10 CU-hours); current 23,950 (66.5278%).
+- data_transfer_bytes 1,000,000,000; current 24,860,369 (2.486%).
+- written_data_bytes cap 268,435,456; current zero.
+- per-branch logical_size cap 536,870,912 bytes.
+These actual custom caps are authoritative for this project.
+
+Neon Free Function active/waiting Capacity-Hours and MTD invocations are UNKNOWN, not zero: Free consumption API returns 403 and the simplified Usage Summary does not show Function metrics. Recurring scheduling stays disabled.
+
+P03.01 is now COMPLETE_WITH_KNOWN_PROVIDER_FUNCTION_METER_LIMITATION. Next active task P03.03. P03.05 remains later in sequence and must implement persistent application-level quotas, dispatch stop and the proposed 80% soft ceilings. These soft ceilings are not live enforcement. P03 remains IN_PROGRESS and P03 exit remains NOT PASSED.
