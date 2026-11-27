@@ -44,3 +44,8 @@ test('token or claim content is never written to logs', () => {
 });
 
 // This controlled push also runs the staged read-only OIDC HTTP canary after verifier deployment.
+
+test('positive metrics response checks only schema presence, not provider numeric wire types', () => {
+  assert.ok(workflow.includes("Object.prototype.hasOwnProperty.call(body, 'agent_messages')"));
+  assert.equal(workflow.includes('Number.isSafeInteger(body?.tasks?.total)'), false);
+});
