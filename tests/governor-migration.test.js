@@ -6,6 +6,10 @@ const migration = readFileSync(
   new URL('../db/migrations/pilot/20261127_fail_closed_governor.sql', import.meta.url),
   'utf8'
 );
+const recoveryTest = readFileSync(
+  new URL('../db/tests/pilot/verify_governor_pause_running_recovery.sql', import.meta.url),
+  'utf8'
+);
 
 function policyBlock(name) {
   const start = migration.indexOf(`CREATE POLICY ${name}`);
