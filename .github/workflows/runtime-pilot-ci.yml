@@ -29,7 +29,10 @@ jobs:
           FUNCTION_URL: https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech
         run: |
           set -euo pipefail
-          curl --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 5 "$FUNCTION_URL/healthz" -o /tmp/health.json
+          curl --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 5 "$FUNCTION_URL/" -o /tmp/root.json
+          cat /tmp/root.json
+          node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/root.json','utf8')); if(x.status!=='running'||x.service!=='crypto-ai-holdco-neon-runtime') process.exit(1); console.log('Application handler routing: PASS')"
+          curl --fail --silent --show-error "$FUNCTION_URL/healthz" -o /tmp/health.json
           cat /tmp/health.json
           node -e "const fs=require('node:fs'); const x=JSON.parse(fs.readFileSync('/tmp/health.json','utf8')); if(x.status!=='alive'||x.database!=='connected'||Number(x.runtime_schema_tables)<6) process.exit(1); console.log('Neon Function health + DB + schema: PASS')"
           curl --fail --silent --show-error "$FUNCTION_URL/.well-known/agent.json" -o /tmp/agent.json
