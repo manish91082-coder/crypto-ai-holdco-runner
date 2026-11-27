@@ -81,3 +81,13 @@ test('task and A2A reads are bound to the authenticated subject', () => {
   assert.ok(patcher.includes('requestSubject]);'));
   assert.ok(patcher.includes('owner_subject) VALUES'));
 });
+
+test('Neon scheduled dispatch uses edge-attested invocation envelope, never a URL secret', () => {
+  assert.ok(patcher.includes("x-neon-trigger-invocation-id"));
+  assert.ok(patcher.includes("EXPECTED_SCHEDULE_TRIGGER_ID"));
+  assert.ok(patcher.includes("body?.invocation_id === invocationId"));
+  assert.ok(patcher.includes("body?.trigger?.id === EXPECTED_SCHEDULE_TRIGGER_ID"));
+  assert.ok(patcher.includes("url.pathname === '/internal/dispatch'"));
+  assert.ok(patcher.includes("authorizeCron(request)"));
+  assert.ok(patcher.includes("secret-bearing dispatch URL path remains"));
+});
