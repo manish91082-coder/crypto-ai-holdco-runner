@@ -6,6 +6,7 @@ on:
       - temporary-zero-cost-runtime-pilot
     paths:
       - 'neon-functions/cryptoaicore/**'
+      - '!neon-functions/cryptoaicore/README.md'
       - 'db/migrations/pilot/**'
       - 'db/tests/pilot/**'
       - 'scripts/patch_neon_function_bundle.py'
