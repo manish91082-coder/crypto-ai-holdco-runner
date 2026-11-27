@@ -58,3 +58,10 @@ test('patched source fails closed on legacy auth and unsafe handlers', () => {
   assert.ok(patcher.includes('unbounded request JSON parsing remains'));
   assert.ok(patcher.includes('raw runtime error detail may leak to clients'));
 });
+
+
+test('successful validators persist last-used timestamps', () => {
+  assert.ok(migration.includes('SET last_used_at=statement_timestamp()'));
+  assert.ok(migration.includes('LANGUAGE plpgsql'));
+  assert.ok(migration.includes('VOLATILE'));
+});
