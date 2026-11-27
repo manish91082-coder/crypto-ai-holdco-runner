@@ -61,3 +61,18 @@ This backup covers synthetic pilot runtime records only. It is not a backup of t
 - Functions active/waiting Capacity-Hours and exact invocation meter are not available through the current Free-plan consumption API. The API returns 403 for Free; do not infer these meters from provider logs.
 - Storage billing is not certified by branch logical-size values.
 - Do not upgrade, enable paid fallback, create owner-funded gas, or re-enable the scheduler without a new verified quota decision.
+
+
+## P03 pilot Governor: database-enforced fail-closed gate
+- Migration source: `db/migrations/pilot/20261127_fail_closed_governor.sql`
+- Live branch: `br-lively-flower-a15zb6ar` / database `crypto_holdco`
+- Live control row: `runtime.control_plane` = `PAUSE_DEGRADED`, `work_allowed=false`
+- `runtime.tasks` has Row-Level Security enabled and forced.
+- The dispatcher's actual queue-claim statement (`SELECT ... FOR UPDATE SKIP LOCKED` followed by `UPDATE ... status='running'`) was executed as `crypto_holdco_function`; it returned **zero rows** while paused.
+- A synthetic queued probe remained `queued` with `attempt_count=0` after the claim attempt, then was removed after verification.
+- The Function role has **SELECT only** on `runtime.control_plane`; INSERT, UPDATE and DELETE privileges were explicitly revoked after detecting broad default table grants.
+- Live post-hardening privilege audit: control-plane SELECT=true; INSERT/UPDATE/DELETE=false. The Function role still has the task-table UPDATE grant, but the forced RLS policy denies all task updates unless the control row is explicitly `RUNNING` and `work_allowed=true`.
+- Temporary owner-only test policy and probe row were removed. The durable governor policy and one audit event remain.
+- Scheduler remains disabled. Current queued tasks=0 and running tasks=0.
+- No Function redeploy was needed: the gate is enforced by PostgreSQL at the task-claim boundary. Function deployment remains #10.
+- This is a pilot fail-closed control, not proof of autonomous revenue operation. P03.01 remains partial; P03 exit remains NOT PASSED.
