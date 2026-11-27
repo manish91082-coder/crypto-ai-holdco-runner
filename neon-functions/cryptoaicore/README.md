@@ -210,3 +210,13 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - Provider issues #12984 and #12986 are still open; retrieved comments do not provide a maintainer-confirmed supported resolution. Do not reset, set LOGIN, recreate, replace, elevate or mutate holdco_runtime.
 - Historical 25-Nov role reconciliation reported a contradictory catalog state; current 27-Nov read-back supersedes it as the present state, while preserving the historical document.
 - Current role research: [v1.2](../docs/P03.03_ROLE_PASSWORD_BOOTSTRAP_RESEARCH_v1.2.md); current catalog reconciliation: [v2.0](../docs/P03_RUNTIME_ROLE_RECONCILIATION_v2.0.md).
+
+
+## 28-Nov-2026 — source-only Google Apps Script Function-OIDC scheduler candidate
+- Candidate spec: `docs/P03.03_GOOGLE_APPS_SCRIPT_FUNCTION_OIDC_SCHEDULER_v1.0.md`.
+- Apps Script proposes `ScriptApp.getIdentityToken()` with explicit `openid` scope and external-request scope; token is obtained just-in-time and sent to existing Neon Function route `POST /internal/google/scheduler/dispatch`.
+- Function candidate verifies Google JWKS RS256 signature, issuer, exact OAuth audience and a SHA-256 allowlist for the effective-user `sub`; it uses existing `crypto_holdco_function`, checks an off-by-default feature flag and database Governor, and caps dispatch at one task per tick.
+- Data API based candidate is superseded and rejected because JWT `role` is needed to select a DB role; absent claim falls back to anonymous, and custom role mapping would require DB role/membership changes. Data API remains disabled.
+- CI #131: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46053348674, SUCCESS, 58/58 tests. Candidate source hash `367ea0205d797aa8a22d78a5b5a6f1e6638460aaf76ef98a20b04f1f78604921`; live smoke skipped.
+- No Function #18, Apps Script project, owner identity, environment allowlist values or trigger has been created or installed. Deployment #17 remains active. Keep scheduler off pending identity tests, replay/idempotency control, P03.05 budgets, owner credential gates and independent WBS acceptance.
+- Current Neon quota: active 87.64%, compute 79.77%, transfer 3.10%; period ends 2026-12-01T00:00Z. Governor remains paused.
