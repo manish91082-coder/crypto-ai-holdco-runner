@@ -100,3 +100,13 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - Both credentials expire 27-Dec-2026 09:44:32.105 UTC; no rotation/reissue yet.
 - Current project transfer: 24,997,930 bytes (2.500% of custom cap); active and compute use unchanged at 73.061% / 66.528%.
 - Current continuity v34.24, audit 48, snapshot 64. P03.03 remains PARTIAL.
+
+
+## v34.25 — deployment #14 and cron trigger provenance hardening (27-Nov-2026)
+- Pilot Function `cryptoaicore`, deployment **#14**, Node.js 24, Singapore; patched source SHA-256 `1ab68658535fbfa6302da18512d8c1d2d902f10def7cebeb722b3e32ef77b567`.
+- The scheduled route no longer carries a secret in its URL. It is fixed at `POST /internal/dispatch` and accepts only the Neon edge-attested `X-Neon-Trigger-Invocation-Id` matched to the request envelope and the exact scheduled-trigger ID.
+- The existing trigger path is now `/internal/dispatch`; **enabled=false**, `next_run_at=null`. No recurring dispatch is running.
+- CI #87: [run 46039261655](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655), SUCCESS; 25/25 tests; live readiness, DB role, Governor and A2A card checks pass. Forged public trigger request returned **401 UNAUTHORIZED**; unauthenticated metrics/tasks/A2A also returned 401.
+- Pilot ownership read-back: 7/7 synthetic task rows are owner-bound; 0 owner-less, 0 queued, 0 running. Pilot API scope has `tasks:read:own`, not `tasks:read:any`. This is a single-pilot boundary, not multi-tenant certification.
+- Final pilot Governor remains `PAUSE_DEGRADED / work_allowed=false`. No actual scheduler invocation, buyer work, payment, wallet action, trading or revenue is claimed.
+- P03.03 remains PARTIAL: positive authenticated API Bearer HTTP canary and safe credential issue/revoke/rotation/reissue procedure remain open. P03.05 remains PLANNED/not active; its persisted daily budget and 80% quota stops are not deployed. P03 exit remains NOT PASSED; P04 not started.
