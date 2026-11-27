@@ -234,3 +234,9 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - Candidate v1.1 sends a fresh tick UUID and uses proposed `runtime.consume_google_scheduler_tick(uuid,text,timestamptz)` to reject repeated tick UUID or repeated verified bearer SHA-256 digest with HTTP 409.
 - Migration `db/migrations/pilot/20261128_google_scheduler_replay_guard.sql` and SQL test `db/tests/pilot/verify_google_scheduler_replay_guard.sql` are source-only, not applied or executed. At-most-once admission only, not exactly-once processing.
 - Active deployment #17 remains unchanged; no deployment #18, Google Apps Script project or trigger. Keep scheduler off; quota and P03.05 gates remain open.
+
+
+## CI #138 replay SQL static contract check (source-only)
+- https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46055346703: SUCCESS, 62/62 tests. Candidate source hash `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`; live smoke skipped.
+- Static checks read the replay migration and SQL test, but did not apply/execute them. Provider read-back confirms replay table/function absent in main and pilot.
+- Active Function remains #17. No Apps Script project, trigger or env identity allowlist. Keep scheduler disabled.
