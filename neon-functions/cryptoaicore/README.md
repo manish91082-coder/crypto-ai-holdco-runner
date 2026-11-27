@@ -12,7 +12,7 @@
 - Invocation URL: `https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech/`
 - Function DB identity: Neon-managed `crypto_holdco_function`
 - Scheduler trigger: present but **disabled**. Do not restart it automatically.
-- Public GitHub CI: [Governor-aware live smoke run 46006251587](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/45997010798)
+- Public GitHub CI: [latest runtime smoke run #55](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46012576148)
 
 ## Source and reproducibility
 - Base archive: `neon-functions/cryptoaicore/function.zip.b64`
@@ -121,3 +121,21 @@ P03.01 remains PARTIAL and the overall P03 exit gate remains NOT PASSED; this is
 - CI run #47 verified the new SQL-migration regression tests (4 additional tests) plus live endpoint smoke tests: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46009145835
 
 - Canonical resume prompt v2.7.2: `docs/NEXT_CHAT_RESUME_PROMPT_v2.7.2.md`
+
+
+## Project-level quota telemetry — 27-Nov-2026
+Selected Neon project is confirmed on Free v3. Its actual custom project caps are narrower than published plan defaults:
+- Active time: 129,600 seconds; current use 94,687 (73.061%).
+- Compute: 36,000 CU-seconds = 10 CU-hours; current use 23,950 (6.65278 CU-hours; 66.5278%).
+- Public transfer: 1,000,000,000 bytes; current use 24,860,369 (2.486%).
+- Written data: 268,435,456 bytes; current use zero.
+- Per-branch logical size cap: 536,870,912 bytes.
+The published Free 100 CU-hours and 5GB transfer defaults must not override these custom project limits.
+
+Functions active/waiting Capacity-Hours and MTD invocation usage remain UNKNOWN: the Free consumption API returns 403 and the simplified Usage Summary does not display Function usage measures. The scheduler stays disabled. P03.05 will implement app-level daily invocation budgets.
+
+Proposed 80% thresholds (design only, not deployed): active 103,680 sec; compute 28,800 CU-sec; transfer 800,000,000 bytes; writes 214,748,364 bytes. Do not claim enforcement until P03.05 passes.
+
+WBS: P03.01 COMPLETE_WITH_KNOWN_PROVIDER_FUNCTION_METER_LIMITATION; next P03.03. P03 remains IN_PROGRESS / exit NOT PASSED. Full evidence: `docs/P03.01_NEON_PROJECT_QUOTA_TELEMETRY_2026-11-27.md`; continuity v34.21; resume prompt v2.7.3.
+
+Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46012576148. The workflow now path-filters runtime/migration/test files; documentation-only changes do not run live Neon checks.
