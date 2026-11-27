@@ -178,6 +178,62 @@ jobs:
           });
           if (taskRead.status !== 401) throw new Error(`OIDC tasks:read:own escalation should be denied: HTTP ${taskRead.status}`);
           console.log('OIDC tasks:read:own escalation denied: HTTP 401');
+
+          const appTokenIssue = await fetch(process.env.FUNCTION_URL + '/internal/ci/auth-canary/issue', {
+            method: 'POST',
+            headers: { authorization: `Bearer ${token}`, accept: 'application/json' },
+            redirect: 'error'
+          });
+          const issueSucceeded = appTokenIssue.status === 201;
+          let appTokenCanary = null;
+          try {
+            if (!issueSucceeded) throw new Error(`Application token canary issue failed: HTTP ${appTokenIssue.status}`);
+            appTokenCanary = await appTokenIssue.json();
+            if (typeof appTokenCanary?.token !== 'string' || !/^[a-f0-9]{64}$/.test(appTokenCanary.token)) {
+              throw new Error('Application token canary response invalid');
+            }
+            if (appTokenCanary.subject !== `ci-auth-canary:${claims.run_id}:${claims.run_attempt}`) {
+              throw new Error('Application token canary subject binding mismatch');
+            }
+            const canaryExpiry = Date.parse(appTokenCanary.expires_at);
+            if (!Number.isFinite(canaryExpiry) || canaryExpiry <= Date.now() || canaryExpiry > Date.now() + 180000) {
+              throw new Error('Application token canary expiry is outside the 180-second window');
+            }
+            const appMetrics = await fetch(process.env.FUNCTION_URL + '/v1/metrics', {
+              method: 'GET',
+              headers: { authorization: `Bearer ${appTokenCanary.token}`, accept: 'application/json' },
+              redirect: 'error'
+            });
+            if (appMetrics.status !== 200) throw new Error(`Standard application-token validator canary failed: HTTP ${appMetrics.status}`);
+            const appMetricsBody = await appMetrics.json();
+            if (!appMetricsBody || typeof appMetricsBody !== 'object'
+              || !appMetricsBody.tasks || typeof appMetricsBody.tasks !== 'object'
+              || !Object.prototype.hasOwnProperty.call(appMetricsBody, 'agent_messages')) {
+              throw new Error('Application-token metrics response schema invalid');
+            }
+            console.log('runtime API token canary HTTP 200: PASS (SHA-256-backed validate_api_token; metrics:read only)');
+            const wrongScope = await fetch(process.env.FUNCTION_URL + '/v1/agents', {
+              method: 'GET',
+              headers: { authorization: `Bearer ${appTokenCanary.token}`, accept: 'application/json' },
+              redirect: 'error'
+            });
+            if (wrongScope.status !== 401) throw new Error(`Application token wrong-scope denial failed: HTTP ${wrongScope.status}`);
+            console.log('runtime API token canary wrong-scope denial: HTTP 401');
+          } finally {
+            const revokeResponse = await fetch(process.env.FUNCTION_URL + '/internal/ci/auth-canary/revoke', {
+              method: 'POST',
+              headers: { authorization: `Bearer ${token}`, accept: 'application/json' },
+              redirect: 'error'
+            });
+            if (!revokeResponse.ok) throw new Error(`Application token canary revoke endpoint failed: HTTP ${revokeResponse.status}`);
+            const revokeBody = await revokeResponse.json();
+            const revokedCount = Number(revokeBody?.revoked_count);
+            if (!Number.isInteger(revokedCount) || revokedCount < 0 || revokedCount > 1
+              || (issueSucceeded && revokedCount !== 1)) {
+              throw new Error('Application token canary revocation was not confirmed');
+            }
+            console.log('runtime API canary revocation verified');
+          }
           NODE
           status="$(curl --silent --output /tmp/unauth-metrics.json --write-out '%{http_code}' "$FUNCTION_URL/v1/metrics")"
           test "$status" = "401"
