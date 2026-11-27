@@ -91,7 +91,10 @@ auth_new = """async function authorize(request, requiredScope) {
   const result = await sql('SELECT subject FROM runtime.validate_api_token($1,$2)', [tokenHash, requiredScope]);
   if (typeof result.rows[0]?.subject === 'string') return result.rows[0].subject;
   // A GitHub Actions workload identity is accepted only for this read-only CI metrics canary.
-  if (requiredScope === 'metrics:read' && await verifyGithubActionsOidc(match[1])) {
+  if (requiredScope === 'metrics:read' && await verifyGithubActionsOidc(match[1], {
+    onFailure: (reason) => console.info('GITHUB_OIDC_METRICS_AUTH_DENIED', reason)
+  })) {
+    console.info('GITHUB_OIDC_METRICS_AUTH_ACCEPTED', 'repo:1468220353');
     return 'github-actions:repo:1468220353';
   }
   return null;
