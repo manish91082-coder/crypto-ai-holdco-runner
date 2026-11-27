@@ -67,7 +67,34 @@ anchor = "function syntheticCandidate() {"
 if source.count(anchor) != 1:
     raise SystemExit("expected one syntheticCandidate anchor")
 source = source.replace(anchor, oidc_helper + "\n" + helper + anchor, 1)
+canary_identity = """async function verifiedCiAuthCanaryRun(request) {
+  const header = request.headers.get('authorization') ?? '';
+  const match = header.match(/^Bearer\\s+(.+)$/i);
+  if (!match) return null;
+  const token = match[1];
+  if (!await verifyGithubActionsOidc(token, {
+    onFailure: (reason) => console.info('CI_AUTH_CANARY_OIDC_DENIED', reason)
+  })) return null;
+  try {
+    const claims = decodeJwtSegment(token.split('.')[1]);
+    const runId = Number(claims?.run_id);
+    const runAttempt = Number(claims?.run_attempt);
+    if (!Number.isSafeInteger(runId) || runId < 1 || !Number.isSafeInteger(runAttempt) || runAttempt < 1) return null;
+    return { runId, runAttempt };
+  } catch {
+    return null;
+  }
+}
+"""
+if source.count("function syntheticCandidate() {") != 1:
+    raise SystemExit("expected one syntheticCandidate helper anchor for canary identity")
+source = source.replace("function syntheticCandidate() {", canary_identity + "\\nfunction syntheticCandidate() {", 1)
 
+
+
+source = source.replace("import { createHash, randomUUID } from 'node:crypto';", "import { createHash, randomBytes, randomUUID } from 'node:crypto';", 1)
+if "import { createHash, randomBytes, randomUUID } from 'node:crypto';" not in source:
+    raise SystemExit("Function secure random import could not be verified")
 
 auth_old = """async function authorize(request) {
   const header = request.headers.get('authorization') ?? '';
@@ -127,6 +154,39 @@ function requiredApiScope(request, pathname) {
 if source.count(auth_old) != 1:
     raise SystemExit("token authorization patch anchor mismatch")
 source = source.replace(auth_old, auth_new, 1)
+
+canary_routes = """      if (request.method === 'POST' && url.pathname === '/internal/ci/auth-canary/issue') {
+        const identity = await verifiedCiAuthCanaryRun(request);
+        if (!identity) return json({ error: 'UNAUTHORIZED' }, 401);
+        const rawToken = randomBytes(32).toString('hex');
+        const issued = await sql(
+          'SELECT subject, expires_at FROM runtime.issue_ci_auth_canary($1,$2,$3)',
+          [digest(rawToken), identity.runId, identity.runAttempt]
+        );
+        const row = issued.rows[0];
+        if (row?.subject !== `ci-auth-canary:${identity.runId}:${identity.runAttempt}` || !row?.expires_at) {
+          return json({ error: 'CANARY_ISSUE_FAILED' }, 500);
+        }
+        console.info('CI_AUTH_CANARY_ISSUED', `run:${identity.runId}`, `attempt:${identity.runAttempt}`);
+        return json({ token: rawToken, subject: row.subject, expires_at: row.expires_at }, 201);
+      }
+      if (request.method === 'POST' && url.pathname === '/internal/ci/auth-canary/revoke') {
+        const identity = await verifiedCiAuthCanaryRun(request);
+        if (!identity) return json({ error: 'UNAUTHORIZED' }, 401);
+        const revoked = await sql(
+          'SELECT runtime.revoke_ci_auth_canary($1,$2) AS revoked_count',
+          [identity.runId, identity.runAttempt]
+        );
+        const count = Number(revoked.rows[0]?.revoked_count ?? -1);
+        if (!Number.isInteger(count) || count < 0 || count > 1) return json({ error: 'CANARY_REVOKE_FAILED' }, 500);
+        console.info('CI_AUTH_CANARY_REVOKED', `run:${identity.runId}`, `attempt:${identity.runAttempt}`, `count:${count}`);
+        return json({ revoked_count: count }, 200);
+      }
+"""
+dispatch_marker = r"      const cronMatch = url.pathname.match(/^\\/internal\\/dispatch\\/([a-f0-9]{64})$/);"
+if source.count(dispatch_marker) != 1:
+    raise SystemExit("expected one legacy dispatch route anchor for canary endpoints")
+source = source.replace(dispatch_marker, canary_routes + dispatch_marker, 1)
 
 # Replace the secret-bearing path with a fixed Neon-trigger-only route.
 # The request is authenticated by Neon's edge-stripped x-neon header and body correlation.
@@ -299,6 +359,15 @@ if "authorizeCron(request)" not in source:
     raise SystemExit("Neon trigger provenance validation is not wired to dispatch")
 if "task.payload?.candidate" in source or "task.payload?.receipt" in source:
     raise SystemExit("un-normalized task payload access remains")
+
+if "randomBytes(32).toString('hex')" not in source:
+    raise SystemExit("short-lived canary token generator is missing")
+if "verifiedCiAuthCanaryRun" not in source or "runtime.issue_ci_auth_canary($1,$2,$3)" not in source or "runtime.revoke_ci_auth_canary($1,$2)" not in source:
+    raise SystemExit("CI auth canary issue/revoke procedures are not wired")
+if "CI_AUTH_CANARY_ISSUED" not in source or "CI_AUTH_CANARY_REVOKED" not in source:
+    raise SystemExit("canary safe audit logs are missing")
+if "console.info('CI_AUTH_CANARY_ISSUED', rawToken" in source or "console.log(rawToken" in source:
+    raise SystemExit("canary token may be written to logs")
 
 buffer = io.BytesIO()
 with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as output:
