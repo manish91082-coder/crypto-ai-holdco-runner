@@ -128,6 +128,30 @@ jobs:
             throw new Error('Positive Bearer metrics response shape invalid');
           }
           console.log('Positive authenticated Bearer HTTP canary: PASS (HTTP 200; metrics:read only)');
+          const taskWrite = await fetch(process.env.FUNCTION_URL + '/v1/tasks', {
+            method: 'POST',
+            headers: {
+              authorization: `Bearer ${token}`,
+              'content-type': 'application/json',
+              accept: 'application/json'
+            },
+            body: JSON.stringify({ task_type: 'qualify_opportunity', candidate: { source: 'SYNTHETIC_NEGATIVE_CONTROL' } }),
+            redirect: 'error'
+          });
+          if (taskWrite.status !== 401) throw new Error(`OIDC task-write escalation should be denied: HTTP ${taskWrite.status}`);
+          console.log('OIDC task-write escalation denied: HTTP 401');
+          const a2aWrite = await fetch(process.env.FUNCTION_URL + '/a2a/v1/messages', {
+            method: 'POST',
+            headers: {
+              authorization: `Bearer ${token}`,
+              'content-type': 'application/json',
+              accept: 'application/json'
+            },
+            body: JSON.stringify({ task_id: '00000000-0000-4000-8000-000000000000', from_agent: 'ci-probe', to_agent: 'dispatcher', message_type: 'scope_probe', payload: { synthetic: true } }),
+            redirect: 'error'
+          });
+          if (a2aWrite.status !== 401) throw new Error(`OIDC A2A escalation should be denied: HTTP ${a2aWrite.status}`);
+          console.log('OIDC A2A escalation denied: HTTP 401');
           NODE
           status="$(curl --silent --output /tmp/unauth-metrics.json --write-out '%{http_code}' "$FUNCTION_URL/v1/metrics")"
           test "$status" = "401"
