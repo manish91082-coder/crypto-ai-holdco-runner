@@ -80,3 +80,14 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - Neon Terms review: use Neon only as infrastructure for Crypto AI Holdings' own services; do not resell/white-label Neon APIs/products or build a competing Neon backend. Customer-owned backup/security responsibility remains.
 - P03.03 remains PARTIAL; P03.05 quota Governor remains PLANNED. Scheduler disabled, Governor PAUSE_DEGRADED, work_allowed=false, revenue ₹0.
 - [P03.03 security review](docs/P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md), [continuity v34.22](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md), [resume prompt v2.7.4](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
+
+
+## Current P03.03 security checkpoint — v34.22
+- Neon Function deployment #12, Node.js 24, Singapore. The runtime DB role has least-privilege access and no direct token-table SELECT.
+- API/cron credentials now have explicit scopes, 30-day expiry, revocation fields, rotation groups and last-used tracking. Existing credential expiry: 27-Dec-2026 09:44:32 UTC. No replacement token issued or rotated.
+- Scoped validators enforce enabled/scope/expiry/revocation. Request-body cap 65,536 bytes; generic internal errors are sanitised.
+- CI #69 denies unauthenticated metrics, task submission, A2A and cron routes with HTTP 401.
+- Positive bearer canary, secure token rotation and subject-bound task ownership remain unverified. The tasks:read:any scope is restricted to the single operator pilot and is not suitable for multiple buyers.
+- Neon remains infrastructure for our own agent services only. Do not white-label/resell Neon APIs or build a competing Neon backend. Customer remains responsible for security and backups.
+- P03.03 PARTIAL; P03.05 quota Governor not yet implemented. Scheduler disabled; Governor PAUSE_DEGRADED / work_allowed=false; realised net revenue 0.
+- [P03.03 security report](docs/P03.03_NEON_FUNCTION_AUTH_HARDENING_2026-11-27.md), [continuity v34.22](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.22.md), [resume v2.7.4](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.4.md).
