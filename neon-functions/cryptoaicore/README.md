@@ -76,3 +76,12 @@ This backup covers synthetic pilot runtime records only. It is not a backup of t
 - Scheduler remains disabled. Current queued tasks=0 and running tasks=0.
 - No Function redeploy was needed: the gate is enforced by PostgreSQL at the task-claim boundary. Function deployment remains #10.
 - This is a pilot fail-closed control, not proof of autonomous revenue operation. P03.01 remains partial; P03 exit remains NOT PASSED.
+
+
+## Current Function deployment 11: Governor-aware readiness
+- Active deployment: `11` (Node.js 24, Singapore)
+- Patched source SHA-256: `931c4635c038ec9855db1137df5b7822e0313020b59fdaaae9f4b1b5b0d29741`
+- `/readyz` now reports `governor_state` and `work_allowed` from the isolated database control-plane row, alongside the live DB role and required runtime table count.
+- Live readiness readback: `database_role=crypto_holdco_function`, `governor_state=PAUSE_DEGRADED`, `work_allowed=false`, `runtime_schema_tables=6`.
+- CI run #39: [run 46006251587](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46006251587), retry attempt 2 **SUCCESS**. The live smoke test asserts the paused Governor state, the seven-specialist A2A card, and HTTP 401 for unauthenticated metrics.
+- No scheduler activation; no external work, wallet signing, trading, transfers, payments or revenue.
