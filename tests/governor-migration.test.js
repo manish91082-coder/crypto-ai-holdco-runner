@@ -20,27 +20,27 @@ function policyBlock(name) {
 }
 
 test('Function control-plane access is least privilege', () => {
-  assert.match(migration, /REVOKE ALL PRIVILEGES ON runtime\\.control_plane FROM crypto_holdco_function/);
-  assert.match(migration, /GRANT SELECT ON runtime\\.control_plane TO crypto_holdco_function/);
+  assert.ok(migration.includes('REVOKE ALL PRIVILEGES ON runtime.control_plane FROM crypto_holdco_function'));
+  assert.ok(migration.includes('GRANT SELECT ON runtime.control_plane TO crypto_holdco_function'));
 });
 
 test('task SELECT visibility fails closed unless Governor is RUNNING', () => {
   const block = policyBlock('runtime_tasks_select_governor_gate');
-  assert.match(block, /FOR SELECT/);
-  assert.match(block, /governor_state='RUNNING'/);
-  assert.match(block, /work_allowed IS TRUE/);
+  assert.ok(block.includes('FOR SELECT'));
+  assert.ok(block.includes("governor_state='RUNNING'"));
+  assert.ok(block.includes('work_allowed IS TRUE'));
 });
 
 test('task UPDATE execution fails closed unless Governor is RUNNING', () => {
   const block = policyBlock('runtime_tasks_update_governor_gate');
-  assert.match(block, /FOR UPDATE/);
-  assert.match(block, /governor_state='RUNNING'/);
-  assert.match(block, /work_allowed IS TRUE/);
-  assert.match(block, /WITH CHECK/);
+  assert.ok(block.includes('FOR UPDATE'));
+  assert.ok(block.includes("governor_state='RUNNING'"));
+  assert.ok(block.includes('work_allowed IS TRUE'));
+  assert.ok(block.includes('WITH CHECK'));
 });
 
-test('SELECT policy does not hide the claimed running tuple from UPDATE RETURNING', () => {
+test('SELECT policy allows the claimed running tuple returned by dispatcher', () => {
   const block = policyBlock('runtime_tasks_select_governor_gate');
-  assert.doesNotMatch(block, /status\\s*=\\s*'queued'/);
-  assert.match(recoveryTest, /FOR UPDATE SKIP LOCKED/i);
+  assert.equal(block.includes("status='queued'"), false);
+  assert.ok(recoveryTest.includes('FOR UPDATE SKIP LOCKED'));
 });
