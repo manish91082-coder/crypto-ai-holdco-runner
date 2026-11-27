@@ -115,7 +115,7 @@ source = source.replace(auth_old, auth_new, 1)
 # Replace the secret-bearing path with a fixed Neon-trigger-only route.
 # The request is authenticated by Neon's edge-stripped x-neon header and body correlation.
 source, dispatch_path_matches = re.subn(
-    r"url\\.pathname\\.match\\(\\s*/[^;\\n]*internal[^;\\n]*dispatch[^;\\n]*\\)",
+    r"url\.pathname\.match\(\s*/[^;\n]*internal[^;\n]*dispatch[^;\n]*\)",
     "url.pathname === '/internal/dispatch'",
     source,
     count=1,
@@ -123,7 +123,7 @@ source, dispatch_path_matches = re.subn(
 if dispatch_path_matches != 1:
     raise SystemExit("expected exactly one secret-bearing internal dispatch path matcher")
 source, cron_call_matches = re.subn(
-    r"authorizeCron\\(\\s*dispatchMatch\\[1\\]\\s*\\)",
+    r"authorizeCron\(\s*dispatchMatch\[1\]\s*\)",
     "authorizeCron(request)",
     source,
     count=1,
