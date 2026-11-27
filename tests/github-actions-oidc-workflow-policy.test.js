@@ -36,6 +36,13 @@ test('OIDC is not a general API key and is accepted only for metrics:read', () =
   assert.ok(verifier.includes("return signatureValid ? true : deny('SIGNATURE_INVALID')"));
 });
 
+test('live OIDC canary verifies write and A2A scope escalation is denied', () => {
+  assert.ok(workflow.includes("process.env.FUNCTION_URL + '/v1/tasks'"));
+  assert.ok(workflow.includes("OIDC task-write escalation should be denied"));
+  assert.ok(workflow.includes("process.env.FUNCTION_URL + '/a2a/v1/messages'"));
+  assert.ok(workflow.includes("OIDC A2A escalation should be denied"));
+});
+
 test('token or claim content is never written to logs', () => {
   assert.equal(verifier.includes('console.log'), false);
   assert.equal(verifier.includes('console.error'), false);
