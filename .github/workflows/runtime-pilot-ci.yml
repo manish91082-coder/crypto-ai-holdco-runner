@@ -84,6 +84,10 @@ jobs:
           test "$status" = "401"
           echo "Unauthenticated A2A message: DENIED (401)"
 
-          status="$(curl --silent --output /tmp/unauth-cron.json --write-out '%{http_code}' "$FUNCTION_URL/internal/dispatch/0000000000000000000000000000000000000000000000000000000000000000")"
+          status="$(curl --silent --output /tmp/unauth-cron.json --write-out '%{http_code}' -X POST \
+            -H 'Content-Type: application/json' \
+            -H 'X-Neon-Trigger-Invocation-Id: forged-internet-client' \
+            --data '{"version":1,"invocation_id":"forged-internet-client","trigger":{"type":"schedule","id":"trigger-3b855bc5-fb48-4547-a84d-b374e56ebb71","name":"forged"},"data":{"scheduled_at":"2026-11-27T00:00:00Z"}}' \
+            "$FUNCTION_URL/internal/dispatch")"
           test "$status" = "401"
-          echo "Unauthenticated cron dispatch: DENIED (401)"
+          echo "Forged public Neon trigger request: DENIED (401)"
