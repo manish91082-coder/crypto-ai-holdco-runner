@@ -77,13 +77,14 @@ function schedulerTick() {
       Logger.log('GOOGLE_ID_TOKEN_UNAVAILABLE');
       return 'IDENTITY_UNAVAILABLE';
     }
+    const tickId = Utilities.getUuid();
     const response = UrlFetchApp.fetch(
       FUNCTION_URL + '/internal/google/scheduler/dispatch',
       {
         method: 'post',
         contentType: 'application/json',
         headers: { Authorization: 'Bearer ' + token },
-        payload: '{}',
+        payload: JSON.stringify({ tick_id: tickId }),
         followRedirects: false,
         muteHttpExceptions: true
       }
@@ -101,6 +102,8 @@ function schedulerTick() {
     if (status === 200 && responseState === 'PAUSED') return 'SCHEDULER_PAUSED';
     if (status === 200 && responseState === 'DISPATCH_COMPLETE') return 'DISPATCH_ACK';
     if (status === 401) return 'AUTH_DENIED';
+    if (status === 409) return 'DUPLICATE_TICK';
+    if (status === 400) return 'INVALID_TICK';
     if (status === 503) return 'SCHEDULER_UNAVAILABLE';
     return 'HTTP_' + status;
   } finally {
