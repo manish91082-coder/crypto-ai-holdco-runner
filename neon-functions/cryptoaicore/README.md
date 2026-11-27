@@ -119,3 +119,5 @@ P03.01 remains PARTIAL and the overall P03 exit gate remains NOT PASSED; this is
 - Goal-first P03 gate review: `docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md`
 - Latest mission continuity checkpoint v34.20: `docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.20.md`
 - CI run #47 verified the new SQL-migration regression tests (4 additional tests) plus live endpoint smoke tests: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46009145835
+
+- Canonical resume prompt v2.7.2: `docs/NEXT_CHAT_RESUME_PROMPT_v2.7.2.md`
