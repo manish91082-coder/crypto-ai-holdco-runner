@@ -30,6 +30,16 @@ with zipfile.ZipFile(io.BytesIO(archive), "r") as original:
     source = original.read("index.mjs").decode("utf-8")
 
 helper = """function parseObject(value) {
+  // Neon/PostgreSQL protocol adapters can expose JSONB as text or UTF-8 bytes.
+  if (value instanceof Uint8Array) {
+    try { return parseObject(new TextDecoder().decode(value)); } catch { return {}; }
+  }
+  if (Array.isArray(value) && value.every((item) => Number.isInteger(item) && item >= 0 && item <= 255)) {
+    try { return parseObject(new TextDecoder().decode(new Uint8Array(value))); } catch { return {}; }
+  }
+  if (value && typeof value === 'object' && value.type === 'Buffer' && Array.isArray(value.data)) {
+    try { return parseObject(new TextDecoder().decode(new Uint8Array(value.data))); } catch { return {}; }
+  }
   if (value && typeof value === 'object' && !Array.isArray(value)) return value;
   if (typeof value === 'string') {
     try {
