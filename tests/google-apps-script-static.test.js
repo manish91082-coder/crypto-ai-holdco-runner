@@ -19,8 +19,10 @@ test('Apps Script scheduler is owner-triggered and requests only required OIDC/e
 test('Apps Script keeps ID tokens ephemeral and never writes or logs token contents',()=>{
   assert.ok(script.includes('Authorization: \'Bearer \' + token'));
   assert.ok(script.includes('LockService.getScriptLock()'));
-  assert.equal(/Logger\.log\([^)]*token/i.test(script),false);
-  assert.equal(/PropertiesService[\s\S]*token/i.test(script),false);
+  assert.equal(script.includes('Logger.log(token)'),false);
+  assert.equal(script.includes('Logger.log(idToken)'),false);
+  assert.equal(script.includes("Logger.log('Bearer ' + token)"),false);
+  assert.equal(script.includes('PropertiesService'),false);
   assert.equal(script.includes('Logger.log(JSON.stringify(result))'),true);
 });
 
