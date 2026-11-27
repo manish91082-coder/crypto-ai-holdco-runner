@@ -5,25 +5,25 @@
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`
 - Database: `crypto_holdco`
 - Function slug: `cryptoaicore`
-- Active deployment: `10`
-- Deployed source SHA-256: `1fda8626e5ddb092586b9bf0beca1643ebda4a17cdd79559c3ca16791eb2642c`
+- Active deployment: `11`
+- Deployed source SHA-256: `931c4635c038ec9855db1137df5b7822e0313020b59fdaaae9f4b1b5b0d29741`
 - Runtime: Node.js 24
 - Region: `aws-ap-southeast-1` (Singapore)
 - Invocation URL: `https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech/`
 - Function DB identity: Neon-managed `crypto_holdco_function`
 - Scheduler trigger: present but **disabled**. Do not restart it automatically.
-- Public GitHub CI: [latest security and live smoke run 45997010798](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/45997010798)
+- Public GitHub CI: [Governor-aware live smoke run 46006251587](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/45997010798)
 
 ## Source and reproducibility
 - Base archive: `neon-functions/cryptoaicore/function.zip.b64`
 - Base archive source hash: `neon-functions/cryptoaicore/index.mjs.sha256`
 - Deterministic build patch: `scripts/patch_neon_function_bundle.py`
 - CI verifies the base archive, patches it, checks the resulting JavaScript syntax, runs five unit/safety tests, then invokes the live endpoint.
-- Deployment 10 uses the corrected JSONB/UTF-8 task-payload decoder and returns the active database role on `/readyz`.
+- Deployment 11 uses the corrected JSONB/UTF-8 task-payload decoder, returns the active database role, and reports the live Governor state plus `work_allowed` from `/readyz`.
 
 ## Routes
 - `GET /`: service identity and version
-- `GET /readyz`: live database readiness, database name, active DB role, and six critical runtime-table checks
+- `GET /readyz`: live database readiness, database name, active DB role, six critical runtime-table checks, Governor state and `work_allowed`
 - `GET /.well-known/agent.json`: seven specialist role card
 - `GET|POST /internal/dispatch/<64-hex-secret>`: private scheduled/manual dispatcher; route secret is stored only in the Neon trigger configuration and its SHA-256 digest in `runtime.cron_tokens`
 - `POST /v1/demo`: authenticated synthetic E2E
@@ -68,13 +68,14 @@ This backup covers synthetic pilot runtime records only. It is not a backup of t
 - Live branch: `br-lively-flower-a15zb6ar` / database `crypto_holdco`
 - Live control row: `runtime.control_plane` = `PAUSE_DEGRADED`, `work_allowed=false`
 - `runtime.tasks` has Row-Level Security enabled and forced.
-- The dispatcher's actual queue-claim statement (`SELECT ... FOR UPDATE SKIP LOCKED` followed by `UPDATE ... status='running'`) was executed as `crypto_holdco_function`; it returned **zero rows** while paused.
-- A synthetic queued probe remained `queued` with `attempt_count=0` after the claim attempt, then was removed after verification.
+- Forced RLS includes both Governor-gated SELECT and UPDATE policies. SELECT must permit the claimed `running` tuple while RUNNING; an earlier `status='queued'` filter incorrectly blocked `UPDATE ... RETURNING`, and was corrected.
+- Final two-state recovery test: while paused, Function role saw **0** queued tasks; while RUNNING, the exact dispatcher claim CTE claimed one synthetic probe (`status=running`, `attempt_count=1`); Governor was then restored to `PAUSE_DEGRADED`, the probe was removed, and paused visibility returned to **0**.
+- Reproducible test: `db/tests/pilot/verify_governor_pause_running_recovery.sql`. The live runtime audit event records `GOVERNOR_PAUSE_RUNNING_RECOVERY_TEST_PASS`.
 - The Function role has **SELECT only** on `runtime.control_plane`; INSERT, UPDATE and DELETE privileges were explicitly revoked after detecting broad default table grants.
 - Live post-hardening privilege audit: control-plane SELECT=true; INSERT/UPDATE/DELETE=false. The Function role still has the task-table UPDATE grant, but the forced RLS policy denies all task updates unless the control row is explicitly `RUNNING` and `work_allowed=true`.
 - Temporary owner-only test policy and probe row were removed. The durable governor policy and one audit event remain.
 - Scheduler remains disabled. Current queued tasks=0 and running tasks=0.
-- No Function redeploy was needed: the gate is enforced by PostgreSQL at the task-claim boundary. Function deployment remains #10.
+- Database gate changes do not require a Function redeploy; active Function deployment remains #11.
 - This is a pilot fail-closed control, not proof of autonomous revenue operation. P03.01 remains partial; P03 exit remains NOT PASSED.
 
 
@@ -85,3 +86,30 @@ This backup covers synthetic pilot runtime records only. It is not a backup of t
 - Live readiness readback: `database_role=crypto_holdco_function`, `governor_state=PAUSE_DEGRADED`, `work_allowed=false`, `runtime_schema_tables=6`.
 - CI run #39: [run 46006251587](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46006251587), retry attempt 2 **SUCCESS**. The live smoke test asserts the paused Governor state, the seven-specialist A2A card, and HTTP 401 for unauthenticated metrics.
 - No scheduler activation; no external work, wallet signing, trading, transfers, payments or revenue.
+
+
+## Goal-first gate rationalisation — 27-Nov-2026
+The four pre-production gates are split by what they actually protect. They are no longer all treated as blockers to code development and bounded synthetic testing.
+
+1. **Exact Functions MTD usage meter:** not a blocker for engineering, authenticated on-demand tests or read-only discovery while the scheduler stays disabled. The Free plan's published envelope is 1,000,000 invocations/project/month, 10 active Capacity-Hours and 400 waiting Capacity-Hours. Exact account MTD use is still unknown because the Free consumption API returns 403. Console meter read-back remains mandatory before enabling recurring/automated scheduling or sustained worker dispatch.
+2. **Billed storage console read-back:** not a separate development blocker while the project remains on confirmed `free_v3`, with no paid upgrade or paid snapshot. Current Free-plan published ceiling is 1 GB PostgreSQL storage/project (20 GB across the account) and 5 GB Object Storage/project. The project remains bounded below published limits; current Postgres DB reads are about 16 MB and branch logical-size proxies about 40 MB. These are distinct measurement types, not invoice storage. Keep storage headroom monitoring; stop writes and clean up before approaching the free cap. Do not enable paid snapshots.
+3. **Private external backup of canonical `holdco`:** moved to the first-real-business-data release gate. It is not required to continue isolated engineering, synthetic tests or public read-only opportunity discovery. It becomes mandatory before the first real buyer contract, accepted delivery record, or settled-revenue/treasury ledger write. The existing public GitHub backup remains synthetic pilot data only and must never receive private canonical ledger contents.
+4. **Governor pause/recovery:** remains mandatory before any worker activation. Both directions are now proven on the isolated pilot with the actual queue-claim SQL; final state is PAUSE_DEGRADED and work_allowed=false. Scheduler remains disabled.
+
+### Current Neon Free published allowance (as of 27-Nov-2026)
+- Postgres: 100 CU-hours/project/month; 1 GB storage/project; 20 GB account-wide Postgres storage; 10 branches/project; 5 GB public network transfer/project/month.
+- Object Storage: 5 GB/project.
+- Functions: 1M invocations/project/month; 10 active and 400 waiting Capacity-Hours/project/month.
+- Current project plan read-back: `free_v3`. Current provider snapshot: `compute_time_seconds=22622` = 6.2839 CU-hours; `data_transfer_bytes=24068418` ≈ 0.481% of 5 GB. This is project-level Postgres/project telemetry, not Functions MTD usage. Exact Functions active/waiting/invocation meter remains unknown.
+- Current pilot `pg_database_size=16097280` bytes. The branch-level logical-size proxy is ~40 MB. Neither number is an invoice-aligned storage meter.
+- No auto-trigger, no paid fallback, no paid snapshot, no owner-funded gas, no wallet signing, trading, transfers or payments.
+
+The official plan facts above are from Neon’s 02-Oct-2026 Free-plan update and 17-Sep-2026 Functions GA announcement: https://neon.com/blog/neon-free-plan-1-gb-per-project and https://neon.com/blog/neon-backend-is-ga.
+
+## Release ladder
+- **Development / synthetic validation:** may continue with on-demand requests under the paused Governor and synthetic-only fixtures.
+- **Bounded on-demand worker pilot:** allowed only after two-state Governor test, explicit on-demand invocation budget, and fresh no-paid-path review. No scheduler.
+- **Recurring autonomous worker:** blocked until the Console's Functions MTD meter is observed, capacity/invocation headroom documented, and hard application rate limits are live.
+- **First real buyer/financial ledger event:** blocked until private canonical backup + restore evidence, counterparty eligibility, commercial acceptance, and independent receipt verification are complete.
+
+P03.01 remains PARTIAL and the overall P03 exit gate remains NOT PASSED; this is an intentional release-tier separation, not a revenue or production-readiness claim.
