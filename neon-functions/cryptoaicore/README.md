@@ -5,7 +5,7 @@
 - Isolated branch: `br-lively-flower-a15zb6ar`
 - Database: `crypto_holdco`
 - Function slug: `cryptoaicore`
-- Active deployment: `8`
+- Active deployment: `9`
 - Runtime: Node.js 24
 - Region: `aws-ap-southeast-1` (Singapore)
 - Invocation URL: `https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech/`
@@ -13,9 +13,9 @@
 ## Reproducible source and deployed bundle
 - `function.zip.b64` is the original baseline archive used for deployment 5.
 - `scripts/patch_neon_function_bundle.py` deterministically applies the JSONB/UTF-8 payload-normalization patch to that baseline.
-- `function-deployment-8.zip.b64` is the exact ZIP uploaded for active deployment 8.
-- `index.mjs-deployment-8.sha256` records the exact deployed entrypoint SHA-256:
-  `7b6244dae8164e5b9776503ff4cebb37a4cbb3a6c56d91ab8c280f22bcc1ea4b`.
+- `function-deployment-9.zip.b64` is the exact ZIP uploaded for active deployment 9.
+- `index.mjs-deployment-9.sha256` records the exact deployed entrypoint SHA-256:
+  `1fda8626e5ddb092586b9bf0beca1643ebda4a17cdd79559c3ca16791eb2642c`.
 - The patch handles PostgreSQL JSONB task payloads returned as objects, strings, or UTF-8 byte arrays; the claim query explicitly casts `payload::text`.
 - All archives/source files contain no operator API token or cron path secret. Never add secrets to this repository.
 
@@ -42,7 +42,8 @@
 - Scheduled trigger is enabled at five-minute cadence and dispatches at most three queued tasks per invocation.
 - The runtime can accept and process supplied qualification tasks. It does not yet run a verified live public opportunity-source scanner, independently confirm sponsor funding, or autonomously submit work to buyers.
 - Live submissions, wallet signing, trading, transfers and payments are disabled.
-- The function currently uses Neon-injected `DATABASE_URL`. Least-privilege runtime-role adoption, crash-safe lease/retry/idempotency, external backup/restore, and a proven function-capacity governor remain open P03 controls.
+- The function uses a dedicated `crypto_holdco_function` login, supplied only as Neon deployment environment `DATABASE_URL`. It is scoped to database `crypto_holdco` and schema `runtime`; table grants are restricted to SELECT on token tables, SELECT/INSERT/UPDATE on tasks, and SELECT/INSERT on messages/audit/opportunity tables. DELETE, schema CREATE, BYPASSRLS, CREATEROLE, CREATEDB and neon_superuser membership are absent. No credential is committed to source control.
+- Crash-safe lease/retry/idempotency, independent external backup/restore, provider-metered Functions active/waiting usage, and a proven function-capacity governor remain open P03 controls.
 - Function API authentication checks SHA-256 token hashes stored in Neon. Cron authentication checks a private path secret against a Neon-stored hash. Do not disclose the trigger path.
 - No external buyer, payment, accepted paid delivery or commercial revenue is evidenced.
 
@@ -55,7 +56,7 @@
 - No paid upgrade, top-up or automatic paid fallback is enabled. Keep dispatch bounded and stop it if any free-capacity indicator approaches its limit.
 
 ## Acceptance evidence
-- CI run: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/45991263144
-- Deployment 8 source SHA-256: `7b6244dae8164e5b9776503ff4cebb37a4cbb3a6c56d91ab8c280f22bcc1ea4b`
+- CI run with least-privilege identity verification: pending final push
+- Deployment 9 source SHA-256: `1fda8626e5ddb092586b9bf0beca1643ebda4a17cdd79559c3ca16791eb2642c`
 - Canonical pilot evidence IDs and audit IDs are recorded in the Neon `holdco` ledger under the P03 temporary-runtime pilot addendum.
 - This is technical pilot evidence only. It is not P03 exit, production certification or commercial success.
