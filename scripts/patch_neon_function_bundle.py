@@ -123,7 +123,7 @@ source, dispatch_path_matches = re.subn(
 if dispatch_path_matches != 1:
     raise SystemExit("expected exactly one secret-bearing internal dispatch path matcher")
 source, cron_call_matches = re.subn(
-    r"authorizeCron\(\s*dispatchMatch\[1\]\s*\)",
+    r"authorizeCron\(\s*cronMatch\[1\]\s*\)",
     "authorizeCron(request)",
     source,
     count=1,
@@ -277,7 +277,7 @@ if "owner_subject) VALUES" not in source:
 if "const taskAccess = await sql(" not in source:
     raise SystemExit("A2A task ownership check is missing")
 
-if "dispatchMatch[1]" in source or "/internal/dispatch/" in source:
+if "cronMatch[1]" in source or "dispatchMatch[1]" in source or "/internal/dispatch/" in source:
     raise SystemExit("secret-bearing dispatch URL path remains")
 if "authorizeCron(request)" not in source:
     raise SystemExit("Neon trigger provenance validation is not wired to dispatch")
