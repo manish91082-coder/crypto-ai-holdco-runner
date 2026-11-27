@@ -176,6 +176,12 @@ if source.count(old_ready_json) != 1:
     raise SystemExit("readiness Governor JSON patch anchor mismatch")
 source = source.replace(old_ready_json, new_ready_json, 1)
 
+old_tables = """const tables = await sql("SELECT count(*)::int AS count FROM information_schema.tables WHERE table_schema='runtime' AND table_name IN ('tasks','agent_messages','audit_events','opportunity_candidates','api_tokens','cron_tokens')");"""
+new_tables = """const tables = await sql("SELECT count(*)::int AS count FROM information_schema.tables WHERE table_schema='runtime' AND table_name IN ('tasks','agent_messages','audit_events','opportunity_candidates')");"""
+if source.count(old_tables) != 1:
+    raise SystemExit("Function readiness table-count patch anchor mismatch")
+source = source.replace(old_tables, new_tables, 1)
+
 old_returning = """RETURNING t.id::text AS id, t.task_type, t.payload, t.attempt_count, t.max_attempts"""
 new_returning = """RETURNING t.id::text AS id, t.task_type, t.payload::text AS payload, t.attempt_count, t.max_attempts"""
 if source.count(old_returning) != 1:
