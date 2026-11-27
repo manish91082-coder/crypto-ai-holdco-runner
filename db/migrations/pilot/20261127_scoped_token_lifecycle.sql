@@ -96,36 +96,42 @@ CREATE INDEX IF NOT EXISTS cron_tokens_expiry_idx
 
 CREATE OR REPLACE FUNCTION runtime.validate_api_token(p_token_hash text,p_required_scope text)
 RETURNS TABLE(subject text)
-LANGUAGE sql
-STABLE
+LANGUAGE plpgsql
+VOLATILE
 SECURITY DEFINER
 SET search_path=pg_catalog,runtime
 AS $function$
-  SELECT t.subject
-  FROM runtime.api_tokens AS t
+BEGIN
+  RETURN QUERY
+  UPDATE runtime.api_tokens AS t
+  SET last_used_at=statement_timestamp()
   WHERE t.token_hash=p_token_hash
     AND t.enabled IS TRUE
     AND t.revoked_at IS NULL
     AND t.expires_at>statement_timestamp()
     AND p_required_scope=ANY(t.scopes)
-  LIMIT 1
+  RETURNING t.subject;
+END
 $function$;
 
 CREATE OR REPLACE FUNCTION runtime.validate_cron_token(p_token_hash text,p_required_scope text)
 RETURNS TABLE(subject text)
-LANGUAGE sql
-STABLE
+LANGUAGE plpgsql
+VOLATILE
 SECURITY DEFINER
 SET search_path=pg_catalog,runtime
 AS $function$
-  SELECT t.subject
-  FROM runtime.cron_tokens AS t
+BEGIN
+  RETURN QUERY
+  UPDATE runtime.cron_tokens AS t
+  SET last_used_at=statement_timestamp()
   WHERE t.token_hash=p_token_hash
     AND t.enabled IS TRUE
     AND t.revoked_at IS NULL
     AND t.expires_at>statement_timestamp()
     AND p_required_scope=ANY(t.scopes)
-  LIMIT 1
+  RETURNING t.subject;
+END
 $function$;
 
 ALTER FUNCTION runtime.validate_api_token(text,text) OWNER TO crypto_holdco_owner;
