@@ -37,7 +37,7 @@ test('deterministic Function bundle patcher uses scope-aware DB validators', () 
   assert.ok(patcher.includes('runtime.validate_api_token($1,$2)'));
   assert.ok(patcher.includes('runtime.validate_cron_token($1,$2)'));
   assert.ok(patcher.includes('requiredApiScope'));
-  assert.ok(patcher.includes('tasks:read:any'));
+  assert.ok(patcher.includes('tasks:read:own'));
   assert.ok(patcher.includes('dispatch:run'));
 });
 
@@ -64,4 +64,20 @@ test('successful validators persist last-used timestamps', () => {
   assert.ok(migration.includes('SET last_used_at=statement_timestamp()'));
   assert.ok(migration.includes('LANGUAGE plpgsql'));
   assert.ok(migration.includes('VOLATILE'));
+});
+
+
+test('Function patcher returns authenticated subjects and removes any-task-read', () => {
+  assert.ok(patcher.includes('requestSubject = await authorize(request, requiredScope)'));
+  assert.ok(patcher.includes("return typeof result.rows[0]?.subject === 'string'"));
+  assert.ok(patcher.includes("'tasks:read:own'"));
+  assert.ok(patcher.includes("tasks:read:any' in source"));
+});
+
+test('task and A2A reads are bound to the authenticated subject', () => {
+  assert.ok(patcher.includes('owner_subject=$2'));
+  assert.ok(patcher.includes('FROM runtime.tasks WHERE owner_subject=$1'));
+  assert.ok(patcher.includes('const taskAccess = await sql('));
+  assert.ok(patcher.includes('requestSubject]);'));
+  assert.ok(patcher.includes('owner_subject) VALUES'));
 });
