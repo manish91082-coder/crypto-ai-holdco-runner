@@ -18,7 +18,7 @@ The goal is a zero-upfront, cloud-only, crypto-native AI-agent revenue ecosystem
 ## Current runtime
 
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`, database `crypto_holdco`.
-- Neon Function `cryptoaicore`, deployment #12, Node.js 24, Singapore.
+- Neon Function `cryptoaicore`, deployment #14, Node.js 24, Singapore.
 - Function database identity: `crypto_holdco_function`.
 - `/readyz` reports `governor_state=PAUSE_DEGRADED`, `work_allowed=false`.
 - Seven specialist roles appear in the A2A agent card. These are logical roles in one Function, not yet seven independent LLM instances.
@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.24](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.24.md).  
-Next-chat resume: [v2.7.5](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.5.md).
+Latest continuity: [v34.25](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.25.md).  
+Next-chat resume: [v2.7.6](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.6.md).
 
 ## Evidence and verification
 
@@ -44,7 +44,7 @@ Next-chat resume: [v2.7.5](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.5.md).
 - Database migration: `db/migrations/pilot/20261127_fail_closed_governor.sql`.
 - Static regression tests: `tests/governor-migration.test.js`.
 - Active Function documentation: [Neon Function runtime README](neon-functions/cryptoaicore/README.md).
-- Latest runtime CI #70: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46017056190 (SUCCESS); security runtime CI #69 also passed: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247.
+- Latest runtime CI #87: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655 (SUCCESS); earlier security CI #69/#70 remain historical evidence.
 - CI includes source integrity/build, domain/safety tests, Governor policy regression tests, live readiness, seven-role agent card and HTTP 401 denial for unauthenticated internal metrics.
 
 ## Strict boundaries
