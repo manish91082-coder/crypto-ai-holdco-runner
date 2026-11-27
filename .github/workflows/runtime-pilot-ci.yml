@@ -22,6 +22,19 @@ jobs:
           node-version: 22
       - name: Syntax checks
         run: node --check src/server.js && node --check src/worker.js && node --check src/pipeline.js && node --check src/model.js
+      - name: Verify archived Neon Function bundle integrity
+        run: |
+          set -euo pipefail
+          base64 -d neon-functions/cryptoaicore/function.zip.b64 > /tmp/cryptoaicore.zip
+          unzip -p /tmp/cryptoaicore.zip index.mjs > /tmp/cryptoaicore-index.mjs
+          expected="$(awk '{print $1}' neon-functions/cryptoaicore/index.mjs.sha256)"
+          actual="$(sha256sum /tmp/cryptoaicore-index.mjs | awk '{print $1}')"
+          test "$expected" = "$actual"
+          node --check /tmp/cryptoaicore-index.mjs
+          echo "DEPLOYED_FUNCTION_SHA256=$actual"
+          echo "----- DEPLOYED FUNCTION SOURCE BEGIN -----"
+          sed -n '1,320p' /tmp/cryptoaicore-index.mjs
+          echo "----- DEPLOYED FUNCTION SOURCE END -----"
       - name: Domain and safety tests
         run: node --test
       - name: Live Neon Function and database smoke test
