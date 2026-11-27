@@ -5,27 +5,27 @@
 - Isolated pilot branch: `br-lively-flower-a15zb6ar`
 - Database: `crypto_holdco`
 - Function slug: `cryptoaicore`
-- Active deployment: `12`
-- Deployed source SHA-256: `15871f3c2114ba0b0c21a3634ca9b267fb7a3802cf71aac41d4d007c596c3c87`
+- Active deployment: `14`
+- Deployed source SHA-256: `1ab68658535fbfa6302da18512d8c1d2d902f10def7cebeb722b3e32ef77b567`
 - Runtime: Node.js 24
 - Region: `aws-ap-southeast-1` (Singapore)
 - Invocation URL: `https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech/`
 - Function DB identity: Neon-managed `crypto_holdco_function`
 - Scheduler trigger: present but **disabled**. Do not restart it automatically.
-- Public GitHub CI: [latest security runtime smoke run #69](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46016226247)
+- Public GitHub CI: [latest runtime/security smoke run #87](https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655)
 
 ## Source and reproducibility
 - Base archive: `neon-functions/cryptoaicore/function.zip.b64`
 - Base archive source hash: `neon-functions/cryptoaicore/index.mjs.sha256`
 - Deterministic build patch: `scripts/patch_neon_function_bundle.py`
 - CI verifies the base archive, deterministically patches the Function, checks JavaScript syntax, runs domain/security regression tests, then invokes the live endpoint.
-- Deployment 12 adds route-specific API/cron token scopes, expiry/revocation checks, 65,536-byte JSON body limit, sanitized internal errors, and Governor-aware readiness with the active database role. The deterministic patcher rejects the legacy blanket-token lookup and unbounded JSON parser.
+- Deployment 12 introduced route-specific API token scopes, expiry/revocation checks, 65,536-byte JSON body limit, sanitized internal errors, and Governor-aware readiness with the active database role. The deterministic patcher rejects the legacy blanket-token lookup and unbounded JSON parser.
 
 ## Routes
 - `GET /`: service identity and version
 - `GET /readyz`: live database readiness, database name, active DB role, four Function-visible operational runtime-table checks, Governor state and `work_allowed`
 - `GET /.well-known/agent.json`: seven specialist role card
-- `GET|POST /internal/dispatch/<64-hex-secret>`: private scheduled/manual dispatcher; route secret is stored only in the Neon trigger configuration and its SHA-256 digest in `runtime.cron_tokens`
+- `POST /internal/dispatch`: fixed scheduled-trigger route; validates Neon edge-attested `X-Neon-Trigger-Invocation-Id`, the matching JSON envelope ID, schedule type and exact trigger ID. No URL-path secret is used.
 - `POST /v1/demo`: authenticated synthetic E2E
 - `POST /v1/tasks`: authenticated opportunity qualification task
 - `GET /v1/tasks/:id`: authenticated task result
@@ -170,3 +170,13 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - CI #87 SUCCESS: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655. 25/25 Node tests passed; live root/readiness/A2A checks passed; unauthenticated metrics/tasks/A2A returned 401; forged public Neon trigger header + matching body returned **401 UNAUTHORIZED**.
 - Governor remains `PAUSE_DEGRADED / work_allowed=false`; no task was dispatched and no commercial/financial action occurred.
 - P03.03 still has positive authenticated API Bearer HTTP proof and secure credential lifecycle/rotation outstanding. The pilot's 7/7 tasks are synthetic and owner-bound; task scope is `tasks:read:own`.
+
+
+## Current deployment #14 — cron path-secret removal (27-Nov-2026)
+- Deployment #14 source SHA-256: `1ab68658535fbfa6302da18512d8c1d2d902f10def7cebeb722b3e32ef77b567`.
+- The old secret-bearing dispatch path is removed. Neon trigger calls use fixed `POST /internal/dispatch` with edge-attested invocation-header/body correlation and an exact scheduled-trigger ID.
+- Existing trigger remains disabled; no provider-origin scheduled delivery test has been run.
+- The unused legacy `neon-scheduled-dispatcher` credential was revoked/disabled on the pilot. Raw token/hash was not read.
+- CI #87 SUCCESS: 25/25 tests; unauthenticated metrics/tasks/A2A and a forged public trigger request returned 401. Run: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46039261655.
+- Task ownership read-back: 7/7 synthetic pilot rows owner-bound; 0 ownerless, queued or running; API scope `tasks:read:own`.
+- Governor stays `PAUSE_DEGRADED / work_allowed=false`. Positive authenticated API Bearer HTTP proof and safe API credential rotation remain open. No real buyer or revenue claim.
