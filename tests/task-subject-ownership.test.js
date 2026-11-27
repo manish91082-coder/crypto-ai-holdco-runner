@@ -49,3 +49,12 @@ test('Governor recovery probe satisfies the new non-null task owner contract', (
   assert.ok(recovery.includes('id,task_type,status,payload,idempotency_key,owner_subject'));
   assert.ok(recovery.includes("'governor-test'"));
 });
+
+
+test('client-supplied owner is never trusted for task ownership', () => {
+  assert.equal(patcher.includes('body.owner_subject'), false);
+  assert.ok(patcher.includes('requestSubject]);'));
+  const a2aCheck = patcher.indexOf('const taskAccess = await sql(');
+  const messageInsert = patcher.indexOf('INSERT INTO runtime.agent_messages');
+  assert.ok(a2aCheck >= 0 && messageInsert > a2aCheck);
+});
