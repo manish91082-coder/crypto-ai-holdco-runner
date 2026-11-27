@@ -35,8 +35,8 @@ The four pre-production checks are separated by the release they protect. They a
 4. **Governor:** mandatory before worker activation. Both PAUSE and RUNNING recovery passed with the actual dispatcher claim query. The Governor was restored to `PAUSE_DEGRADED`; test data was removed.
 
 Detailed gate decision: [P03 Goal-First Gate Review](docs/P03_GOAL_FIRST_GATE_REVIEW_2026-11-27.md).  
-Latest continuity: [v34.20](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.20.md).  
-Next-chat resume: [v2.7.2](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.2.md).
+Latest continuity: [v34.21](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.21.md).  
+Next-chat resume: [v2.7.3](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.3.md).
 
 ## Evidence and verification
 
@@ -44,7 +44,7 @@ Next-chat resume: [v2.7.2](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.2.md).
 - Database migration: `db/migrations/pilot/20261127_fail_closed_governor.sql`.
 - Static regression tests: `tests/governor-migration.test.js`.
 - Active Function documentation: [Neon Function runtime README](neon-functions/cryptoaicore/README.md).
-- Latest CI run #51: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46010612368 (SUCCESS).
+- Latest runtime CI run #55: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46012576148 (SUCCESS).
 - CI includes source integrity/build, domain/safety tests, Governor policy regression tests, live readiness, seven-role agent card and HTTP 401 denial for unauthenticated internal metrics.
 
 ## Strict boundaries
@@ -59,3 +59,13 @@ Next-chat resume: [v2.7.2](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.2.md).
 ## Roadmap
 
 The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs/ROADMAP.md). Older status statements in that history are explicitly superseded by the 27-Nov-2026 current overlay; they are retained for audit history.
+
+
+## Latest WBS and quota checkpoint — Continuity v34.21
+- P03.01 is now COMPLETE with a documented Neon Free Functions-meter limitation; P03.03 is the next active WBS task.
+- Counts: 16 COMPLETE, 1 BLOCKED, 102 PLANNED, 0 QUEUED of 119. P03 remains IN_PROGRESS; its exit gate is NOT PASSED.
+- Actual custom Neon project caps: 129,600 active seconds; 36,000 compute CU-seconds (10 CU-hours); 268,435,456 written bytes; 1,000,000,000 transfer bytes; 536,870,912 per-branch logical-size cap.
+- Latest use: active 94,687 sec (73.061%); compute 23,950 CU-sec (66.5278%); transfer 24,860,369 bytes (2.486%); writes zero.
+- Neon Free Functions active/waiting MTD Capacity-Hours and invocations remain UNKNOWN, not zero, because the Free API returns 403 and the simplified Usage Summary omits these Function metrics. Scheduler remains disabled.
+- P03.05 must implement application-level invocation/day budget and proposed 80% stop thresholds. These are not currently deployed.
+- Details: [custom quota telemetry](docs/P03.01_NEON_PROJECT_QUOTA_TELEMETRY_2026-11-27.md), [continuity v34.21](docs/CONTINUITY_CHECKPOINT_2026-11-27_v34.21.md), [resume prompt v2.7.3](docs/NEXT_CHAT_RESUME_PROMPT_v2.7.3.md).
