@@ -35,6 +35,13 @@ jobs:
           echo "----- DEPLOYED FUNCTION SOURCE BEGIN -----"
           sed -n '1,320p' /tmp/cryptoaicore-index.mjs
           echo "----- DEPLOYED FUNCTION SOURCE END -----"
+      - name: Build corrected JSONB-safe Neon Function bundle
+        run: |
+          set -euo pipefail
+          python3 scripts/patch_neon_function_bundle.py neon-functions/cryptoaicore/function.zip.b64 /tmp/cryptoaicore-fixed.zip > /tmp/bundle-build.txt
+          unzip -p /tmp/cryptoaicore-fixed.zip index.mjs > /tmp/cryptoaicore-fixed.mjs
+          node --check /tmp/cryptoaicore-fixed.mjs
+          cat /tmp/bundle-build.txt
       - name: Domain and safety tests
         run: node --test
       - name: Live Neon Function and database smoke test
