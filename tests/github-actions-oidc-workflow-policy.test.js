@@ -17,7 +17,7 @@ test('OIDC workflow token permission is limited to this workflow job', () => {
 test('live positive OIDC canary is explicitly staged and cannot run on pull requests', () => {
   assert.ok(workflow.includes("if: github.event_name == 'push' && contains(github.event.head_commit.message, 'enable-oidc-live-canary')"));
   assert.ok(workflow.includes("push_event: claims.event_name === 'push'"));
-  assert.ok(workflow.includes("runner_environment: claims.runner_environment === 'github-hosted'"));
+  assert.ok(workflow.includes("hosted_runner: claims.runner_environment === 'github-hosted'"));
 });
 
 test('verifier pins immutable repository and workflow identity', () => {
