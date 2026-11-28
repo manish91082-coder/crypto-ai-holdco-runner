@@ -66,6 +66,15 @@ test('accepts a correctly signed Google Apps Script ID token bound to exact audi
   assert.equal(mock.calls(),1);
 });
 
+
+test('rejects multi-audience tokens even when the pinned client ID appears in aud',async()=>{
+  resetGoogleOidcJwksCacheForTests();
+  const mock=jwksFetch();
+  const multiAudience=makeToken(claims({aud:[AUDIENCE,'other-client.apps.googleusercontent.com']}));
+  assert.equal(await verifyGoogleAppsScriptOidc(multiAudience,options(mock)),false);
+  assert.equal(mock.calls(),0);
+});
+
 test('rejects missing audience or subject-hash configuration before fetching JWKS',async()=>{
   resetGoogleOidcJwksCacheForTests();
   const mock=jwksFetch();
