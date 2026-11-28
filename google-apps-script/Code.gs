@@ -1,6 +1,21 @@
 const FUNCTION_URL = 'https://br-lively-flower-a15zb6ar-cryptoaicore.compute.c-1.ap-southeast-1.aws.neon.tech';
 const SCHEDULER_HANDLER = 'schedulerTick';
 
+const INSTALL_GATE_PROPERTIES = [
+  'P03_03_INDEPENDENT_WBS_ACCEPTED',
+  'P03_03_GOOGLE_IDENTITY_PREFLIGHT_VERIFIED',
+  'P03_03_FRESH_TOKEN_PER_TICK_VERIFIED',
+  'P03_05_QUOTA_RECOVERY_COMPLETE',
+  'GOOGLE_SCHEDULER_TRIGGER_APPROVED'
+];
+
+function schedulerInstallGatesSatisfied() {
+  const properties = PropertiesService.getScriptProperties();
+  return INSTALL_GATE_PROPERTIES.every(
+    propertyName => properties.getProperty(propertyName) === 'true'
+  );
+}
+
 /**
  * Run once as the intended owner to inspect the binding needed by Neon.
  * Only public OAuth audience and SHA-256(sub) are returned. The ID token
@@ -43,6 +58,9 @@ function inspectGoogleIdentityBinding() {
  * scheduler approval have passed.
  */
 function installSchedulerTrigger() {
+  // These explicit owner-controlled flags must be recorded only after their
+  // corresponding evidence gates pass. Missing properties fail closed.
+  if (!schedulerInstallGatesSatisfied()) return 'INSTALL_GATES_NOT_SATISFIED';
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(1000)) return 'INSTALL_LOCK_BUSY';
   try {
