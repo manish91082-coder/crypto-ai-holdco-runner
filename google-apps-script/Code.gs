@@ -16,7 +16,7 @@ function inspectGoogleIdentityBinding() {
   );
   const validIssuer = payload.iss === 'https://accounts.google.com' || payload.iss === 'accounts.google.com';
   if (!validIssuer || typeof payload.aud !== 'string' || payload.aud.length < 10
-      || typeof payload.sub !== 'string' || !/^[\\x20-\\x7E]{1,255}$/.test(payload.sub)
+      || typeof payload.sub !== 'string' || !/^[\x20-\x7E]{1,255}$/.test(payload.sub)
       || !Number.isFinite(Number(payload.exp)) || !Number.isFinite(Number(payload.iat))) {
     throw new Error('GOOGLE_IDENTITY_CLAIMS_INCOMPLETE');
   }
