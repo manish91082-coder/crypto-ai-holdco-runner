@@ -240,3 +240,12 @@ Latest runtime CI #55 SUCCESS: https://github.com/manish91082-coder/crypto-ai-ho
 - https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46055346703: SUCCESS, 62/62 tests. Candidate source hash `e5e1900947b23e2274782a91af55a416674e29bec0340d47021b1cd9b3c778e6`; live smoke skipped.
 - Static checks read the replay migration and SQL test, but did not apply/execute them. Provider read-back confirms replay table/function absent in main and pilot.
 - Active Function remains #17. No Apps Script project, trigger or env identity allowlist. Keep scheduler disabled.
+
+
+## 28-Nov-2026 - scheduler candidate v1.3 source-only correction
+- Active deployment remains #17; no Function #18. Active source SHA d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44.
+- Candidate build from CI #143 source SHA aa1224dca47b2b670bd006a2935befcfa7f718bdce89a77b344f107839ff908d. CI #143 PASS, 64/64; live Neon smoke skipped.
+- Corrected JWKS Cache-Control max-age parsing and strict Google subject printable-ASCII validation. Tests prove a 30-second JWKS cache refreshes after 31 seconds.
+- Candidate v1.3: docs/P03.03_GOOGLE_APPS_SCRIPT_FUNCTION_OIDC_SCHEDULER_v1.3.md. WBS review: docs/P03.03_GOOGLE_SCHEDULER_WBS_ACCEPTANCE_REVIEW_v1.0.md; NOT ACCEPTED for deployment.
+- Replay migration remains unapplied and SQL test unexecuted. No Apps Script project, identity vars or trigger. Owner identity/audience and per-execution token freshness unknown.
+- Governor PAUSE_DEGRADED/work_allowed=false; existing Neon trigger disabled.
