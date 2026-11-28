@@ -128,3 +128,38 @@ function requireSource() {
     'redirect: \'error\''
   ].join('\n');
 }
+
+
+test('honors Google JWKS Cache-Control max-age and refreshes after key-cache expiry',async()=>{
+  resetGoogleOidcJwksCacheForTests();
+  let calls=0;
+  const mock={
+    fetchImpl:async url=>{
+      calls+=1;
+      assert.equal(url,'https://www.googleapis.com/oauth2/v3/certs');
+      return {
+        ok:true,
+        headers:{get:()=> 'public, max-age=30'},
+        json:async()=>({keys:[jwk]})
+      };
+    }
+  };
+  assert.equal(await verifyGoogleAppsScriptOidc(makeToken(),options(mock)),true);
+  assert.equal(calls,1);
+  assert.equal(await verifyGoogleAppsScriptOidc(makeToken(),options(mock,{nowSeconds:NOW+31})),true);
+  assert.equal(calls,2);
+});
+
+test('Apps Script preflight declares only openid and external request scopes and validates printable subject',()=>{
+  const code=readFileSync(new URL('../google-apps-script/Code.gs',import.meta.url),'utf8');
+  const manifest=JSON.parse(readFileSync(new URL('../google-apps-script/appsscript.json',import.meta.url),'utf8'));
+  assert.deepEqual(manifest.oauthScopes,[
+    'openid',
+    'https://www.googleapis.com/auth/script.external_request'
+  ]);
+  assert.ok(code.includes(String.raw`!/^[\x20-\x7E]{1,255}$/.test(payload.sub)`) === false);
+  assert.ok(code.includes(String.raw`!/^[ -~]{1,255}$/.test(payload.sub)`));
+  assert.ok(code.includes('ScriptApp.getIdentityToken()'));
+  assert.equal(code.includes('Logger.log(token'),false);
+  assert.equal(code.includes('Logger.log(payload.sub'),false);
+});
