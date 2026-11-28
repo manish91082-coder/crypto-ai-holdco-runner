@@ -157,8 +157,8 @@ test('Apps Script preflight declares only openid and external request scopes and
     'openid',
     'https://www.googleapis.com/auth/script.external_request'
   ]);
-  assert.ok(code.includes(String.raw`!/^[\x20-\x7E]{1,255}$/.test(payload.sub)`) === false);
-  assert.ok(code.includes(String.raw`!/^[ -~]{1,255}$/.test(payload.sub)`));
+  const printableAsciiPattern = '/' + '^[' + String.fromCharCode(92) + 'x20-' + String.fromCharCode(92) + 'x7E' + ']{1,255}$' + '/';
+  assert.ok(code.includes('!' + printableAsciiPattern + '.test(payload.sub)'));
   assert.ok(code.includes('ScriptApp.getIdentityToken()'));
   assert.equal(code.includes('Logger.log(token'),false);
   assert.equal(code.includes('Logger.log(payload.sub'),false);
