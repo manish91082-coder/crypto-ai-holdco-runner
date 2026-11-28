@@ -25,7 +25,7 @@ async function loadGoogleOidcJwks(fetchImpl, nowMs, forceRefresh = false) {
   const document = await response.json();
   if (!Array.isArray(document?.keys) || document.keys.length < 1) throw new Error('GOOGLE_JWKS_INVALID');
   const cacheControl = response.headers?.get?.('cache-control') ?? '';
-  const maxAgeMatch = cacheControl.match(/max-age=(\\d+)/i);
+  const maxAgeMatch = cacheControl.match(/max-age=(\d+)/i);
   const maxAgeSeconds = Math.max(30, Math.min(3600, Number(maxAgeMatch?.[1] ?? 300)));
   googleOidcJwksCache = { keys: document.keys, expiresAtMs: nowMs + maxAgeSeconds * 1000 };
   return googleOidcJwksCache.keys;
@@ -59,7 +59,7 @@ export async function verifyGoogleAppsScriptOidc(token, options = {}) {
     const audienceMatches = claims?.aud === audience
       || (Array.isArray(claims?.aud) && claims.aud.includes(audience));
     if (!audienceMatches) return deny('CLAIM_AUDIENCE');
-    if (typeof claims?.sub !== 'string' || claims.sub.length < 1 || claims.sub.length > 255 || !/^[\\x20-\\x7E]+$/.test(claims.sub)) {
+    if (typeof claims?.sub !== 'string' || claims.sub.length < 1 || claims.sub.length > 255 || !/^[\x20-\x7E]+$/.test(claims.sub)) {
       return deny('CLAIM_SUBJECT');
     }
     const suppliedSubjectHash = googleSha256('sha256').update(claims.sub, 'utf8').digest();
