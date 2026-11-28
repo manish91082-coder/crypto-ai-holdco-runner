@@ -56,9 +56,9 @@ export async function verifyGoogleAppsScriptOidc(token, options = {}) {
     }
 
     if (!GOOGLE_OIDC_ISSUERS.has(claims?.iss)) return deny('CLAIM_ISSUER');
-    const audienceMatches = claims?.aud === audience
-      || (Array.isArray(claims?.aud) && claims.aud.includes(audience));
-    if (!audienceMatches) return deny('CLAIM_AUDIENCE');
+    // Apps Script preflight requires a scalar OAuth client audience. Reject
+    // multi-audience tokens rather than accepting array membership without azp binding.
+    if (claims?.aud !== audience) return deny('CLAIM_AUDIENCE');
     if (typeof claims?.sub !== 'string' || claims.sub.length < 1 || claims.sub.length > 255 || !/^[\x20-\x7E]+$/.test(claims.sub)) {
       return deny('CLAIM_SUBJECT');
     }
