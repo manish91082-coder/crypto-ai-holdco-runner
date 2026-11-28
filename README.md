@@ -178,4 +178,12 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 ## CI #138 replay migration source-contract checks
 - https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46055346703: SUCCESS, 62/62 tests. Static tests now pin replay migration's UUID/token-hash uniqueness, expiry/retention, atomic conflicts, SECURITY DEFINER/privilege contract and SQL rollback test clauses.
 - This is not a PostgreSQL migration execution: replay table/function remain absent in Neon, SQL regression not run. Active Function #17 unchanged; no scheduler/Apps Script trigger. Current quota active 87.64%, compute 79.77%; Governor paused.
-- Current report v5.11, continuity v34.31, resume v2.8.2, scheduler candidate v1.2.
+- Current report v5.11, continuity v34.31, resume v2.8.2, scheduler candidate v1.3.
+
+
+## 28-Nov-2026 - Google scheduler candidate v1.3 / WBS review
+- Candidate source-only; review docs/P03.03_GOOGLE_SCHEDULER_WBS_ACCEPTANCE_REVIEW_v1.0.md decision NOT ACCEPTED FOR DEPLOYMENT.
+- Source corrections: Google JWKS Cache-Control max-age parsing and strict printable-sub validation. CI #143 SUCCESS 64/64; https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46099689692. Candidate bundle SHA aa1224dca47b2b670bd006a2935befcfa7f718bdce89a77b344f107839ff908d; live smoke skipped.
+- Active Function remains #17 (source d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44). No #18, Apps Script project, audience/subject allowlist or trigger.
+- Replay SQL remains source-only; no migration applied or SQL test executed. Actual Google ID-token freshness across invocations is unknown; unique token hash replay guard could reject a reused still-valid token.
+- Independent WBS acceptance, owner identity/account quota, region, deployment, P03.05 quota/recovery and owner credential gates remain open. Governor paused. P03.03 partial, P03.05 not active. Revenue 0.
