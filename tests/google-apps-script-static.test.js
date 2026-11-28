@@ -60,7 +60,8 @@ test('identity preflight rejects unsupported issuer, non-text subject and incomp
   assert.ok(script.includes("payload.iss === 'https://accounts.google.com'"));
   assert.ok(script.includes("payload.iss === 'accounts.google.com'"));
   assert.ok(script.includes("Number.isFinite(Number(payload.iat))"));
-  assert.ok(script.includes("/^[\\\\x20-\\\\x7E]{1,255}$/"));
+  const printableAsciiPattern = '/' + '^[' + String.fromCharCode(92) + 'x20-' + String.fromCharCode(92) + 'x7E' + ']{1,255}$' + '/';
+  assert.ok(script.includes(printableAsciiPattern));
 });
 
 
