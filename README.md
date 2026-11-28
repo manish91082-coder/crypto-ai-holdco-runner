@@ -197,3 +197,9 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - Neon on 28-Nov: active time 90.69% (117,539/129,600 sec), compute 82.53% (29,712/36,000 sec), transfer 3.16% (31,571,998/1,000,000,000 bytes); period ends 2026-12-01T00:00Z. Functions MTD invocation/active/waiting Capacity-Hours remain UNKNOWN/degraded.
 - No Function #18, replay SQL application, Apps Script trigger, identity allowlist values or feature flag. Active Function #17 remains unchanged; Governor PAUSE_DEGRADED/work_allowed=false.
 - P03.03 ACTIVE/PARTIAL; P03.05 PLANNED/NOT ACTIVE; P03 exit NOT PASSED; P04 NOT STARTED. Counts unchanged 16/1/102/0. Realised net revenue 0.
+
+
+## 28-Nov-2026 CI #148 - mocked Apps Script installation behavior
+- CI #148 https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46102789742: SUCCESS, 71/71 tests. A Node.js VM executes actual Code.gs against mocked ScriptApp, PropertiesService and LockService APIs.
+- Five behavior cases prove missing/false install flags prevent lock/API calls, all five true permit one mock 30-minute trigger, existing trigger is not duplicated and lock contention blocks creation. No real Apps Script project or trigger was created.
+- Candidate remains source-only; independent WBS review not granted. Function #17 unchanged; Governor paused; Neon trigger disabled.
