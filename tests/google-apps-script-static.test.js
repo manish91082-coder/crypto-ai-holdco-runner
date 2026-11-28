@@ -24,7 +24,9 @@ test('Apps Script keeps ID tokens ephemeral and never writes or logs token conte
   assert.equal(script.includes('Logger.log(token)'),false);
   assert.equal(script.includes('Logger.log(idToken)'),false);
   assert.equal(script.includes("Logger.log('Bearer ' + token)"),false);
-  assert.equal(script.includes('PropertiesService'),false);
+  assert.ok(script.includes('PropertiesService.getScriptProperties()'));
+  assert.equal(script.includes('setProperty('),false);
+  assert.equal(script.includes('Logger.log(PropertiesService'),false);
   assert.equal(script.includes('Logger.log(JSON.stringify(result))'),true);
 });
 
@@ -70,4 +72,26 @@ test('each Apps Script tick carries a fresh UUID idempotency key and classifies 
   assert.ok(script.includes('JSON.stringify({ tick_id: tickId })'));
   assert.ok(script.includes("status === 409"));
   assert.ok(script.includes("return 'DUPLICATE_TICK'"));
+});
+
+
+test('scheduler trigger installation fails closed until every independent gate is explicitly true',()=>{
+  const gates=[
+    'P03_03_INDEPENDENT_WBS_ACCEPTED',
+    'P03_03_GOOGLE_IDENTITY_PREFLIGHT_VERIFIED',
+    'P03_03_FRESH_TOKEN_PER_TICK_VERIFIED',
+    'P03_05_QUOTA_RECOVERY_COMPLETE',
+    'GOOGLE_SCHEDULER_TRIGGER_APPROVED'
+  ];
+  const installStart=script.indexOf('function installSchedulerTrigger()');
+  const lockStart=script.indexOf('const lock = LockService.getScriptLock()',installStart);
+  const createStart=script.indexOf('ScriptApp.newTrigger(SCHEDULER_HANDLER)',installStart);
+  assert.ok(installStart>=0);
+  assert.ok(lockStart>installStart);
+  assert.ok(createStart>lockStart);
+  assert.ok(script.slice(installStart,lockStart).includes("if (!schedulerInstallGatesSatisfied()) return 'INSTALL_GATES_NOT_SATISFIED'"));
+  assert.ok(script.includes('INSTALL_GATE_PROPERTIES.every('));
+  for(const gate of gates) assert.ok(script.includes(gate),`missing explicit installation gate ${gate}`);
+  assert.ok(script.includes("properties.getProperty(propertyName) === 'true'"));
+  assert.equal(script.includes('PropertiesService.getScriptProperties().setProperty'),false);
 });
