@@ -187,3 +187,13 @@ The detailed historical plan and evidence overlays are in [docs/ROADMAP.md](docs
 - Active Function remains #17 (source d294ce82068e6d95dfe8f9f4460d079263c3641d34dc7bd50744ebb366c07a44). No #18, Apps Script project, audience/subject allowlist or trigger.
 - Replay SQL remains source-only; no migration applied or SQL test executed. Actual Google ID-token freshness across invocations is unknown; unique token hash replay guard could reject a reused still-valid token.
 - Independent WBS acceptance, owner identity/account quota, region, deployment, P03.05 quota/recovery and owner credential gates remain open. Governor paused. P03.03 partial, P03.05 not active. Revenue 0.
+
+
+## 28-Nov-2026 current overlay - Google scheduler candidate v1.4
+- Candidate: docs/P03.03_GOOGLE_APPS_SCRIPT_FUNCTION_OIDC_SCHEDULER_v1.4.md, source-only and NOT accepted for deployment.
+- CI #147: https://github.com/manish91082-coder/crypto-ai-holdco-runner/actions/runs/46102252973, SUCCESS, 66/66 tests; deterministic candidate bundle SHA-256 cdb5422ace7bc6d3c91a006984a13743d6ad87dd580598336919abfee112c4ee. Live Neon smoke skipped.
+- Apps Script install path requires five explicit Script Properties for WBS independent acceptance, owner identity preflight, fresh token per tick, P03.05 quota/recovery and separate trigger approval. None are configured; no Apps Script project or trigger exists.
+- Google OIDC verifier requires exact scalar OAuth audience and rejects multi-audience claims. Internal WBS review v1.1 remains NOT ACCEPTED; independent reviewer request packet is recorded, but no independent reviewer has accepted or signed it.
+- Neon on 28-Nov: active time 90.69% (117,539/129,600 sec), compute 82.53% (29,712/36,000 sec), transfer 3.16% (31,571,998/1,000,000,000 bytes); period ends 2026-12-01T00:00Z. Functions MTD invocation/active/waiting Capacity-Hours remain UNKNOWN/degraded.
+- No Function #18, replay SQL application, Apps Script trigger, identity allowlist values or feature flag. Active Function #17 remains unchanged; Governor PAUSE_DEGRADED/work_allowed=false.
+- P03.03 ACTIVE/PARTIAL; P03.05 PLANNED/NOT ACTIVE; P03 exit NOT PASSED; P04 NOT STARTED. Counts unchanged 16/1/102/0. Realised net revenue 0.
